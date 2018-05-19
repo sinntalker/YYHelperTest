@@ -8,6 +8,27 @@
     android:background="#F0F0F0"
     tools:context="com.sinntalker.sinntest20180503_yy.Fragment.user.UserInfoActivity">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#6495ED">
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="50dp"
+            android:src="@drawable/common_back"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="40dp"
+            android:gravity="center"
+            android:text="用户信息"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"/>
+
+    </RelativeLayout>
+
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
