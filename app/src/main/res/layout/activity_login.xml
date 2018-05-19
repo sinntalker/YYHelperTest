@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.sinntalker.sinntest20180503_yy.Activity.LoginActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/id_ic_launcher_iv"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="50dp"
+            android:layout_gravity="center"
+            android:src="@mipmap/ic_launcher"/>
+
+        <TextView
+            android:id="@+id/id_appName_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/app_name"
+            android:layout_gravity="center" />
+
+        <com.rey.material.widget.EditText
+            android:id="@+id/id_userName_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:imeOptions="actionNext"
+            android:inputType="phone"
+            android:hint="手机号码"
+            android:textSize="14sp"
+            app:et_labelEnable="true"
+            app:et_labelTextSize="10sp"
+            app:et_dividerHeight="3dp"
+            app:et_dividerPadding="5dp"
+            app:et_supportMode="charCounter"
+            app:et_supportMaxChars="11"
+            app:et_dividerColor="#6459ED"
+            app:et_dividerErrorColor="#FF0000"
+            app:et_labelTextColor="#F0F0F3"
+            app:et_supportTextErrorColor="#FF0000"/>
+
+        <com.rey.material.widget.EditText
+            android:id="@+id/id_userPassword_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginTop="10dp"
+            android:hint="密码"
+            android:imeOptions="actionDone"
+            android:inputType="textPassword"
+            android:textSize="14sp"
+            app:et_dividerHeight="3dp"
+            app:et_dividerPadding="5dp"
+            app:et_dividerColor="#6459ED"
+            app:et_dividerErrorColor="#FF0000"
+            app:et_labelEnable="true"
+            app:et_labelTextSize="10sp"
+            app:et_labelTextColor="#F0F0F3"
+            app:et_supportTextErrorColor="#FF0000"/>
+
+        <com.rey.material.widget.Button
+            android:id="@+id/id_login_btn"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="60dp"
+            android:layout_marginRight="60dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:background="@drawable/roundrectanglerlinearlayout_bg"
+            android:text="登陆"
+            android:textColor="#FFFFFF"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginBottom="15dp"
+            android:layout_marginTop="20dp"
+            android:layout_alignParentBottom="true">
+
+            <TextView
+                android:id="@+id/id_reset_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="30dp"
+                android:text="无法登陆？"
+                android:textSize="16sp"/>
+
+            <TextView
+                android:id="@+id/id_register_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="30dp"
+                android:text="注册"
+                android:textSize="16sp"/>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="使用第三方账号登录"
+            android:layout_marginBottom="10dp"
+            android:gravity="center"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp">
+
+            <ImageView
+                android:id="@+id/qq_login_image"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:padding="10dp"
+                android:src="@drawable/icons_qq"/>
+
+            <ImageView
+                android:id="@+id/weixin_login_image"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:padding="10dp"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/icons_weixin"/>
+
+            <ImageView
+                android:id="@+id/weibo_login_image"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:padding="10dp"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/icons_weibo"/>
+
+        </RelativeLayout>
+    </LinearLayout>
+
+</RelativeLayout>

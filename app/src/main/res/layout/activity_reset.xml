@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.sinntalker.sinntest20180503_yy.Activity.ResetActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="#6495ED">
+
+            <ImageView
+                android:id="@+id/id_common_back_resetToLogin"
+                android:layout_width="30dp"
+                android:layout_height="50dp"
+                android:src="@drawable/common_back"/>
+
+            <TextView
+                android:id="@+id/common_back_reset_title"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_toRightOf="@id/id_common_back_resetToLogin"
+                android:gravity="center"
+                android:text="登陆"
+                android:textColor="#FFFFFF"
+                />
+
+            <TextView
+                android:id="@+id/register_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="重置"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"/>
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <com.rey.material.widget.EditText
+                android:id="@+id/id_phone_et_reset"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:layout_marginTop="20dp"
+                android:imeOptions="actionNext"
+                android:inputType="phone"
+                android:hint="手机号码"
+                android:textSize="14sp"
+                app:et_labelEnable="true"
+                app:et_labelTextSize="10sp"
+                app:et_dividerHeight="3dp"
+                app:et_dividerPadding="5dp"
+                app:et_supportMode="charCounter"
+                app:et_supportMaxChars="11"
+                app:et_dividerColor="#6459ED"
+                app:et_dividerErrorColor="#FF0000"
+                app:et_labelTextColor="#F0F0F3"
+                app:et_supportTextErrorColor="#FF0000"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:orientation="horizontal">
+
+                <com.rey.material.widget.EditText
+                    android:id="@+id/id_code_et_reset"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="验证码"
+                    android:imeOptions="actionNext"
+                    android:inputType="number"
+                    android:textSize="14sp"
+                    app:et_dividerColor="#6459ED"
+                    app:et_dividerErrorColor="#FF0000"
+                    app:et_dividerHeight="3dp"
+                    app:et_dividerPadding="5dp"
+                    app:et_labelEnable="true"
+                    app:et_labelTextSize="10sp"
+                    app:et_supportMaxChars="6"
+                    app:et_supportMode ="charCounter"
+                    app:et_supportTextColor="#F0F0F3"
+                    app:et_supportTextErrorColor="#FF0000" />
+
+                <com.rey.material.widget.Button
+                    android:id="@+id/id_send_btn_reset"
+                    style="@style/Material.Drawable.Ripple.Wave.Light"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="10dp"
+                    android:paddingLeft="9dp"
+                    android:paddingRight="9dp"
+                    android:text="获取验证码"
+                    android:textColor="#FFFFFF"
+                    android:textSize="12sp"
+                    android:background="@drawable/roundrectanglerlinearlayout_bg"
+                    app:rd_enable="true"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.rey.material.widget.EditText
+                    android:id="@+id/id_password_et_reset"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="40dp"
+                    android:layout_weight="1"
+                    android:hint="密码"
+                    android:imeOptions="actionDone"
+                    android:inputType="textPassword"
+                    android:textSize="14sp"
+                    app:et_dividerHeight="3dp"
+                    app:et_dividerPadding="5dp"
+                    app:et_dividerColor="#6459ED"
+                    app:et_dividerErrorColor="#FF0000"
+                    app:et_labelEnable="true"
+                    app:et_labelTextSize="10sp"
+                    app:et_labelTextColor="#F0F0F3"
+                    app:et_supportTextErrorColor="#FF0000"/>
+
+                <LinearLayout
+                    android:layout_marginLeft="10dp"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <com.rey.material.widget.CheckBox
+                        android:id="@+id/id_chat_password_checkbox_reset"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/Material.Drawable.CheckBox" />
+
+                    <TextView
+                        android:id="@+id/id_addNote_permission_tip_reset"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="3dp"
+                        android:text="显示密码"
+                        android:textSize="12sp"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/id_reset_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:gravity="center"
+                android:text="重置密码"
+                android:textSize="16sp"
+                android:textColor="#FFFFFF"
+                android:background="@drawable/roundrectanglerlinearlayout_bg"/>
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</RelativeLayout>

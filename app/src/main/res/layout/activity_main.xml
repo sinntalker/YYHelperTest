@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.sinntalker.sinntest20180503_yy.Activity.MainActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <TextView
+            android:id="@+id/title_bar_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textSize="18sp"
+            android:layout_centerInParent="true"/>
+
+        <ImageView
+            android:id="@+id/message_image"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:padding="8dp"
+            android:src="@drawable/message"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentBottom="true"
+            android:background="#4596ED"/>
+
+    </RelativeLayout>
+
+    <FrameLayout
+        android:id="@+id/frameLayout_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+    </FrameLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:background="#4596ED" />
+
+    <RadioGroup
+        android:id="@+id/RadioGroup_Main"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:orientation="horizontal"
+        android:layout_gravity="bottom">
+
+        <ImageView
+            android:id="@+id/rbHome"
+            android:layout_width="50dp"
+            android:layout_height="48dp"
+            android:padding="5dp"
+            android:text="首页"
+            android:textSize="18sp"
+            android:textColor="@drawable/buttonsector"
+            android:button="@null"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:src="@drawable/home_gray"/>
+
+        <ImageView
+            android:id="@+id/rbHealth"
+            android:layout_width="50dp"
+            android:layout_height="48dp"
+            android:padding="5dp"
+            android:text="健康"
+            android:textSize="18sp"
+            android:textColor="@drawable/buttonsector"
+            android:button="@null"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:src="@drawable/health_gray"/>
+
+        <ImageView
+            android:id="@+id/rbRelation"
+            android:layout_width="50dp"
+            android:layout_height="48dp"
+            android:padding="5dp"
+            android:text="亲友"
+            android:textSize="18sp"
+            android:textColor="@drawable/buttonsector"
+            android:button="@null"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:src="@drawable/relatives_gray"/>
+
+        <ImageView
+            android:id="@+id/rbUser"
+            android:layout_width="50dp"
+            android:layout_height="48dp"
+            android:padding="5dp"
+            android:text="我的"
+            android:textSize="18sp"
+            android:textColor="@drawable/buttonsector"
+            android:button="@null"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:src="@drawable/user_gray"/>
+
+    </RadioGroup>
+
+
+</LinearLayout>

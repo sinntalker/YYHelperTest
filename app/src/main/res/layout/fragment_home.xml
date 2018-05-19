@@ -1,0 +1,70 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.sinntalker.sinntest20180503_yy.Fragment.home.HomeFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/edit_bg"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
+
+            <EditText
+                android:id="@+id/search_bar"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginRight="50dp"
+                android:hint="搜索药品"
+                android:textSize="16dp"
+                android:drawablePadding="10dp"
+                android:paddingLeft="10dp"
+                android:drawableLeft="@drawable/ic_search"
+                android:singleLine="true"
+                android:background="@null"
+                android:imeOptions="actionSearch"
+                />
+
+            <Button
+                android:id="@+id/search_button"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@id/search_bar"
+                android:layout_alignBottom="@id/search_bar"
+                android:layout_alignRight="@id/search_bar"
+                android:layout_alignParentRight="true"
+                android:paddingLeft="1dp"
+                android:padding="5dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="2dp"
+                android:layout_marginRight="2dp"
+                android:background="@null"
+                android:text="搜索"
+                android:textSize="14dp"/>
+
+        </RelativeLayout>
+
+        <GridView
+            android:id="@+id/GridView_YY"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:numColumns="auto_fit"
+            android:columnWidth="100dp"
+            android:stretchMode="columnWidth"
+            android:gravity="center">
+
+        </GridView>
+
+    </LinearLayout>
+
+</FrameLayout>
