@@ -1,6 +1,7 @@
 package com.sinntalker.sinntest20180503_yy.Fragment.user;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -46,18 +47,16 @@ public class SettingsActivity extends Activity implements View.OnClickListener {
         }
         if(v == infoSet_text) { //绑定手机号
             Toast.makeText(getApplicationContext(), "个人信息", Toast.LENGTH_LONG).show();
-//            Intent intent = new Intent(SettingsActivity.this, PhoneSetActivity.class);
-//            startActivity(intent);
+            startActivity(new Intent(getApplicationContext(), PersonalInfoActivity.class));
         }
         if(v == universal_text) {
             Toast.makeText(getApplicationContext(), "通用", Toast.LENGTH_LONG).show();
-//            Intent intent = new Intent(SettingsActivity.this, UniversalActivity.class);
-//            startActivity(intent);
+            startActivity(new Intent(getApplicationContext(), GeneralSettingsActivity.class));
         }
         if(v == about_text) {
             Toast.makeText(getApplicationContext(), "关于", Toast.LENGTH_LONG).show();
-//            Intent intent = new Intent(SettingsActivity.this, AboutActivity.class);
-//            startActivity(intent);
+            //打开 “关于” 界面
+            startActivity(new Intent(getApplicationContext(), AboutUsActivity.class));
         }
         if(v == cancelUser_text) {
             Toast.makeText(getApplicationContext(), "注销", Toast.LENGTH_LONG).show();

@@ -93,7 +93,12 @@
         <activity android:name=".Fragment.Device.MyDeviceActivity" />
         <activity android:name=".Activity.GuideActivity" />
         <activity android:name=".Fragment.DrugBox.ScanActivity" />
-        <activity android:name=".Fragment.family.AddFamilyMembersActivity"></activity>
+        <activity android:name=".Fragment.family.AddFamilyMembersActivity" />
+        <activity android:name=".Fragment.user.MyFamilyActivity" />
+        <activity android:name=".Fragment.user.UserInfoActivity" />
+        <activity android:name=".Fragment.user.AboutUsActivity" />
+        <activity android:name=".Fragment.user.CreateFamilyMemberActivity" />
+        <activity android:name=".Fragment.user.GeneralSettingsActivity"></activity>
     </application>
 
 </manifest>

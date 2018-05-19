@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#F0F0F0"
+    tools:context="com.sinntalker.sinntest20180503_yy.Fragment.user.AboutUsActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#6495ED">
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="50dp"
+            android:src="@drawable/common_back"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="40dp"
+            android:gravity="center"
+            android:text="关于"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"/>
+
+    </RelativeLayout>
+
+    <ImageView
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
+        android:layout_gravity="center"
+        android:src="@mipmap/ic_launcher"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:gravity="center"
+        android:text="@string/app_name"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:padding="10dp"
+        android:orientation="vertical"
+        android:background="#FFFFFF">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="功能介绍"
+            android:textSize="16sp"
+            android:gravity="center|left"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="3dp"
+            android:background="#F0F0F0"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="反馈"
+            android:textSize="16sp"
+            android:gravity="center|left"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="3dp"
+            android:background="#F0F0F0"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:layout_marginRight="20dp"
+                android:text="版本更新"
+                android:textSize="16sp"
+                android:gravity="center|left"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:text="版本号"
+                android:textSize="16sp"
+                android:layout_gravity="center"
+                android:gravity="center|left"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:text="大学生创新创业训练计划"
+        android:textSize="15sp"
+        android:gravity="center|bottom"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:text="所属项目：基于移动端的多功能药箱设计"
+        android:textSize="15sp"
+        android:gravity="center"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="5dp"
+        android:paddingBottom="15dp"
+        android:text="©杭州电子科技大学 电子信息学院"
+        android:textSize="15sp"
+        android:gravity="center"/>
+
+</LinearLayout>

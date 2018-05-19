@@ -60,8 +60,7 @@ public class UserFragment extends Fragment implements View.OnClickListener{
     public void onClick(View v) {
         if (v == userIcon_image) {
             Toast.makeText(getContext(), "用户头像", Toast.LENGTH_LONG).show();
-//            Intent intent = new Intent(getContext(), LoginActivity.class);    //切换User Activity至Login Activity
-//            startActivity(intent);
+            startActivity(new Intent(getContext(), UserInfoActivity.class));
         }
         if (v == healthDocument_txt) {
             Toast.makeText(getContext(), "健康档案", Toast.LENGTH_LONG).show();
@@ -69,12 +68,11 @@ public class UserFragment extends Fragment implements View.OnClickListener{
         }
         if (v == myFamily_txt) {
             Toast.makeText(getContext(), "我的家人", Toast.LENGTH_LONG).show();
+            startActivity(new Intent(getContext(), MyFamilyActivity.class));
         }
         if (v == settings_txt) {
             Toast.makeText(getContext(), "设置", Toast.LENGTH_LONG).show();
             startActivity(new Intent(getContext(), SettingsActivity.class));
-//            Intent intent = new Intent(getContext(), SettingActivity.class);
-//            startActivity(intent);
         }
         if (v == myDevice_txt) {
             Toast.makeText(getContext(), "我的设备", Toast.LENGTH_LONG).show();
@@ -84,7 +82,7 @@ public class UserFragment extends Fragment implements View.OnClickListener{
         if (v == userName_txt) {
             Toast.makeText(getContext(), "用户名", Toast.LENGTH_LONG).show();
             //打开我的个人信息界面
-            startActivity(new Intent(getContext(), PersonalInfoActivity.class));
+            startActivity(new Intent(getContext(), UserInfoActivity.class));
         }
     }
 

@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.sinntalker.sinntest20180503_yy.Fragment.user.GeneralSettingsActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#6495ED">
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="50dp"
+            android:src="@drawable/common_back"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="40dp"
+            android:gravity="center"
+            android:text="通用"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"/>
+
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="通讯录"
+        android:textSize="18sp"
+        android:gravity="bottom"
+        android:paddingLeft="20dp"
+        android:background="#F0F0F0"/>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:paddingLeft="5dp"
+            android:text="加我好友时需要验证"
+            android:textSize="18sp"
+            android:gravity="center|left"
+            android:layout_weight="1"/>
+
+        <Switch
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"/>
+    </TableRow>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="#F0F0F0"/>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:paddingLeft="5dp"
+            android:text="向我推荐通讯录朋友"
+            android:textSize="18sp"
+            android:gravity="center|left"
+            android:layout_weight="1"/>
+
+        <Switch
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"/>
+    </TableRow>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="25dp"
+        android:paddingRight="20dp"
+        android:layout_marginBottom="10dp"
+        android:text="开启后，将为你推荐已经注册医药小助手的手机联系人。"
+        android:textSize="14sp"
+        android:gravity="center|left" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="新消息提醒"
+        android:textSize="18sp"
+        android:gravity="bottom"
+        android:paddingLeft="20dp"
+        android:background="#F0F0F0"/>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:paddingLeft="5dp"
+            android:text="接受新消息提醒"
+            android:textSize="18sp"
+            android:gravity="center|left"
+            android:layout_weight="1"/>
+
+        <Switch
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"/>
+    </TableRow>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="#F0F0F0"/>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:paddingLeft="5dp"
+            android:text="接受新消息振动"
+            android:textSize="18sp"
+            android:gravity="center|left"
+            android:layout_weight="1"/>
+
+        <Switch
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"/>
+    </TableRow>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#F0F0F0"/>
+
+</LinearLayout>
