@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.sinntalker.sinntest20180503_yy.Fragment.health.WalkPlanSetActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#6495ED">
+
+        <ImageView
+            android:id="@+id/id_imageView_back_setWalkPlan"
+            android:layout_width="40dp"
+            android:layout_height="50dp"
+            android:src="@drawable/common_back"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="40dp"
+            android:gravity="center"
+            android:text="锻炼计划"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"/>
+
+    </RelativeLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/sport"/>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="每日锻炼步数"
+            android:textSize="16sp"
+            android:gravity="center|left" />
+
+        <EditText
+            android:id="@+id/id_editView_stepSetPlan_walkPlanSet"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="5000"
+            android:textSize="16sp"
+            android:imeOptions="actionDone"
+            android:gravity="center|right"
+            android:background="@null"/>
+
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="提醒"
+            android:textSize="16sp"
+            android:gravity="center|left" />
+
+        <CheckBox
+            android:id="@+id/id_checkBox_setAlarm_walkPlanSet"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/check_box_walk_plan_set_selector"
+            android:button="@null"
+            android:checked="true"
+            android:textSize="16sp" />
+
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="提醒时间"
+            android:textSize="16sp"
+            android:gravity="center|left" />
+
+        <TextView
+            android:id="@+id/id_textView_remindTime_walkPlanSet"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="20:00"
+            android:textSize="16sp"
+            android:gravity="center|right"/>
+
+    </TableRow>
+
+    <Button
+        android:id="@+id/id_button_saveSet_walkPlanSet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:text="保存"
+        android:textSize="16sp"
+        android:textColor="#FFFFFF"
+        android:background="@drawable/roundrectanglerlinearlayout_bg"/>
+
+</LinearLayout>

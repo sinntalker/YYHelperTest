@@ -8,6 +8,10 @@ public class Constant_Java {
 
     public static final String SHARED_PREFERENCE_NAME = "医药小助手1.0";
 
+    //登陆类型，显示在TAG中
+    public static final String TAG_QQ = "qq";
+    public static final String TAG_WX = "weixin";
+    public static final String TAG_WB = "weibo";
 
     /**
      * 标记

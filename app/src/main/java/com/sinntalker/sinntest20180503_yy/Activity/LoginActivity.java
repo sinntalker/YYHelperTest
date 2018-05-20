@@ -39,6 +39,7 @@ import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.SaveListener;
 
 import static com.sinntalker.sinntest20180503_yy.Common.Constant.APP_ID_QQ;
+import static com.sinntalker.sinntest20180503_yy.Common.Constant_Java.TAG_QQ;
 
 public class LoginActivity extends Activity {
 
@@ -52,16 +53,14 @@ public class LoginActivity extends Activity {
     TextView mRegisterTV; //Register textView
 
     //声明第三方登陆控件
-    ImageView mQQ_image;
-    ImageView mWX_image;
-    ImageView mWB_image;
+    ImageView mQQ_image; //QQ登陆
+    ImageView mWX_image; //微信登陆
+    ImageView mWB_image; //微博登陆
 
     //QQ登陆
     public Tencent mTencent;
     public UserInfo mUserInfo;
     private IUiListener loginListener;
-
-    private static final String TAG_QQ = "qq";
 
     //微信登陆
     public IWXAPI api_wx; //第三方APP和微信通信的openapi接口
@@ -109,12 +108,13 @@ public class LoginActivity extends Activity {
                 String mUserNameStr = mUserNameET.getText().toString().trim().replaceAll("", "");
                 String mPasswordStr = mPasswordET.getText().toString().trim();
 
-                if (StringUnits.isEmpty(mUserNameStr)) {
+                if (StringUnits.isEmpty(mUserNameStr)) { //判断手机号输入是否为空
                     CommonUnits.showToast(LoginActivity.this, "用户名不能为空");
-                } else if (StringUnits.isEmpty(mPasswordStr)) {
+                } else if (StringUnits.isEmpty(mPasswordStr)) { //判断密码是否为控
                     CommonUnits.showToast(LoginActivity.this, "密码不能为空");
                 } else {
-                    CommonUnits.showToast(LoginActivity.this, "用户名： "+mUserNameStr + "\n密码： " + mPasswordStr);
+                    //Toast显示输入的账号密码，账号密码未进行加密
+//                    CommonUnits.showToast(LoginActivity.this, "用户名： "+mUserNameStr + "\n密码： " + mPasswordStr);
 
                     UserBean bu = new UserBean();
                     bu.setUsername(mUserNameStr);
@@ -124,12 +124,17 @@ public class LoginActivity extends Activity {
                         public void done(BmobUser bmobUser, BmobException e) {
                             if (e == null) {
                                 Toast.makeText(getApplicationContext(), "登陆成功！", Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+
+                                //登陆主界面，并传递登陆类型（LoginAccountType -- phone、qq、weibo、weixin）参数：phone
+                                startActivity(new Intent(LoginActivity.this, MainActivity.class).putExtra("LoginAccountType", "phone"));
+                                //登陆完成，登陆Activity关闭
                                 LoginActivity.this.finish();
                             }else {
                                 Toast.makeText(getApplicationContext(), "登陆失败", Toast.LENGTH_SHORT).show();
+
+                                //如果登陆失败，将账号输入框和密码输入框清空
                                 mUserNameET.setText("");
-                                mUserNameET.setText("");
+                                mPasswordET.setText("");
                             }
                         }
                     });
@@ -151,8 +156,11 @@ public class LoginActivity extends Activity {
         mRegisterTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "注册", Toast.LENGTH_SHORT).show();
+                //Toast显示 注册 的点击效果，用于测试
+//                Toast.makeText(getApplicationContext(), "注册", Toast.LENGTH_SHORT).show();
+                //进行注册，点击后跳转注册Activity
                 startActivity(new Intent(getApplicationContext(), RegisterActivity.class));
+                //注册完成后直接登陆
                 LoginActivity.this.finish();
             }
         });
@@ -161,8 +169,9 @@ public class LoginActivity extends Activity {
         mQQ_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "QQ登陆", Toast.LENGTH_SHORT).show();
-                //get_simple_userinfo
+                //Toast显示 QQ登陆 的点击效果，用于测试
+//                Toast.makeText(getApplicationContext(), "QQ登陆", Toast.LENGTH_SHORT).show();
+                //QQ登陆方法
                 qqLogin();
             }
         });
@@ -171,13 +180,10 @@ public class LoginActivity extends Activity {
         mWX_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Toast显示 微信登陆 的点击效果，用于测试
                 Toast.makeText(getApplicationContext(), "微信登陆", Toast.LENGTH_SHORT).show();
-                SendAuth.Req req = new SendAuth.Req();
-                req.scope = "snsapi_userinfo";
-//                req.scope = "snsapi_login";//提示 scope参数错误，或者没有scope权限
-                req.state = "wechat_sdk_微信登录";
-                api_wx.sendReq(req);
-
+                //微信第三方登陆暂未开发，因为微信登陆需要进行官方审核，极有可能审核不通过
+                //Coding......
             }
         });
 
@@ -185,13 +191,20 @@ public class LoginActivity extends Activity {
         mWB_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "微博登陆", Toast.LENGTH_SHORT).show();
+                //Toast显示 微博登陆 的点击效果，用于测试
+//                Toast.makeText(getApplicationContext(), "微博登陆", Toast.LENGTH_SHORT).show();
+                //微博登陆，点击后转向微博授权页面
                 startActivity(new Intent(LoginActivity.this, WBAuthActivity.class));
+                //微博登陆如果成功，则不需要LoginActivity；若失败，则返回loginActivity。
+                LoginActivity.this.finish();
             }
         });
 
     }
 
+    /**
+     * QQ 第三方登陆
+     */
     private void qqLogin() {
         mTencent.login(this, "all", loginListener);
         loginListener = new IUiListener() {
@@ -202,21 +215,13 @@ public class LoginActivity extends Activity {
                 JSONObject object = (JSONObject) o;
 
                 try {
-
                     String accessToken = object.getString("access_token");
-
                     String expires = object.getString("expires_in");
-
                     String openID = object.getString("openid");
-
                     mTencent.setAccessToken(accessToken, expires);
-
                     mTencent.setOpenId(openID);
-
                 } catch (JSONException e) {
-
                     e.printStackTrace();
-
                 }
             }
 
@@ -280,9 +285,6 @@ public class LoginActivity extends Activity {
 
                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
 
-
-//                            tvUsername.setText(nickName);
-//                            Glide.with(MainActivity.this).load(iconUrl).into(icon_image);//Glide解析获取用户头像
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -309,7 +311,6 @@ public class LoginActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-//        Glide.with(LoginActivity.this).load(App.getShared().getString("headUrl","")).into(ivHead);
     }
 
 }

@@ -23,6 +23,22 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.VIBRATE" />
 
+    <!-- 计歩需要的权限 -->
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+
+    <uses-feature android:name="android.hardware.sensor.accelerometer" />
+
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+
+    <uses-feature
+        android:name="android.hardware.sensor.stepcounter"
+        android:required="true" />
+    <uses-feature
+        android:name="android.hardware.sensor.stepdetector"
+        android:required="true" />
+
     <!-- 微信登陆 -->
     <application
         android:allowBackup="true"
@@ -98,7 +114,27 @@
         <activity android:name=".Fragment.user.UserInfoActivity" />
         <activity android:name=".Fragment.user.AboutUsActivity" />
         <activity android:name=".Fragment.user.CreateFamilyMemberActivity" />
-        <activity android:name=".Fragment.user.GeneralSettingsActivity"></activity>
+        <activity android:name=".Fragment.user.GeneralSettingsActivity" />
+        <activity android:name=".Fragment.health.StepHistoryDataActivity" />
+
+        <!-- 计步功能所需服务 -->
+        <service
+            android:name=".Fragment.health.StepService"
+            android:priority="1000">
+            <intent-filter>
+
+                <!-- 系统启动完成后会调用 -->
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.DATE_CHANGED" />
+                <action android:name="android.intent.action.MEDIA_MOUNTED" />
+                <action android:name="android.intent.action.USER_PRESENT" />
+                <action android:name="android.intent.action.ACTION_TIME_TICK" />
+                <action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
+                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
+            </intent-filter>
+        </service>
+
+        <activity android:name=".Fragment.health.WalkPlanSetActivity"></activity>
     </application>
 
 </manifest>
