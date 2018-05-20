@@ -1,4 +1,4 @@
-package com.sinntalker.sinntest20180503_yy.Fragment.health;
+package com.sinntalker.sinntest20180503_yy.Fragment.health.StepCounter;
 
 import android.app.Activity;
 import android.app.TimePickerDialog;
@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import com.sinntalker.sinntest20180503_yy.Fragment.health.SharedPreferencesUtils_StepCounter;
 import com.sinntalker.sinntest20180503_yy.R;
 
 import java.text.DateFormat;

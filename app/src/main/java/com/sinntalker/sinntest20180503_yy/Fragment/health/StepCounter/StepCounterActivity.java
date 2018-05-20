@@ -1,4 +1,4 @@
-package com.sinntalker.sinntest20180503_yy.Fragment.health;
+package com.sinntalker.sinntest20180503_yy.Fragment.health.StepCounter;
 
 import android.app.Activity;
 import android.content.ComponentName;
@@ -12,9 +12,8 @@ import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.sinntalker.sinntest20180503_yy.Fragment.health.SharedPreferencesUtils_StepCounter;
 import com.sinntalker.sinntest20180503_yy.R;
-
-import org.w3c.dom.Text;
 
 public class StepCounterActivity extends Activity implements View.OnClickListener{
 

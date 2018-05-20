@@ -1,4 +1,4 @@
-package com.sinntalker.sinntest20180503_yy.Fragment.health;
+package com.sinntalker.sinntest20180503_yy.Fragment.health.StepCounter;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -42,7 +42,7 @@ public class StepHistoryDataActivity extends Activity {
         mHistoryDataSHALV.setAdapter(new CommonAdapter<StepData>(this,stepDatas,R.layout.listview_item_step_history_data) {
             @Override
             protected void convertView(View item, StepData stepData) {
-                TextView tv_date= CommonViewHolder.get(item,R.id.id_item_textView_dataStep_historyData);
+                TextView tv_date= CommonViewHolder.get(item,R.id.id_item_textView_dataTime_historyData);
                 TextView tv_step= CommonViewHolder.get(item,R.id.id_item_textView_dataStep_historyData);
                 tv_date.setText(stepData.getToday());
                 tv_step.setText(stepData.getStep()+"步");

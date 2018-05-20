@@ -1,4 +1,4 @@
-package com.sinntalker.sinntest20180503_yy.Fragment.health;
+package com.sinntalker.sinntest20180503_yy.Fragment.health.StepCounter;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -27,8 +27,6 @@ import java.util.Date;
 import java.util.List;
 
 import com.orhanobut.logger.Logger;
-
-import com.sinntalker.sinntest20180503_yy.Fragment.health.DbUtils;
 
 /**
  * Created by Administrator on 2018/5/20.

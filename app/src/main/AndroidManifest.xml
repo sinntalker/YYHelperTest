@@ -95,7 +95,7 @@
         <activity android:name=".Fragment.health.BloodSugerActivity" />
         <activity android:name=".Fragment.health.BloodPressureActivity" />
         <activity android:name=".Fragment.health.WeightActivity" />
-        <activity android:name=".Fragment.health.StepCounterActivity" />
+        <activity android:name=".Fragment.health.StepCounter.StepCounterActivity" />
         <activity android:name=".Fragment.user.PersonalInfoActivity" />
         <activity android:name=".Activity.MessageActivity" />
         <activity android:name=".Fragment.home.HomeSearchActivity" />
@@ -115,11 +115,11 @@
         <activity android:name=".Fragment.user.AboutUsActivity" />
         <activity android:name=".Fragment.user.CreateFamilyMemberActivity" />
         <activity android:name=".Fragment.user.GeneralSettingsActivity" />
-        <activity android:name=".Fragment.health.StepHistoryDataActivity" />
+        <activity android:name=".Fragment.health.StepCounter.StepHistoryDataActivity" />
 
         <!-- 计步功能所需服务 -->
         <service
-            android:name=".Fragment.health.StepService"
+            android:name=".Fragment.health.StepCounter.StepService"
             android:priority="1000">
             <intent-filter>
 
@@ -134,7 +134,7 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".Fragment.health.WalkPlanSetActivity"></activity>
+        <activity android:name=".Fragment.health.StepCounter.WalkPlanSetActivity"></activity>
     </application>
 
 </manifest>

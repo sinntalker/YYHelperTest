@@ -1,4 +1,4 @@
-package com.sinntalker.sinntest20180503_yy.Fragment.health;
+package com.sinntalker.sinntest20180503_yy.Fragment.health.StepCounter;
 
 import android.animation.ValueAnimator;
 import android.content.Context;

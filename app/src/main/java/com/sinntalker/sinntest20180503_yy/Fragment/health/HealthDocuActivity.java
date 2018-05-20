@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.sinntalker.sinntest20180503_yy.Fragment.health.StepCounter.StepCounterActivity;
 import com.sinntalker.sinntest20180503_yy.Fragment.user.PersonalInfoActivity;
 import com.sinntalker.sinntest20180503_yy.R;
 import com.sinntalker.sinntest20180503_yy.UserBean;

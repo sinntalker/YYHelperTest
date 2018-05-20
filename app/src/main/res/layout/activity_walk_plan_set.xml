@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.sinntalker.sinntest20180503_yy.Fragment.health.WalkPlanSetActivity">
+    tools:context="com.sinntalker.sinntest20180503_yy.Fragment.health.StepCounter.WalkPlanSetActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
