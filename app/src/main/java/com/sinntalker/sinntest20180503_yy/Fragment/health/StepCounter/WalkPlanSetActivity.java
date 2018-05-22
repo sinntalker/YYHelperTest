@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.sinntalker.sinntest20180503_yy.Fragment.health.SharedPreferencesUtils_StepCounter;
 import com.sinntalker.sinntest20180503_yy.R;
@@ -81,6 +82,7 @@ public class WalkPlanSetActivity extends Activity implements View.OnClickListene
     }
 
     public void addListener() {
+        mBackWPSAIV.setOnClickListener(this);
         mSaveBtn.setOnClickListener(this);
         mRemindTimeWPSATV.setOnClickListener(this);
     }
