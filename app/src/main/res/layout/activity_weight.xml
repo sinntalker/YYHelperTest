@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.sinntalker.sinntest20180503_yy.Fragment.health.WeightActivity">
+    tools:context="com.sinntalker.sinntest20180503_yy.Fragment.health.Weight.WeightActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -13,6 +13,7 @@
         android:background="#6495ED">
 
         <ImageView
+            android:id="@+id/id_imageView_back_weight"
             android:layout_width="40dp"
             android:layout_height="50dp"
             android:src="@drawable/common_back"/>
@@ -27,5 +28,44 @@
             android:textSize="18sp"/>
 
     </RelativeLayout>
+
+    <TextView
+        android:id="@+id/id_textView_measureHand_weight"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:text="手动测量"
+        android:textSize="16sp"
+        android:textColor="#4569ED"
+        android:gravity="center"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#000000"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:text="体重趋势"
+        android:textSize="16sp"
+        android:gravity="center"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="#F0F0F0"/>
+
+    <ListView
+        android:id="@+id/id_listView_weightTrend_weight"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </ListView>
 
 </LinearLayout>
