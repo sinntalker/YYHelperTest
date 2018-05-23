@@ -10,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.sinntalker.sinntest20180503_yy.Fragment.health.BloodPressure.BloodPressureActivity;
+import com.sinntalker.sinntest20180503_yy.Fragment.health.BloodSugar.BloodSugerActivity;
 import com.sinntalker.sinntest20180503_yy.Fragment.health.StepCounter.StepCounterActivity;
 import com.sinntalker.sinntest20180503_yy.Fragment.user.PersonalInfoActivity;
 import com.sinntalker.sinntest20180503_yy.R;
@@ -70,11 +72,11 @@ public class HealthDocuActivity extends Activity implements View.OnClickListener
             startActivity(new Intent(getApplicationContext(), DrugUsingActivity.class));
         }
         if(v == open_bloodSuger_btn) {
-            Toast.makeText(getApplicationContext(), "开启血糖功能", Toast.LENGTH_LONG).show();
+//            Toast.makeText(getApplicationContext(), "开启血糖功能", Toast.LENGTH_LONG).show();
             startActivity(new Intent(getApplicationContext(), BloodSugerActivity.class));
         }
         if(v == open_bloodPressure_btn) {
-            Toast.makeText(getApplicationContext(), "开启血压功能", Toast.LENGTH_LONG).show();
+//            Toast.makeText(getApplicationContext(), "开启血压功能", Toast.LENGTH_LONG).show();
             startActivity(new Intent(getApplicationContext(), BloodPressureActivity.class));
         }
         if(v == open_weight_btn) {
@@ -82,18 +84,18 @@ public class HealthDocuActivity extends Activity implements View.OnClickListener
             startActivity(new Intent(getApplicationContext(), WeightActivity.class));
         }
         if(v == open_steps_btn) {
-            Toast.makeText(getApplicationContext(), "开启计步功能", Toast.LENGTH_LONG).show();
+//            Toast.makeText(getApplicationContext(), "开启计步功能", Toast.LENGTH_LONG).show();
             startActivity(new Intent(getApplicationContext(), StepCounterActivity.class));
         }
         if(v == back_image) {
             finish();
         }
         if(v == more_info_image) {
-            Toast.makeText(getApplicationContext(), "更多信息", Toast.LENGTH_LONG).show();
+//            Toast.makeText(getApplicationContext(), "更多信息", Toast.LENGTH_LONG).show();
             startActivity(new Intent(getApplicationContext(), PersonalInfoActivity.class));
         }
         if(v == mInfoMoreHDATV) {
-            Toast.makeText(getApplicationContext(), "更多信息", Toast.LENGTH_LONG).show();
+//            Toast.makeText(getApplicationContext(), "更多信息", Toast.LENGTH_LONG).show();
             startActivity(new Intent(getApplicationContext(), PersonalInfoActivity.class));
         }
     }

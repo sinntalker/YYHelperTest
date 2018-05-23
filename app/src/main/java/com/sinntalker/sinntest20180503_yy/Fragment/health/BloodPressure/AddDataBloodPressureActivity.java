@@ -1,4 +1,4 @@
-package com.sinntalker.sinntest20180503_yy.Fragment.health;
+package com.sinntalker.sinntest20180503_yy.Fragment.health.BloodPressure;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;

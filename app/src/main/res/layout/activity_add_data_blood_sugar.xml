@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.sinntalker.sinntest20180503_yy.Fragment.health.BloodPressure.AddDataBloodPressureActivity">
+    tools:context="com.sinntalker.sinntest20180503_yy.Fragment.health.BloodSugar.AddDataBloodSugarActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -13,7 +13,7 @@
         android:background="#6495ED">
 
         <ImageView
-            android:id="@+id/id_imageView_back_addDataBloodPressure"
+            android:id="@+id/id_imageView_back_addDataBloodSugar"
             android:layout_width="40dp"
             android:layout_height="50dp"
             android:src="@drawable/common_back"/>
@@ -39,19 +39,19 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_weight="1"
-            android:text="收缩压（mmHg）"
+            android:text="血糖值（mmol/L）"
             android:textSize="16sp"
             android:gravity="center|left"/>
 
         <EditText
-            android:id="@+id/id_editView_systolic_addDataBloodPressure"
+            android:id="@+id/id_editView_measureBloodSugar_addDataBloodSugar"
             android:layout_width="100dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:textSize="16sp"
             android:gravity="center"
-            android:inputType="number"
+            android:inputType="numberDecimal"
             android:imeOptions="actionNext"/>
 
     </TableRow>
@@ -67,28 +67,93 @@
 
     <TableRow
         android:layout_width="match_parent"
-        android:layout_height="50dp">
+        android:layout_height="wrap_content">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_weight="1"
-            android:text="舒张压（mmHg）"
+            android:text="测量时段"
             android:textSize="16sp"
             android:gravity="center|left"/>
 
-        <EditText
-            android:id="@+id/id_editView_diastolicData_addDataBloodPressure"
-            android:layout_width="100dp"
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
+
+        <RadioButton
+            android:id="@+id/id_radioButton_timeNo1_addDataBloodSugar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="早餐前"/>
+        <RadioButton
+            android:id="@+id/id_radioButton_timeNo2_addDataBloodSugar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="早餐后"/>
+        <RadioButton
+            android:id="@+id/id_radioButton_timeNo3_addDataBloodSugar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="午餐前"/>
+
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
+
+        <RadioButton
+            android:id="@+id/id_radioButton_timeNo4_addDataBloodSugar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="午餐后"/>
+        <RadioButton
+            android:id="@+id/id_radioButton_timeNo5_addDataBloodSugar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="晚餐前"/>
+        <RadioButton
+            android:id="@+id/id_radioButton_timeNo6_addDataBloodSugar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="晚餐后"/>
+
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:weightSum="3">
+
+        <RadioButton
+            android:id="@+id/id_radioButton_timeNo7_addDataBloodSugar"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:textSize="16sp"
-            android:gravity="center"
-            android:inputType="number"
-            android:imeOptions="actionDone"/>
+            android:layout_weight="1"
+            android:text="睡前"/>
 
     </TableRow>
 
@@ -116,7 +181,7 @@
             android:gravity="center|left"/>
 
         <TextView
-            android:id="@+id/id_textView_dateSetData_addDataBloodPressure"
+            android:id="@+id/id_textView_dateSetData_addDataBloodSugar"
             android:layout_width="100dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="20dp"
@@ -151,7 +216,7 @@
             android:gravity="center|left"/>
 
         <TextView
-            android:id="@+id/id_textView_timeSetData_addDataBloodPressure"
+            android:id="@+id/id_textView_timeSetData_addDataBloodSugar"
             android:layout_width="100dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="20dp"
@@ -174,7 +239,7 @@
         android:layout_weight="1"/>
 
     <Button
-        android:id="@+id/id_button_saveData_addDataBloodPressure"
+        android:id="@+id/id_button_saveData_addDataBloodSugar"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="20dp"
@@ -184,5 +249,6 @@
         android:layout_gravity="center"
         android:text="保存"
         android:textSize="16sp"/>
+
 
 </LinearLayout>

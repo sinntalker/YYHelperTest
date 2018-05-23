@@ -1,4 +1,4 @@
-package com.sinntalker.sinntest20180503_yy.Fragment.health;
+package com.sinntalker.sinntest20180503_yy.Fragment.health.BloodPressure;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -18,7 +18,6 @@ import com.sinntalker.sinntest20180503_yy.Fragment.health.StepCounter.CommonAdap
 import com.sinntalker.sinntest20180503_yy.Fragment.health.StepCounter.CommonViewHolder;
 import com.sinntalker.sinntest20180503_yy.Fragment.health.StepCounter.DbUtils;
 import com.sinntalker.sinntest20180503_yy.Fragment.health.StepCounter.SharedPreferencesUtils_StepCounter;
-import com.sinntalker.sinntest20180503_yy.Fragment.health.StepCounter.StepData;
 import com.sinntalker.sinntest20180503_yy.R;
 
 import java.util.List;

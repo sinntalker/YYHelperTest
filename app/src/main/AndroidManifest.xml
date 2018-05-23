@@ -92,8 +92,8 @@
         <activity android:name=".Fragment.health.HealthDocuActivity" />
         <activity android:name=".Fragment.user.SettingsActivity" />
         <activity android:name=".Fragment.health.DrugUsingActivity" />
-        <activity android:name=".Fragment.health.BloodSugerActivity" />
-        <activity android:name=".Fragment.health.BloodPressureActivity" />
+        <activity android:name=".Fragment.health.BloodSugar.BloodSugerActivity" />
+        <activity android:name=".Fragment.health.BloodPressure.BloodPressureActivity" />
         <activity android:name=".Fragment.health.WeightActivity" />
         <activity android:name=".Fragment.health.StepCounter.StepCounterActivity" />
         <activity android:name=".Fragment.user.PersonalInfoActivity" />
@@ -135,7 +135,8 @@
         </service>
 
         <activity android:name=".Fragment.health.StepCounter.WalkPlanSetActivity" />
-        <activity android:name=".Fragment.health.AddDataBloodPressureActivity"></activity>
+        <activity android:name=".Fragment.health.BloodPressure.AddDataBloodPressureActivity" />
+        <activity android:name=".Fragment.health.BloodSugar.AddDataBloodSugarActivity"></activity>
     </application>
 
 </manifest>
