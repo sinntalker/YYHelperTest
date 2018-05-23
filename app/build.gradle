@@ -20,12 +20,12 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
     implementation 'com.android.support.constraint:constraint-layout:1.1.0'
+    configurations.all {
+        resolutionStrategy.force 'com.android.support:support-annotations:25.1.0'
+    }
     testImplementation 'junit:junit:4.12'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     api 'com.sina.weibo.sdk:core:2.0.3:openDefaultRelease@aar'
     api 'com.github.rey5137:material:1.2.4'
     //bmob-sdk：Bmob的android sdk包，包含了Bmob的数据存储、文件等服务，以下是最新的bmob-sdk:
@@ -37,10 +37,10 @@ dependencies {
     api 'cn.bmob.android:bmob-im:2.0.5@aar'
     api 'cn.bmob.android:bmob-sdk:3.4.7-aar'
     implementation files('libs/open_sdk_r5990_lite.jar')
-    compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
+    api 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
     //扫描条形码和二维码
-    compile 'com.google.zxing:core:3.3.0'
-    compile 'com.journeyapps:zxing-android-embedded:3.5.0'
+    api 'com.google.zxing:core:3.3.0'
+    api 'com.journeyapps:zxing-android-embedded:3.5.0'
     implementation files('libs/lite-orm-1.7.0.jar')
-    compile 'com.orhanobut:logger:1.8'
+    api 'com.orhanobut:logger:1.8'
 }

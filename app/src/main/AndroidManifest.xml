@@ -134,7 +134,8 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".Fragment.health.StepCounter.WalkPlanSetActivity"></activity>
+        <activity android:name=".Fragment.health.StepCounter.WalkPlanSetActivity" />
+        <activity android:name=".Fragment.health.AddDataBloodPressureActivity"></activity>
     </application>
 
 </manifest>

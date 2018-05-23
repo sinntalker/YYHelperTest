@@ -44,7 +44,7 @@ public class SplashActivity extends Activity {
                 startActivity(mainIntent);
                 finish();
             }
-        },2000);
+        },500);
 //        UserBean userInfo = BmobUser.getCurrentUser(UserBean.class);
         //检查是否为第一次登陆
 //        boolean isFirstTime = false;

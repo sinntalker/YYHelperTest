@@ -11,9 +11,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
-import com.sinntalker.sinntest20180503_yy.Fragment.health.SharedPreferencesUtils_StepCounter;
 import com.sinntalker.sinntest20180503_yy.R;
 
 import java.text.DateFormat;
