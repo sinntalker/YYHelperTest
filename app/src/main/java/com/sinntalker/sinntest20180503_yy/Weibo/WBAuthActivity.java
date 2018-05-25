@@ -3,6 +3,8 @@ package com.sinntalker.sinntest20180503_yy.Weibo;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -10,30 +12,59 @@ import android.view.Window;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.sina.weibo.sdk.auth.AccessTokenKeeper;
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 import com.sina.weibo.sdk.auth.WbConnectErrorMessage;
 import com.sina.weibo.sdk.auth.sso.SsoHandler;
 import com.sina.weibo.sdk.exception.WeiboException;
+import com.sina.weibo.sdk.net.NetUtils;
 import com.sina.weibo.sdk.net.RequestListener;
+import com.sina.weibo.sdk.utils.LogUtil;
+import com.sinntalker.sinntest20180503_yy.Activity.LoginActivity;
 import com.sinntalker.sinntest20180503_yy.Activity.MainActivity;
+import com.sinntalker.sinntest20180503_yy.Activity.RegisterActivity;
+import com.sinntalker.sinntest20180503_yy.AllUserBean;
+import com.sinntalker.sinntest20180503_yy.Common.CommonUnits;
 import com.sinntalker.sinntest20180503_yy.Common.Constant;
 import com.sinntalker.sinntest20180503_yy.R;
-import com.sinntalker.sinntest20180503_yy.UserAuthBean;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.BmobSMS;
 import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.FindListener;
+import cn.bmob.v3.listener.QueryListener;
 import cn.bmob.v3.listener.SaveListener;
 
 public class WBAuthActivity extends Activity {
 
     private static final String TAG_WB = "weibo";
-    /** 显示认证后的信息，如 AccessToken */
+    /**
+     * 显示认证后的信息，如 AccessToken
+     */
     private TextView mTokenText;
-    /** 封装了 "access_token"，"expires_in"，"refresh_token"，并提供了他们的管理功能  */
+    /**
+     * 封装了 "access_token"，"expires_in"，"refresh_token"，并提供了他们的管理功能
+     */
     private Oauth2AccessToken mAccessToken;
-    /** 注意：SsoHandler 仅当 SDK 支持 SSO 时有效 */
+    /**
+     * 注意：SsoHandler 仅当 SDK 支持 SSO 时有效
+     */
     private SsoHandler mSsoHandler;
 
     private TextView uid_view;
@@ -45,8 +76,6 @@ public class WBAuthActivity extends Activity {
         setContentView(R.layout.activity_wbauth);
         // 获取 Token View，并让提示 View 的内容可滚动（小屏幕可能显示不全）
         mTokenText = (TextView) findViewById(R.id.token_text_view);
-//        TextView hintView = (TextView) findViewById(R.id.obtain_token_hint);
-//        hintView.setMovementMethod(new ScrollingMovementMethod());
 
         uid_view = findViewById(R.id.userInfo_view);
         // 创建微博实例
@@ -92,7 +121,7 @@ public class WBAuthActivity extends Activity {
         findViewById(R.id.refresh).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!TextUtils.isEmpty(mAccessToken.getRefreshToken())){
+                if (!TextUtils.isEmpty(mAccessToken.getRefreshToken())) {
                     AccessTokenKeeper.refreshToken(Constant.APP_KEY, WBAuthActivity.this, new RequestListener() {
                         @Override
                         public void onComplete(String response) {
@@ -133,8 +162,7 @@ public class WBAuthActivity extends Activity {
 
     }
 
-
-    private class SelfWbAuthListener implements com.sina.weibo.sdk.auth.WbAuthListener{
+    private class SelfWbAuthListener implements com.sina.weibo.sdk.auth.WbAuthListener {
         @Override
         public void onSuccess(final Oauth2AccessToken token) {
             WBAuthActivity.this.runOnUiThread(new Runnable() {
@@ -149,26 +177,73 @@ public class WBAuthActivity extends Activity {
                         Toast.makeText(WBAuthActivity.this,
                                 "授权成功", Toast.LENGTH_SHORT).show();
 
-                        UserAuthBean userAuthBean = new UserAuthBean();
-                        userAuthBean.setSnsType(TAG_WB);
-                        userAuthBean.setAccessToken(mAccessToken.getToken());
-                        userAuthBean.setExpiresIn(mAccessToken.getExpiresTime());
-                        userAuthBean.setUserId(mAccessToken.getUid());
-                        userAuthBean.setUserName(TAG_WB);
-                        userAuthBean.setUserPassword(mAccessToken.getUid() + "123456");
-                        userAuthBean.save(new SaveListener<String>() {
+                        final String openId = mAccessToken.getUid();
+
+                        //首先查询该用户有无注册 -- 查询对应的username
+                        BmobQuery<AllUserBean> bmobQuery = new BmobQuery<AllUserBean>();
+                        //查询mobile叫mPhoneStr的数据
+                        bmobQuery.addWhereEqualTo("userId", openId);
+                        bmobQuery.findObjects(new FindListener<AllUserBean>() {
                             @Override
-                            public void done(String objectId, BmobException e) {
+                            public void done(List<AllUserBean> list, BmobException e) {
                                 if (e == null) {
-                                    Toast.makeText(getApplicationContext(), "创建数据成功：" + objectId, Toast.LENGTH_SHORT).show();
-                                } else {
-                                    Log.i("bmob", "失败：" + e.getMessage() + "," + e.getErrorCode());
+                                    if (list.size() > 0) { //已经注册到用户系统，直接登陆
+                                        Toast.makeText(WBAuthActivity.this, "该微博已注册，请直接登录", Toast.LENGTH_SHORT).show();
+                                        startActivity(new Intent(WBAuthActivity.this, MainActivity.class).putExtra("LoginAccountType", "weibo"));
+                                        WBAuthActivity.this.finish();
+                                    } else { //没有注册到系统，现在注册
+//                                        Toast.makeText(WBAuthActivity.this, "该微博尚未注册", Toast.LENGTH_SHORT).show();
+                                        //注册对应用户
+                                        AllUserBean userBean = new AllUserBean();
+                                        //设置登陆模式
+                                        userBean.setSnsType("weibo");
+                                        //设置登陆信息
+                                        userBean.setPassword("weibo123456"); // 设置密码
+                                        userBean.setUsername("WB"+openId); //设置用户名（唯一不变）
+//                                        userBean.setMobilePhoneNumber(""); //设置用户登陆手机号
+                                        userBean.setCode(0); //设置用户注册验证码
+                                        //设置第三方登陆信息
+                                        userBean.setAccessToken(mAccessToken.getToken());
+                                        userBean.setExpiresIn(mAccessToken.getExpiresTime());
+                                        userBean.setUserId(mAccessToken.getUid());
+                                        //设置个人信息
+                                        userBean.setUserNick("WB"+mAccessToken.getUid());
+                                        userBean.setUserAvatar("");
+                                        userBean.setSignature("null");
+                                        //设置详细信息
+                                        userBean.setBirth("1990-01-01");
+                                        userBean.setSex("男");
+                                        userBean.setArea("北京市-东城区");
+                                        userBean.setHeight("170");
+                                        userBean.setIDCardType("身份证");
+                                        userBean.setIDNumber("");
+                                        userBean.signUp(new SaveListener<AllUserBean>() {
+                                            @Override
+                                            public void done(AllUserBean userBean, cn.bmob.v3.exception.BmobException e) {
+                                                if (e == null) {
+//                                    LogUtil.i("TAG", "reg success");
+                                                    Toast.makeText(getApplicationContext(), "注册成功，已登录", Toast.LENGTH_SHORT).show();
+                                                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                                                    finish();
+                                                } else {
+                                                    if (e.getErrorCode() == 202) {
+                                                        CommonUnits.showToast(getApplicationContext(), "该用户已注册");
+                                                    } else {
+                                                        CommonUnits.showToast(getApplicationContext(), "注册失败"+e.toString());
+//                                                        LogUtil.i(TAG_WB, "reg error=" + e.getMessage());
+                                                    }
+//                                                    LogUtil.i(TAG_WB, "reg error=" + e.getMessage());
+                                                }
+                                            }
+                                        });
+                                        startActivity(new Intent(WBAuthActivity.this, MainActivity.class));
+                                        WBAuthActivity.this.finish();
+                                    }
+                                } else { //注册到系统失败 -- 无动作 --查询失败
+                                    Toast.makeText(WBAuthActivity.this, "注册失败，请稍后重试"+e.getMessage(), Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });
-                        Intent intent = new Intent(WBAuthActivity.this, MainActivity.class);
-                        startActivity(intent);
-                        WBAuthActivity.this.finish();
                     }
                 }
             });
@@ -178,11 +253,15 @@ public class WBAuthActivity extends Activity {
         public void cancel() {
             Toast.makeText(WBAuthActivity.this,
                     "取消授权", Toast.LENGTH_LONG).show();
+            startActivity(new Intent(WBAuthActivity.this, LoginActivity.class));
+            WBAuthActivity.this.finish();
         }
 
         @Override
         public void onFailure(WbConnectErrorMessage errorMessage) {
             Toast.makeText(WBAuthActivity.this, errorMessage.getErrorMessage(), Toast.LENGTH_LONG).show();
+            startActivity(new Intent(WBAuthActivity.this, LoginActivity.class));
+            WBAuthActivity.this.finish();
         }
     }
 
@@ -203,4 +282,57 @@ public class WBAuthActivity extends Activity {
         }
         mTokenText.setText(message);
     }
+
+    // 依次类推，想要获取QQ或者新浪微博其他的信息，开发者可自行根据官方提供的API文档，传入对应的参数即可
+    // QQ的API文档地址：http://wiki.open.qq.com/wiki/website/API%E5%88%97%E8%A1%A8
+    // 微博的API文档地址：http://open.weibo.com/wiki/%E5%BE%AE%E5%8D%9AAPI
+    JSONObject obj;
+
+    /**
+     * 获取微博的资料
+     *
+     * @Title: getWeiboInfo
+     * @Description: TODO
+     * @param
+     * @return void
+     * @throws
+     */
+    public void getWeiboInfo() {
+        // 根据http://open.weibo.com/wiki/2/users/show提供的API文档
+        new Thread() {
+            @Override
+            public void run() {
+                try {
+                    obj = new JSONObject();
+                    Map<String, String> params = new HashMap<String, String>();
+                    if (obj != null) {
+                        params.put("access_token", obj.getJSONObject("weibo").getString("access_token"));// 此为微博登陆成功之后返回的access_token
+                        params.put("uid",obj.getJSONObject("weibo").getString("uid"));// 此为微博登陆成功之后返回的uid
+                    }
+                    String result = com.sinntalker.sinntest20180503_yy.Activity.NetUtils.getRequest("https://api.weibo.com/2/users/show.json", params);
+                    Log.d("login", "微博的个人信息：" + result);
+                    Message msg = new Message();
+                    msg.obj = result;
+                    Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT).show();
+//                    handler.sendMessage(msg);
+
+                } catch (Exception e) {
+                    // TODO: handle exception
+                }
+            }
+
+        }.start();
+    }
+
+    Handler handler = new Handler() {
+        public void handleMessage(android.os.Message msg) {
+            String result = (String) msg.obj;
+            if (result != null) {
+//                tv_info.setText((String) msg.obj);
+            } else {
+//                tv_info.setText("暂无个人信息");
+            }
+        };
+    };
+
 }

@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 26
+    useLibrary 'org.apache.http.legacy'
     defaultConfig {
         applicationId "com.sinntalker.sinntest20180503_yy"
         minSdkVersion 15
@@ -43,4 +44,5 @@ dependencies {
     api 'com.journeyapps:zxing-android-embedded:3.5.0'
     implementation files('libs/lite-orm-1.7.0.jar')
     api 'com.orhanobut:logger:1.8'
+    api 'org.apache.httpcomponents:httpclient-android:4.3.5.1'
 }

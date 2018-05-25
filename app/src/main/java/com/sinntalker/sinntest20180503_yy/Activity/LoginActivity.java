@@ -3,6 +3,8 @@ package com.sinntalker.sinntest20180503_yy.Activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -14,12 +16,11 @@ import android.widget.Toast;
 import com.rey.material.widget.EditText;
 import com.sina.weibo.sdk.WbSdk;
 import com.sina.weibo.sdk.auth.AuthInfo;
+import com.sinntalker.sinntest20180503_yy.AllUserBean;
 import com.sinntalker.sinntest20180503_yy.Common.CommonUnits;
 import com.sinntalker.sinntest20180503_yy.Common.Constant;
 import com.sinntalker.sinntest20180503_yy.Common.StringUnits;
 import com.sinntalker.sinntest20180503_yy.R;
-import com.sinntalker.sinntest20180503_yy.UserAuthBean;
-import com.sinntalker.sinntest20180503_yy.UserBean;
 import com.sinntalker.sinntest20180503_yy.Weibo.WBAuthActivity;
 import com.tencent.connect.UserInfo;
 import com.tencent.connect.common.Constants;
@@ -33,13 +34,20 @@ import com.tencent.tauth.UiError;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import cn.bmob.v3.Bmob;
+import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.BmobUser.BmobThirdUserAuth;
+import cn.bmob.v3.listener.FindListener;
+import cn.bmob.v3.listener.LogInListener;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.SaveListener;
 
 import static com.sinntalker.sinntest20180503_yy.Common.Constant.APP_ID_QQ;
-import static com.sinntalker.sinntest20180503_yy.Common.Constant_Java.TAG_QQ;
 
 public class LoginActivity extends Activity {
 
@@ -59,7 +67,6 @@ public class LoginActivity extends Activity {
 
     //QQ登陆
     public Tencent mTencent;
-    public UserInfo mUserInfo;
     private IUiListener loginListener;
 
     //微信登陆
@@ -78,9 +85,6 @@ public class LoginActivity extends Activity {
                 Constant.SCOPE));
 
         //将应用注册到微信
-
-
-
         mUserNameET = findViewById(R.id.id_userName_tv);
         mPasswordET = findViewById(R.id.id_userPassword_tv);
 
@@ -116,8 +120,8 @@ public class LoginActivity extends Activity {
                     //Toast显示输入的账号密码，账号密码未进行加密
 //                    CommonUnits.showToast(LoginActivity.this, "用户名： "+mUserNameStr + "\n密码： " + mPasswordStr);
 
-                    UserBean bu = new UserBean();
-                    bu.setUsername(mUserNameStr);
+                    AllUserBean bu = new AllUserBean();
+                    bu.setMobilePhoneNumber(mUserNameStr);
                     bu.setPassword(mPasswordStr);
                     bu.login(new SaveListener<BmobUser>() {
                         @Override
@@ -172,7 +176,7 @@ public class LoginActivity extends Activity {
                 //Toast显示 QQ登陆 的点击效果，用于测试
 //                Toast.makeText(getApplicationContext(), "QQ登陆", Toast.LENGTH_SHORT).show();
                 //QQ登陆方法
-                qqLogin();
+                qqLogin(); // --最初的方法
             }
         });
 
@@ -213,13 +217,79 @@ public class LoginActivity extends Activity {
                 Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
 
                 JSONObject object = (JSONObject) o;
-
                 try {
-                    String accessToken = object.getString("access_token");
-                    String expires = object.getString("expires_in");
-                    String openID = object.getString("openid");
+                    final String accessToken = object.getString("access_token");
+                    final String expires = object.getString("expires_in");
+                    final String openID = object.getString("openid");
+
                     mTencent.setAccessToken(accessToken, expires);
                     mTencent.setOpenId(openID);
+
+                    //首先查询该用户有无注册 -- 查询对应的username
+                    BmobQuery<AllUserBean> bmobQuery = new BmobQuery<AllUserBean>();
+                    //查询mobile叫mPhoneStr的数据
+                    bmobQuery.addWhereEqualTo("userId", openID);
+                    bmobQuery.findObjects(new FindListener<AllUserBean>() {
+                        @Override
+                        public void done(List<AllUserBean> list, BmobException e) {
+                            if (e == null) {
+                                if (list.size() > 0) { //已经注册到用户系统，直接登陆
+                                    Toast.makeText(LoginActivity.this, "该QQ用户已注册，请直接登录", Toast.LENGTH_SHORT).show();
+                                    startActivity(new Intent(LoginActivity.this, MainActivity.class).putExtra("LoginAccountType", "weibo"));
+                                    LoginActivity.this.finish();
+                                } else { //没有注册到系统，现在注册
+//                                        Toast.makeText(WBAuthActivity.this, "该微博尚未注册", Toast.LENGTH_SHORT).show();
+                                    //注册对应用户
+                                    AllUserBean userBean = new AllUserBean();
+                                    //设置登陆模式
+                                    userBean.setSnsType("qq");
+                                    //设置登陆信息
+                                    userBean.setPassword("qq123456"); // 设置密码
+                                    userBean.setUsername("QQ"+openID); //设置用户名（唯一不变）
+//                                        userBean.setMobilePhoneNumber(""); //设置用户登陆手机号
+                                    userBean.setCode(0); //设置用户注册验证码
+                                    //设置第三方登陆信息
+                                    userBean.setAccessToken(accessToken);
+                                    userBean.setExpiresIn(Long.valueOf(expires));
+                                    userBean.setUserId(openID);
+                                    //设置个人信息
+                                    userBean.setUserNick("QQ"+openID);
+                                    userBean.setUserAvatar("");
+                                    userBean.setSignature("null");
+                                    //设置详细信息
+                                    userBean.setBirth("1990-01-01");
+                                    userBean.setSex("男");
+                                    userBean.setArea("北京市-东城区");
+                                    userBean.setHeight("170");
+                                    userBean.setIDCardType("身份证");
+                                    userBean.setIDNumber("");
+                                    userBean.signUp(new SaveListener<AllUserBean>() {
+                                        @Override
+                                        public void done(AllUserBean userBean, cn.bmob.v3.exception.BmobException e) {
+                                            if (e == null) {
+//                                    LogUtil.i("TAG", "reg success");
+                                                Toast.makeText(getApplicationContext(), "注册成功，已登录", Toast.LENGTH_SHORT).show();
+                                                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                                                finish();
+                                            } else {
+                                                if (e.getErrorCode() == 202) {
+                                                    CommonUnits.showToast(getApplicationContext(), "该用户已注册");
+                                                } else {
+                                                    CommonUnits.showToast(getApplicationContext(), "注册失败"+e.toString());
+//                                                        LogUtil.i(TAG_WB, "reg error=" + e.getMessage());
+                                                }
+//                                                    LogUtil.i(TAG_WB, "reg error=" + e.getMessage());
+                                            }
+                                        }
+                                    });
+                                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                    LoginActivity.this.finish();
+                                }
+                            } else { //注册到系统失败 -- 无动作 --查询失败
+                                Toast.makeText(LoginActivity.this, "注册失败，请稍后重试"+e.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -257,37 +327,17 @@ public class LoginActivity extends Activity {
                 info.getUserInfo(new IUiListener() {
                     @Override
                     public void onComplete(Object o) {
-
-                        try {
-                            JSONObject info = (JSONObject) o;
-                            String nickName = info.getString("nickname");//获取用户昵称
-                            String iconUrl = info.getString("figureurl_qq_2");//获取用户头像的url
-
-                            Log.i("TAG", "Username" + nickName);
-
-                            UserAuthBean userAuthBean = new UserAuthBean();
-                            userAuthBean.setSnsType(TAG_QQ);
-                            userAuthBean.setAccessToken(String.valueOf(mTencent.getQQToken()));
-                            userAuthBean.setExpiresIn(mTencent.getExpiresIn());
-                            userAuthBean.setUserId(mTencent.getOpenId());
-                            userAuthBean.setUserName(TAG_QQ);
-                            userAuthBean.setUserPassword(mTencent.getOpenId() + "123456");
-                            userAuthBean.save(new SaveListener<String>() {
-                                @Override
-                                public void done(String objectId, BmobException e) {
-                                    if (e == null) {
-                                        Toast.makeText(getApplicationContext(), "创建数据成功：" + objectId, Toast.LENGTH_SHORT).show();
-                                    } else {
-                                        Log.i("bmob", "失败：" + e.getMessage() + "," + e.getErrorCode());
-                                    }
-                                }
-                            });
-
-                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                        Toast.makeText(LoginActivity.this, "获取qq用户信息成功", Toast.LENGTH_SHORT).show();
+//                        try {
+//                            JSONObject info = (JSONObject) o;
+//                            String nickName = info.getString("nickname");//获取用户昵称
+//                            String iconUrl = info.getString("figureurl_qq_2");//获取用户头像的url
+//                            Log.i("TAG", "Username" + nickName);
+//                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+//
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                        }
                     }
 
                     @Override

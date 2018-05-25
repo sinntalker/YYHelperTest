@@ -18,8 +18,8 @@ import android.widget.Toast;
 
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+import com.sinntalker.sinntest20180503_yy.AllUserBean;
 import com.sinntalker.sinntest20180503_yy.R;
-import com.sinntalker.sinntest20180503_yy.UserBean;
 
 import java.util.List;
 
@@ -94,7 +94,7 @@ public class DrugBoxActivity extends Activity {
         //获取药品数据
 
         //--获取当前用户名，方便查找对应数据
-        final UserBean userBean = BmobUser.getCurrentUser(UserBean.class);
+        final AllUserBean userBean = BmobUser.getCurrentUser(AllUserBean.class);
         final String[] phone = new String[1];
         phone[0] = userBean.getUsername();
 

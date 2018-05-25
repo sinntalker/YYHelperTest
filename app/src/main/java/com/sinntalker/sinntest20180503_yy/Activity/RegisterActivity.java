@@ -17,11 +17,11 @@ import android.widget.Toast;
 
 import com.rey.material.widget.CheckBox;
 import com.rey.material.widget.EditText;
+import com.sinntalker.sinntest20180503_yy.AllUserBean;
 import com.sinntalker.sinntest20180503_yy.Common.CommonUnits;
 import com.sinntalker.sinntest20180503_yy.Common.Constant_Java;
 import com.sinntalker.sinntest20180503_yy.Common.StringUnits;
 import com.sinntalker.sinntest20180503_yy.R;
-import com.sinntalker.sinntest20180503_yy.UserBean;
 
 import java.util.List;
 
@@ -67,16 +67,35 @@ public class RegisterActivity extends Activity {
                 super.handleMessage(msg);
                 switch (msg.what){
                     case Constant_Java.Tags.LOAD_DATA_SUCCESS:
-                        final String phone = mPhoneET_reg.getText().toString().trim();
-                        final String password = mPasswordET_reg.getText().toString().trim();
-                        final String code = mCodeET_reg.getText().toString().trim();
-                        UserBean userBean = new UserBean();
-                        userBean.setPassword(password);
-                        userBean.setUsername(phone);
-                        userBean.setCode(Integer.parseInt(code));
-                        userBean.signUp(new SaveListener<UserBean>() {
+                        final String phone = mPhoneET_reg.getText().toString().trim(); //获取注册手机号
+                        final String password = mPasswordET_reg.getText().toString().trim(); //获取注册密码
+                        final String code = mCodeET_reg.getText().toString().trim(); //获取手机验证码
+                        AllUserBean userBean = new AllUserBean();
+                        //设置登陆模式
+                        userBean.setSnsType("phone");
+                        //设置登陆信息
+                        userBean.setPassword(password); // 设置密码
+                        userBean.setUsername(phone); //设置用户名（唯一不变）
+                        userBean.setMobilePhoneNumber(phone); //设置用户登陆手机号
+                        userBean.setCode(Integer.parseInt(code)); //设置用户注册验证码
+                        //设置第三方登陆信息
+                        userBean.setAccessToken("null");
+                        userBean.setExpiresIn(Long.valueOf(0));
+                        userBean.setUserId("null");
+                        //设置个人信息
+                        userBean.setUserNick(phone);
+                        userBean.setUserAvatar("");
+                        userBean.setSignature("null");
+                        //设置详细信息
+                        userBean.setBirth("1990-01-01");
+                        userBean.setSex("男");
+                        userBean.setArea("北京市-东城区");
+                        userBean.setHeight("170");
+                        userBean.setIDCardType("身份证");
+                        userBean.setIDNumber("");
+                        userBean.signUp(new SaveListener<AllUserBean>() {
                             @Override
-                            public void done(UserBean userBean, cn.bmob.v3.exception.BmobException e) {
+                            public void done(AllUserBean userBean, cn.bmob.v3.exception.BmobException e) {
                                 if (e == null) {
 //                                    LogUtil.i("TAG", "reg success");
                                     Toast.makeText(RegisterActivity.this, "注册成功，请登录", Toast.LENGTH_SHORT).show();
@@ -129,12 +148,12 @@ public class RegisterActivity extends Activity {
                     CommonUnits.showToast(RegisterActivity.this, "手机号输入有误");
                 } else {
                     // 先查询手机号是否已注册
-                    BmobQuery<UserBean> bmobQuery = new BmobQuery<UserBean>();
+                    BmobQuery<AllUserBean> bmobQuery = new BmobQuery<AllUserBean>();
                     //查询mobile叫mPhoneStr的数据
                     bmobQuery.addWhereEqualTo("username", mPhoneStr);
-                    bmobQuery.findObjects(new FindListener<UserBean>() {
+                    bmobQuery.findObjects(new FindListener<AllUserBean>() {
                         @Override
-                        public void done(List<UserBean> list, cn.bmob.v3.exception.BmobException e) {
+                        public void done(List<AllUserBean> list, cn.bmob.v3.exception.BmobException e) {
                             if (e == null) {
                                 if (list.size() > 0) {
                                     Toast.makeText(RegisterActivity.this, "该手机号已注册，请直接登录", Toast.LENGTH_SHORT).show();
@@ -163,8 +182,6 @@ public class RegisterActivity extends Activity {
                             }
                         }
                     });
-
-
                 }
             }
         });
@@ -204,12 +221,12 @@ public class RegisterActivity extends Activity {
                 } else {
 //                    CommonUnits.showProgressDialog(RegisterActivity.this, "正在注册");
                     // 先查询手机号是否已注册
-                    BmobQuery<UserBean> bmobQuery = new BmobQuery<UserBean>();
+                    BmobQuery<AllUserBean> bmobQuery = new BmobQuery<AllUserBean>();
                     //查询mobile叫mPhoneStr的数据
                     bmobQuery.addWhereEqualTo("username", mPhoneStr);
-                    bmobQuery.findObjects(new FindListener<UserBean>() {
+                    bmobQuery.findObjects(new FindListener<AllUserBean>() {
                         @Override
-                        public void done(List<UserBean> list, cn.bmob.v3.exception.BmobException e) {
+                        public void done(List<AllUserBean> list, cn.bmob.v3.exception.BmobException e) {
                             if (e == null) {
                                 if (list.size() > 0) {
 //                                    CommonUnits.hideProgressDialog();

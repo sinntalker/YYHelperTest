@@ -45,7 +45,7 @@ public class FamilyFragment extends Fragment {
         addRelation_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), "添加家人", Toast.LENGTH_LONG).show();
+//                Toast.makeText(getContext(), "添加家人", Toast.LENGTH_LONG).show();
                 startActivity(new Intent(getContext(), AddFamilyMembersActivity.class));
             }
         });

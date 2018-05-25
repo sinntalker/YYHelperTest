@@ -13,10 +13,10 @@ import android.widget.Toast;
 
 import com.rey.material.widget.CheckBox;
 import com.rey.material.widget.EditText;
+import com.sinntalker.sinntest20180503_yy.AllUserBean;
 import com.sinntalker.sinntest20180503_yy.Common.CommonUnits;
 import com.sinntalker.sinntest20180503_yy.Common.StringUnits;
 import com.sinntalker.sinntest20180503_yy.R;
-import com.sinntalker.sinntest20180503_yy.UserBean;
 
 import java.util.List;
 
@@ -114,16 +114,16 @@ public class ResetActivity extends Activity {
                     CommonUnits.showToast(ResetActivity.this, "验证码不能为空");
                 } else {
                     // 先查询手机号是否已注册
-                    BmobQuery<UserBean> bmobQuery = new BmobQuery<UserBean>();
+                    BmobQuery<AllUserBean> bmobQuery = new BmobQuery<AllUserBean>();
                     //查询mobile叫mPhoneStr的数据
                     bmobQuery.addWhereEqualTo("username", mPhoneStr);
-                    bmobQuery.findObjects(new FindListener<UserBean>() {
+                    bmobQuery.findObjects(new FindListener<AllUserBean>() {
                         @Override
-                        public void done(List<UserBean> list, cn.bmob.v3.exception.BmobException e) {
+                        public void done(List<AllUserBean> list, cn.bmob.v3.exception.BmobException e) {
                             if (e == null) {
                                 if (list.size() == 1) {
                                     String mPasswordStr = mPasswordET_reset.getText().toString().trim();
-                                    UserBean userBean = new UserBean();
+                                    AllUserBean userBean = new AllUserBean();
                                     userBean.setPassword(mPasswordStr);
                                     userBean.update(list.get(0).getObjectId(), new UpdateListener() {
                                         @Override
@@ -140,15 +140,12 @@ public class ResetActivity extends Activity {
                                 }
                             } else {
                                 Toast.makeText(ResetActivity.this, "注册失败，请稍后重试" + e.getMessage(), Toast.LENGTH_SHORT).show();
-
                             }
                         }
                     });
-
                 }
             }
         });
-
     }
 
 }

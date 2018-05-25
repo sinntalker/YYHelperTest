@@ -9,9 +9,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
 
-import com.sinntalker.sinntest20180503_yy.Common.Constant_Java;
 import com.sinntalker.sinntest20180503_yy.R;
-import com.sinntalker.sinntest20180503_yy.UserBean;
 
 import cn.bmob.v3.BmobUser;
 
@@ -45,7 +43,7 @@ public class SplashActivity extends Activity {
                 finish();
             }
         },500);
-//        UserBean userInfo = BmobUser.getCurrentUser(UserBean.class);
+
         //检查是否为第一次登陆
 //        boolean isFirstTime = false;
 //        mSharedPreferences = getSharedPreferences(

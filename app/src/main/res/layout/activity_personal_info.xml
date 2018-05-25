@@ -170,25 +170,6 @@
                     <TextView
                         android:layout_width="100dp"
                         android:layout_height="50dp"
-                        android:text="体重"
-                        android:gravity="center|left"/>
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="center|left"/>
-                </TableRow>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#000000" />
-
-                <TableRow>
-                    <TextView
-                        android:layout_width="100dp"
-                        android:layout_height="50dp"
                         android:text="证件类型"
                         android:gravity="center|left"/>
 

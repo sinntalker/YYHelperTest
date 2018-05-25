@@ -14,8 +14,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.sinntalker.sinntest20180503_yy.AllUserBean;
 import com.sinntalker.sinntest20180503_yy.R;
-import com.sinntalker.sinntest20180503_yy.UserBean;
 
 import cn.bmob.v3.BmobUser;
 
@@ -119,14 +119,6 @@ public class GuideActivity extends Activity {
                 startBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        UserBean userInfo = BmobUser.getCurrentUser( UserBean.class);
-
-                        if(userInfo !=null){
-//                      if(userInfo !=null && !fromabout){
-                            startActivity(new Intent(GuideActivity.this, MainActivity.class));
-                        }else{
-                            startActivity(new Intent(GuideActivity.this, LoginActivity.class));
-                        }
 
                         GuideActivity.this.finish();
                     }

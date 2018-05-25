@@ -10,13 +10,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.sinntalker.sinntest20180503_yy.AllUserBean;
 import com.sinntalker.sinntest20180503_yy.Fragment.health.BloodPressure.BloodPressureActivity;
 import com.sinntalker.sinntest20180503_yy.Fragment.health.BloodSugar.BloodSugerActivity;
 import com.sinntalker.sinntest20180503_yy.Fragment.health.StepCounter.StepCounterActivity;
 import com.sinntalker.sinntest20180503_yy.Fragment.health.Weight.WeightActivity;
 import com.sinntalker.sinntest20180503_yy.Fragment.user.PersonalInfoActivity;
 import com.sinntalker.sinntest20180503_yy.R;
-import com.sinntalker.sinntest20180503_yy.UserBean;
 
 import cn.bmob.v3.BmobUser;
 
@@ -50,7 +50,7 @@ public class HealthDocuActivity extends Activity implements View.OnClickListener
         userName_txt = findViewById(R.id.userName_docu_txt);
         mInfoMoreHDATV = findViewById(R.id.info_document_textView);
 
-        final UserBean userBean = BmobUser.getCurrentUser(UserBean.class);
+        final AllUserBean userBean = BmobUser.getCurrentUser(AllUserBean.class);
         final String[] phone = new String[1];
         phone[0] = userBean.getUsername();
         userName_txt.setText(phone[0]);
