@@ -86,7 +86,7 @@ public class DbUtils {
     }
 
     /**
-     * 删除所有 某字段等于 Vlaue的值
+     * 删除所有 某字段等于 Value的值
      * @param cla
      * @param field
      * @param value
@@ -105,7 +105,7 @@ public class DbUtils {
     }
 
     /**
-     * 删除所有 某字段等于 Vlaue的值
+     * 删除所有 某字段等于 Value的值
      *
      * @param cla
      * @param field

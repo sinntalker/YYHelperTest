@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,9 +17,22 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.sinntalker.sinntest20180503_yy.AllUserBean;
 import com.sinntalker.sinntest20180503_yy.Common.StringUnits;
 import com.sinntalker.sinntest20180503_yy.Fragment.DrugBox.DrugBoxActivity;
+import com.sinntalker.sinntest20180503_yy.Fragment.DrugBox.DrugCommonDataBean;
+import com.sinntalker.sinntest20180503_yy.Fragment.DrugBox.DrugDataBean;
+import com.sinntalker.sinntest20180503_yy.Fragment.health.StepCounter.DbUtils;
+import com.sinntalker.sinntest20180503_yy.Fragment.health.Weight.WeightData;
 import com.sinntalker.sinntest20180503_yy.R;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.FindListener;
 
 
 /**
@@ -118,7 +132,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
             String searchContext = search_edit.getText().toString().trim();
             if (searchContext.length() != 0) {
                 Toast.makeText(getContext(), "搜索"+searchContext, Toast.LENGTH_LONG).show();
-                startActivity(new Intent(getContext(), HomeSearchActivity.class));
+                AllUserBean mCurrentUser = BmobUser.getCurrentUser(AllUserBean.class);
+                Intent intent = new Intent(getContext(), HomeSearchActivity.class);
+                intent.putExtra("searchContext", searchContext);
+                getContext().startActivity(intent);
             }else {
                 Toast.makeText(getContext(), "请输入药品名称", Toast.LENGTH_LONG).show();
             }

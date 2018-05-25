@@ -53,7 +53,7 @@ public class DrugDetailsActivity extends Activity {
         //根据用户名和药箱编号和药品名称查询数据
         //查询条件1 用户名
         BmobQuery<DrugCommonDataBean> query_eq1 = new BmobQuery<DrugCommonDataBean>();
-        query_eq1.addWhereEqualTo("username", username);
+        query_eq1.addWhereEqualTo("userName", username);
         //查询条件2 药箱编号
         BmobQuery<DrugCommonDataBean> query_eq2 = new BmobQuery<DrugCommonDataBean>();
         query_eq2.addWhereEqualTo("boxNumber", boxNum);
