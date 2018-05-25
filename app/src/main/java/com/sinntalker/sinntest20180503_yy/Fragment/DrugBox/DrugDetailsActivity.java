@@ -31,9 +31,9 @@ public class DrugDetailsActivity extends Activity {
         imageView = findViewById(R.id.id_imageView_back_drugDetail);
 
         // 从Intent获取数据
+        String username = getIntent().getStringExtra("drug_user"); //当前用户 username
+        String boxNum = getIntent().getStringExtra("drug_boxNum"); //当前药箱 boxNum
         final String genericName = getIntent().getStringExtra("drug_genericName");//药品通用名称 genericName
-        String drug_user = getIntent().getStringExtra("drug_name"); //获取用户名称用以匹配用户医药库
-//        intent.putExtra("drug_user", phone);//药品通用名称 genericName
 
         // 获取特定的视图
         final TextView genericName_textView = (TextView) findViewById(R.id.drug_genericName_textView);
@@ -50,23 +50,31 @@ public class DrugDetailsActivity extends Activity {
         // 根据数据设置视图展现
         genericName_textView.setText(genericName);
 
-        BmobQuery<DrugsBean> eq_phone = new BmobQuery<DrugsBean>();
-        BmobQuery<DrugsBean> eq_genericName = new BmobQuery<DrugsBean>();
-        //查询playerName叫“比目”的数据
-        //查询当前登陆用户
-        eq_phone.addWhereEqualTo("phone", drug_user);
-        //查询当前药品名称
-        eq_genericName.addWhereEqualTo("genericName", genericName);
-        List<BmobQuery<DrugsBean>> mainQuery = new ArrayList<BmobQuery<DrugsBean>>();
-        mainQuery.add(eq_phone);
-        mainQuery.add(eq_genericName);
-        BmobQuery<DrugsBean> query = new BmobQuery<DrugsBean>();
-        query.and(mainQuery);
-        query.findObjects(new FindListener<DrugsBean>() {
+        //根据用户名和药箱编号和药品名称查询数据
+        //查询条件1 用户名
+        BmobQuery<DrugCommonDataBean> query_eq1 = new BmobQuery<DrugCommonDataBean>();
+        query_eq1.addWhereEqualTo("username", username);
+        //查询条件2 药箱编号
+        BmobQuery<DrugCommonDataBean> query_eq2 = new BmobQuery<DrugCommonDataBean>();
+        query_eq2.addWhereEqualTo("boxNumber", boxNum);
+        //查询条件3 药品名称
+        BmobQuery<DrugCommonDataBean> query_eq3 = new BmobQuery<DrugCommonDataBean>();
+        query_eq3.addWhereEqualTo("genericName", genericName);
+
+        //最后组装完整的and条件
+        List<BmobQuery<DrugCommonDataBean>> queries = new ArrayList<BmobQuery<DrugCommonDataBean>>();
+        queries.add(query_eq1);
+        queries.add(query_eq2);
+        queries.add(query_eq3);
+
+        BmobQuery<DrugCommonDataBean> query = new BmobQuery<DrugCommonDataBean>();
+        query.and(queries);
+
+        query.findObjects(new FindListener<DrugCommonDataBean>() {
             @Override
-            public void done(List<DrugsBean> object, BmobException e) {
+            public void done(List<DrugCommonDataBean> object, BmobException e) {
                 if(e==null){
-                    Toast.makeText(getApplicationContext(), "当前用户的医药库中包含该种药品共："+object.size()+"种。", Toast.LENGTH_LONG).show();
+//                    Toast.makeText(getApplicationContext(), "当前用户的医药库中包含该种药品共："+object.size()+"种。", Toast.LENGTH_LONG).show();
                     for (int i = 0; i < object.size(); i ++) {
                         indications_textView.setText(object.get(i).getIndications());
                         dosage_textView.setText(object.get(i).getDosage());
@@ -78,32 +86,11 @@ public class DrugDetailsActivity extends Activity {
                         validityPeriod_textView.setText(object.get(i).getValidityPeriod());
                         other_textView.setText(object.get(i).getOther());
                     }
-
                 }else{
                     Log.i("bmob","失败："+e.getMessage()+","+e.getErrorCode());
                 }
             }
         });
-        //返回50条数据，如果不加上这条语句，默认返回10条数据
-//        query.setLimit(50);
-        //执行查询方法
-//        query.findObjects( new QueryListener<DrugsBean>() {
-//
-//            @Override
-//            public void done(DrugsBean object, BmobException e) {
-//                // 根据数据设置视图展现
-////                genericName_textView.setText((CharSequence) object.getGenericName());
-//                indications_textView.setText(object.getIndications());
-//                dosage_textView.setText(object.getDosage());
-//                adverseReactions_textView.setText(object.getAdverseReactions());
-//                taboo_textView.setText(object.getTaboo());
-//                precautions_textView.setText(object.getPrecautions());
-//                packingSpecifications_textView.setText(object.getPackingS());
-//                traits_textView.setText(object.getTraits());
-//                validityPeriod_textView.setText(object.getValidityPeriod());
-//                other_textView.setText(object.getOther());
-//            }
-//        });
 
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override

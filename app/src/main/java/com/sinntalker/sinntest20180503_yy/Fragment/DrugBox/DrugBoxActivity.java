@@ -21,6 +21,7 @@ import com.google.zxing.integration.android.IntentResult;
 import com.sinntalker.sinntest20180503_yy.AllUserBean;
 import com.sinntalker.sinntest20180503_yy.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import cn.bmob.v3.BmobQuery;
@@ -36,6 +37,8 @@ public class DrugBoxActivity extends Activity {
     private TextView mDrugBoxNumTV;
     private TextView mDrugNumShowTV;
 
+    String num;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,11 +52,17 @@ public class DrugBoxActivity extends Activity {
         mDrugNumShowTV = findViewById(R.id.drugNumShow_textView);
 
         //获取当前药箱编号
-        String num = getIntent().getStringExtra("DrugBoxNum");
+        num = getIntent().getStringExtra("DrugBoxNum");
         mDrugBoxNumTV.setText("药箱 "+ num + " ");
 
+        //--获取当前用户名，方便查找对应数据
+        final AllUserBean userBean = BmobUser.getCurrentUser(AllUserBean.class);
+        final String boxNum = num; //获取当前药箱编号
+        final String username = userBean.getUsername(); //获取当前用户名称
+
         //初始化 获取 当前药箱药品种类和数目
-        initDrugBoxCurrent();
+        initDrugBoxCurrent(username, boxNum);
+        mDrugNumShowTV.setText("当前共有 种药物");
 
         //按键操作
         mBackDBIV.setOnClickListener(new View.OnClickListener() {
@@ -68,15 +77,15 @@ public class DrugBoxActivity extends Activity {
             public void onClick(View v) {
                 Toast.makeText(DrugBoxActivity.this, "扫描药品条形码", Toast.LENGTH_LONG).show();
 //                startActivity(new Intent(getApplicationContext(), AddDrugScanActivity.class));
-                IntentIntegrator integrator = new IntentIntegrator(DrugBoxActivity.this);
-                // 设置要扫描的条码类型，ONE_D_CODE_TYPES：一维码，QR_CODE_TYPES-二维码
-                integrator.setDesiredBarcodeFormats(IntentIntegrator.ONE_D_CODE_TYPES);
-                integrator.setCaptureActivity(ScanActivity.class);
-                integrator.setPrompt("请扫描"); //底部的提示文字，设为""可以置空
-                integrator.setCameraId(0); //前置或者后置摄像头
-                integrator.setBeepEnabled(false); //扫描成功的「哔哔」声，默认开启
-                integrator.setBarcodeImageEnabled(true);
-                integrator.initiateScan();
+//                IntentIntegrator integrator = new IntentIntegrator(DrugBoxActivity.this);
+//                // 设置要扫描的条码类型，ONE_D_CODE_TYPES：一维码，QR_CODE_TYPES-二维码
+//                integrator.setDesiredBarcodeFormats(IntentIntegrator.ONE_D_CODE_TYPES);
+//                integrator.setCaptureActivity(ScanActivity.class);
+//                integrator.setPrompt("请扫描"); //底部的提示文字，设为""可以置空
+//                integrator.setCameraId(0); //前置或者后置摄像头
+//                integrator.setBeepEnabled(false); //扫描成功的「哔哔」声，默认开启
+//                integrator.setBarcodeImageEnabled(true);
+//                integrator.initiateScan();
             }
         });
 
@@ -84,32 +93,42 @@ public class DrugBoxActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(DrugBoxActivity.this, "手动添加药品", Toast.LENGTH_LONG).show();
-                startActivity(new Intent(getApplicationContext(), AddDrugHandyActivity.class));
+                Intent intent = new Intent(getApplicationContext(), AddDrugHandyActivity.class);
+                intent.putExtra("drug_user", username);
+                intent.putExtra("drug_boxNum", boxNum);
+                getApplicationContext().startActivity(intent);
+                finish();
             }
         });
 
     }
 
-    private void initDrugBoxCurrent() {
+    public void initDrugBoxCurrent(final String username, final String boxNum) {
         //获取药品数据
 
-        //--获取当前用户名，方便查找对应数据
-        final AllUserBean userBean = BmobUser.getCurrentUser(AllUserBean.class);
-        final String[] phone = new String[1];
-        phone[0] = userBean.getUsername();
+        //根据用户名和药箱编号查询数据
+        //查询条件1 用户名
+        BmobQuery<DrugDataBean> query_eq1 = new BmobQuery<DrugDataBean>();
+        query_eq1.addWhereEqualTo("username", username);
+        //查询条件2 药箱编号
+        BmobQuery<DrugDataBean> query_eq2 = new BmobQuery<DrugDataBean>();
+        query_eq2.addWhereEqualTo("boxNumber", boxNum);
 
-        //根据用户名查询数据
-        BmobQuery<DrugsBean> query = new BmobQuery<DrugsBean>();
-        //查询playerName叫“比目”的数据
-        query.addWhereEqualTo("phone", phone[0]);
+        //最后组装完整的and条件
+        List<BmobQuery<DrugDataBean>> queries = new ArrayList<BmobQuery<DrugDataBean>>();
+        queries.add(query_eq1);
+        queries.add(query_eq2);
+
+        BmobQuery<DrugDataBean> query = new BmobQuery<DrugDataBean>();
+        query.and(queries);
         //返回50条数据，如果不加上这条语句，默认返回10条数据
         query.setLimit(10);
         //执行查询方法
-        query.findObjects(new FindListener<DrugsBean>() {
+        query.findObjects(new FindListener<DrugDataBean>() {
             @Override
-            public void done(List<DrugsBean> object, BmobException e) {
+            public void done(List<DrugDataBean> object, BmobException e) {
                 if(e==null){
-                    Toast.makeText(getApplicationContext(), "查询成功：共"+object.size()+"条数据。", Toast.LENGTH_LONG).show();
+//                    Toast.makeText(getApplicationContext(), "查询成功：共"+object.size()+"条数据。", Toast.LENGTH_LONG).show();
 
                     mDrugNumShowTV.setText("当前共有 " + object.size() + " 种药物");
 
@@ -159,7 +178,8 @@ public class DrugBoxActivity extends Activity {
                                 public void onClick(View v) {
                                     Toast.makeText(getApplicationContext(), "药品信息", Toast.LENGTH_LONG).show();
                                     Intent intent = new Intent(getApplicationContext(), DrugDetailsActivity.class); //打开药品详细信息页面
-                                    intent.putExtra("drug_user", phone);//药品通用名称 genericName
+                                    intent.putExtra("drug_user", username);//当前用户 username
+                                    intent.putExtra("drug_boxNum", boxNum);//当前药箱 boxNum
                                     intent.putExtra("drug_genericName", drugName[position]);//药品通用名称 genericName
                                     getApplicationContext().startActivity(intent);
                                 }
@@ -169,8 +189,10 @@ public class DrugBoxActivity extends Activity {
                                 public void onClick(View v) {
                                     Toast.makeText(getApplicationContext(), "设置提醒", Toast.LENGTH_LONG).show();
                                     Intent intent = new Intent(getApplicationContext(), SetAlarmActivity.class); //打开设置提醒页面
-                                    intent.putExtra("drug_user", phone);//传送数据 药品所有者 -- phone
-                                    intent.putExtra("drug_genericName", drugName[position]);//传送数据 药品通用名称 genericName
+//                                    intent.putExtra("drug_user", phone);//传送数据 药品所有者 -- phone
+                                    intent.putExtra("drug_user", username);//当前用户 username
+                                    intent.putExtra("drug_boxNum", boxNum);//当前药箱 boxNum
+                                    intent.putExtra("drug_genericName", drugName[position]);//药品通用名称 genericName
                                     intent.putExtra("drug_dosage", drugDosage[position]); //传送数据 药品用法用量 dosage
                                     getApplicationContext().startActivity(intent);
                                 }

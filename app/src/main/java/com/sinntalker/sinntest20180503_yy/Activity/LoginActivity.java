@@ -121,7 +121,8 @@ public class LoginActivity extends Activity {
 //                    CommonUnits.showToast(LoginActivity.this, "用户名： "+mUserNameStr + "\n密码： " + mPasswordStr);
 
                     AllUserBean bu = new AllUserBean();
-                    bu.setMobilePhoneNumber(mUserNameStr);
+//                    bu.setMobilePhoneNumber(mUserNameStr);
+                    bu.setUsername(mUserNameStr);
                     bu.setPassword(mPasswordStr);
                     bu.login(new SaveListener<BmobUser>() {
                         @Override
