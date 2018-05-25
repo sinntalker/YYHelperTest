@@ -109,7 +109,7 @@ public class DrugBoxActivity extends Activity {
         //根据用户名和药箱编号查询数据
         //查询条件1 用户名
         BmobQuery<DrugDataBean> query_eq1 = new BmobQuery<DrugDataBean>();
-        query_eq1.addWhereEqualTo("username", username);
+        query_eq1.addWhereEqualTo("userName", username);
         //查询条件2 药箱编号
         BmobQuery<DrugDataBean> query_eq2 = new BmobQuery<DrugDataBean>();
         query_eq2.addWhereEqualTo("boxNumber", boxNum);

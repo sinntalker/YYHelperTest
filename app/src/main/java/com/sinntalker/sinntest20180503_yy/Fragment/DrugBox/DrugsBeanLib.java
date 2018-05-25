@@ -6,13 +6,10 @@ import cn.bmob.v3.BmobObject;
  * Created by Administrator on 2018/5/18.
  */
 
-public class DrugsBean extends BmobObject{
+public class DrugsBeanLib extends BmobObject{
 
     //通用：药品名称、药品性状、成份、适应症、用法用量、不良反应、禁忌、注意事项、药物相互作用、临床试验、毒理研究、批准文号、生产企业、药物分类
-    //特殊：药品生产日期、药品有效期、药品包装规格、药品数量、其他
-
-    String phone; //用户手机号
-
+    //特殊：药品生产日期、药品有效期、药品包装规格、药品数量、其他、条形码
     String genericName;  //药品通用名称       1
     String traits;   //药品性状               2
     String ingredients; //药品成份           3
@@ -32,9 +29,10 @@ public class DrugsBean extends BmobObject{
     String packingS;  //包装规格 17
     String drugNumber; //药品数量              18
     String other;  //其他                      19
+    String Barcode; //条形码
 
-    public String getPhone() { return phone; }
-    public void setPhone(String phone) { this.phone = phone; }
+    public String getBarcode() { return Barcode; }
+    public void setBarcode(String Barcode) { this.Barcode = Barcode; }
     public String getGenericName() { return genericName; }
     public void setGenericName(String genericName) { this.genericName = genericName; }
     public String getTraits() { return traits; }

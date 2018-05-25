@@ -94,6 +94,58 @@ public class SetAlarmActivity extends Activity{
         daysBuyAlarm_edit.setFocusable(false);
         daysBuyAlarm_edit.setFocusableInTouchMode(false);
 
+        //根据用户名和药箱编号和药品名称查询数据
+        //查询条件1 用户名
+        BmobQuery<DrugUsingDataBean> query_eq1 = new BmobQuery<DrugUsingDataBean>();
+        query_eq1.addWhereEqualTo("userName", username);
+        //查询条件2 药箱编号
+        BmobQuery<DrugUsingDataBean> query_eq2 = new BmobQuery<DrugUsingDataBean>();
+        query_eq2.addWhereEqualTo("boxNumber", boxNum);
+        //查询条件3 药品名称
+        BmobQuery<DrugUsingDataBean> query_eq3 = new BmobQuery<DrugUsingDataBean>();
+        query_eq3.addWhereEqualTo("genericName", genericName);
+
+        //最后组装完整的and条件
+        List<BmobQuery<DrugUsingDataBean>> queries = new ArrayList<BmobQuery<DrugUsingDataBean>>();
+        queries.add(query_eq1);
+        queries.add(query_eq2);
+        queries.add(query_eq3);
+
+        BmobQuery<DrugUsingDataBean> query = new BmobQuery<DrugUsingDataBean>();
+        query.and(queries);
+
+        query.findObjects(new FindListener<DrugUsingDataBean>() {
+            @Override
+            public void done(List<DrugUsingDataBean> list, BmobException e) {
+                if(e==null){
+                    Log.i("bmob","查询用户药品用药提醒设置数据成功。"+"共"+list.size()+"条数据");
+                    //获取用药提醒 -- 提醒开关、吃药数量、时间段（1~4） -- 6项
+                    preSetNum_edit.setText(list.get(0).getUsingDrugNumber());
+//                    Log.i("bmob","查询用户药品用药提醒设置:getUsingDrugNumber()"+list.get(0).getUsingDrugNumber());
+                    firstAlarm_btn.setText(list.get(0).getUsingDrugTimeNo1());
+//                    Log.i("bmob","查询用户药品用药提醒设置:getUsingDrugTimeNo1()"+list.get(0).getUsingDrugTimeNo1());
+                    secondAlarm_btn.setText(list.get(0).getUsingDrugTimeNo2());
+//                    Log.i("bmob","查询用户药品用药提醒设置:getUsingDrugTimeNo2()"+list.get(0).getUsingDrugTimeNo2());
+                    thirdAlarm_btn.setText(list.get(0).getUsingDrugTimeNo3());
+//                    Log.i("bmob","查询用户药品用药提醒设置:getUsingDrugTimeNo3()"+list.get(0).getUsingDrugTimeNo3());
+                    forthAlarm_btn.setText(list.get(0).getUsingDrugTimeNo4());
+//                    Log.i("bmob","查询用户药品用药提醒设置:getUsingDrugTimeNo4()"+list.get(0).getUsingDrugTimeNo4());
+                    //复购提醒 -- 提醒开关、提醒开始时间、倒计时天数 -- 3项
+                    mAlarm_Buy = Boolean.valueOf(list.get(0).getRemindBuyDrug());
+                    daysBuyAlarm_edit.setText(list.get(0).getDayLeft());
+//                    Log.i("bmob","查询用户药品用药提醒设置getRemindUsingDrug:"+list.get(0).getRemindUsingDrug());
+//                    Log.i("bmob","mAlarm_Using_before:"+mAlarm_Using);
+                    mAlarm_Using = Boolean.valueOf(list.get(0).getRemindUsingDrug());
+//                    Log.i("bmob","mAlarm_Using_after:"+mAlarm_Using);
+                    alarmUsing_switch.setChecked(mAlarm_Using);
+                    alarmBuy_switch.setChecked(mAlarm_Buy);
+
+                }else{
+                    Log.i("bmob","查询数据失败："+e.getMessage()+","+e.getErrorCode());
+                }
+            }
+        });
+
         //设置监听
         mBackSAIV.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -160,9 +212,9 @@ public class SetAlarmActivity extends Activity{
                     daysBuyAlarm_edit.setFocusableInTouchMode(true);
                     daysBuyAlarm_edit.setFocusable(true);
                     daysBuyAlarm_edit.requestFocus();
-                    mAlarm_Buy = false;
+                    mAlarm_Buy = true;
                 }else {
-                    Toast.makeText(getApplicationContext(), "关闭用药提醒", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "关闭复购提醒", Toast.LENGTH_LONG).show();
                     daysBuyAlarm_edit.setFocusable(false);
                     daysBuyAlarm_edit.setFocusableInTouchMode(false);
                     mAlarm_Buy = false;
@@ -183,36 +235,35 @@ public class SetAlarmActivity extends Activity{
                 //日
                 final int day = calendar.get(Calendar.DAY_OF_MONTH);
 
-                //获取用户名、药箱编号、药品名
-                final DrugUsingDataBean mDrugUsingDataBean = new DrugUsingDataBean();
-                mDrugUsingDataBean.setUserName(username);
-                mDrugUsingDataBean.setBoxNumber(boxNum);
-                mDrugUsingDataBean.setGenericName(genericName);
-
-                //根据用户名和药箱编号和药品名称查询数据
+                //根据用户名和药箱编号和药品名称在用药情况设置表中查询数据
                 //查询条件1 用户名
-                BmobQuery<DrugDataBean> query_eq1 = new BmobQuery<DrugDataBean>();
-                query_eq1.addWhereEqualTo("username", username);
+                BmobQuery<DrugUsingDataBean> query_eq1 = new BmobQuery<DrugUsingDataBean>();
+                query_eq1.addWhereEqualTo("userName", username);
                 //查询条件2 药箱编号
-                BmobQuery<DrugDataBean> query_eq2 = new BmobQuery<DrugDataBean>();
+                BmobQuery<DrugUsingDataBean> query_eq2 = new BmobQuery<DrugUsingDataBean>();
                 query_eq2.addWhereEqualTo("boxNumber", boxNum);
                 //查询条件3 药品名称
-                BmobQuery<DrugDataBean> query_eq3 = new BmobQuery<DrugDataBean>();
+                BmobQuery<DrugUsingDataBean> query_eq3 = new BmobQuery<DrugUsingDataBean>();
                 query_eq3.addWhereEqualTo("genericName", genericName);
 
                 //最后组装完整的and条件
-                List<BmobQuery<DrugDataBean>> queries = new ArrayList<BmobQuery<DrugDataBean>>();
+                List<BmobQuery<DrugUsingDataBean>> queries = new ArrayList<BmobQuery<DrugUsingDataBean>>();
                 queries.add(query_eq1);
                 queries.add(query_eq2);
                 queries.add(query_eq3);
 
-                BmobQuery<DrugDataBean> query = new BmobQuery<DrugDataBean>();
+                BmobQuery<DrugUsingDataBean> query = new BmobQuery<DrugUsingDataBean>();
                 query.and(queries);
 
-                query.findObjects(new FindListener<DrugDataBean>() {
+                query.findObjects(new FindListener<DrugUsingDataBean>() {
                     @Override
-                    public void done(List<DrugDataBean> list, BmobException e) {
+                    public void done(List<DrugUsingDataBean> list, BmobException e) {
                         if(e==null){
+                            //获取用户名、药箱编号、药品名
+                            final DrugUsingDataBean mDrugUsingDataBean = new DrugUsingDataBean();
+                            mDrugUsingDataBean.setUserName(username);
+                            mDrugUsingDataBean.setBoxNumber(boxNum);
+                            mDrugUsingDataBean.setGenericName(genericName);
                             //获取用药提醒 -- 提醒开关、吃药数量、时间段（1~4） -- 6项
                             mDrugUsingDataBean.setRemindUsingDrug(mAlarm_Using.toString());
                             mDrugUsingDataBean.setUsingDrugNumber(String.valueOf(preSetNum_edit.getText()));
@@ -226,11 +277,12 @@ public class SetAlarmActivity extends Activity{
                             mDrugUsingDataBean.setDayLeft(String.valueOf(daysBuyAlarm_edit.getText()));
 //                            toast("查询成功：共"+object.size()+"条数据。");
                             if (list.size() > 0) {
-                                mDrugUsingDataBean.update(new UpdateListener() {
+                                mDrugUsingDataBean.update(list.get(0).getObjectId(), new UpdateListener() {
                                     @Override
                                     public void done(BmobException e) {
                                         if(e==null){
                                             Log.i("bmob","更新成功");
+                                            finish();
                                         }else{
                                             Log.i("bmob","更新失败："+e.getMessage()+","+e.getErrorCode());
                                         }
@@ -242,6 +294,7 @@ public class SetAlarmActivity extends Activity{
                                     public void done(String s, BmobException e) {
                                         if(e==null){
                                             Log.i("bmob","保存成功！");
+                                            finish();
                                         }else{
                                             Log.i("bmob","保存失败："+e.getMessage()+","+e.getErrorCode());
                                         }

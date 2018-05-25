@@ -53,7 +53,7 @@ public class AddDrugHandyActivity extends Activity {
         final String boxNum = getIntent().getStringExtra("drug_boxNum"); //当前药箱 boxNum
         final String num = boxNum;
 
-        Toast.makeText(getApplicationContext(), "当前所属药箱： "+num + "\n当前用户："+username, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getApplicationContext(), "当前所属药箱： "+num + "\n当前用户："+username, Toast.LENGTH_SHORT).show();
 
         mBackADHIV = findViewById(R.id.id_imageView_back_addDrugHandy);
         mSaveSetADHTV = findViewById(R.id.id_textView_saveInfo_addDrugHandy);
@@ -63,6 +63,7 @@ public class AddDrugHandyActivity extends Activity {
         mBackADHIV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), DrugBoxActivity.class).putExtra("DrugBoxNum", num));
                 finish();
             }
         });

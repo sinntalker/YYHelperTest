@@ -122,24 +122,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
             }else {
                 Toast.makeText(getContext(), "请输入药品名称", Toast.LENGTH_LONG).show();
             }
-            //根据用户名查询数据
-//            BmobQuery<DrugsBean> query = new BmobQuery<DrugsBean>();
-//            //查询playerName叫“比目”的数据
-//            query.addWhereEqualTo("genericName", search_str);
-//            //返回50条数据，如果不加上这条语句，默认返回10条数据
-//            query.setLimit(50);
-//            //执行查询方法
-//            query.findObjects(new FindListener<DrugsBean>() {
-//                @Override
-//                public void done(List<DrugsBean> object, BmobException e) {
-//                    if(e==null){
-//                        Toast.makeText(getContext(), "查询成功：共"+object.size()+"条数据。", Toast.LENGTH_LONG).show();
-//                    }else{
-//                        Log.i("bmob","失败："+e.getMessage()+","+e.getErrorCode());
-//                        Toast.makeText(getContext(), "查询失败："+e.getMessage(), Toast.LENGTH_LONG).show();
-//                    }
-//                }
-//            });
         }
     }
 }

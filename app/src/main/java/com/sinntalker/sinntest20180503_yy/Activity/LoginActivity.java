@@ -136,7 +136,7 @@ public class LoginActivity extends Activity {
                                 LoginActivity.this.finish();
                             }else {
                                 Toast.makeText(getApplicationContext(), "登陆失败", Toast.LENGTH_SHORT).show();
-
+                                Log.i("login", "error:=" + e.getErrorCode());
                                 //如果登陆失败，将账号输入框和密码输入框清空
                                 mUserNameET.setText("");
                                 mPasswordET.setText("");
