@@ -42,8 +42,18 @@ public class DrugDetailsActivity extends Activity {
         final TextView adverseReactions_textView = (TextView) findViewById(R.id.drug_adverseReactions_textView);
         final TextView taboo_textView = (TextView) findViewById(R.id.drug_taboo_textView);
         final TextView precautions_textView = (TextView) findViewById(R.id.drug_precautions_textView);
-        final TextView packingSpecifications_textView = (TextView) findViewById(R.id.drug_packingSpecifications_textView);
         final TextView traits_textView = (TextView) findViewById(R.id.drug_traits_textView);
+        final TextView ingredients_textView = (TextView) findViewById(R.id.drug_ingredients_textView);
+        final TextView interaction_textView = (TextView) findViewById(R.id.drug_interaction_textView);
+        final TextView clinicalTrials_textView = (TextView) findViewById(R.id.drug_clinicalTrials_textView);
+        final TextView tResearch_textView = (TextView) findViewById(R.id.drug_tResearch_textView);
+        final TextView approvalNumber_textView = (TextView) findViewById(R.id.drug_approvalNumber_textView);
+        final TextView manufacturer_textView = (TextView) findViewById(R.id.drug_manufacturer_textView);
+        final TextView classification_textView = (TextView) findViewById(R.id.drug_classification_textView);
+
+        final TextView packingSpecifications_textView = (TextView) findViewById(R.id.drug_packingSpecifications_textView);
+        final TextView productionDate_textView = (TextView) findViewById(R.id.drug_productionDate_textView);
+        final TextView drugNumber_textView = (TextView) findViewById(R.id.drug_drugNumber_textView);
         final TextView validityPeriod_textView = (TextView) findViewById(R.id.drug_validityPeriod_textView);
         final TextView other_textView = (TextView) findViewById(R.id.drug_other_textView);
 
@@ -81,10 +91,50 @@ public class DrugDetailsActivity extends Activity {
                         adverseReactions_textView.setText(object.get(i).getAdverseReactions());
                         taboo_textView.setText(object.get(i).getTaboo());
                         precautions_textView.setText(object.get(i).getPrecautions());
-                        packingSpecifications_textView.setText(object.get(i).getPackingS());
                         traits_textView.setText(object.get(i).getTraits());
-                        validityPeriod_textView.setText(object.get(i).getValidityPeriod());
-                        other_textView.setText(object.get(i).getOther());
+                        ingredients_textView.setText(object.get(i).getIngredients());
+                        interaction_textView.setText(object.get(i).getInteraction());
+                        clinicalTrials_textView.setText(object.get(i).getClinicalTrials());
+                        tResearch_textView.setText(object.get(i).getTResearch());
+                        approvalNumber_textView.setText(object.get(i).getApprovalNumber());
+                        manufacturer_textView.setText(object.get(i).getManufacturer());
+                        classification_textView.setText(object.get(i).getClassification());
+                    }
+                }else{
+                    Log.i("bmob","失败："+e.getMessage()+","+e.getErrorCode());
+                }
+            }
+        });
+
+        //查询条件1 用户名
+        BmobQuery<DrugDataBean> query_eq4 = new BmobQuery<DrugDataBean>();
+        query_eq4.addWhereEqualTo("userName", username);
+        //查询条件2 药箱编号
+        BmobQuery<DrugDataBean> query_eq5 = new BmobQuery<DrugDataBean>();
+        query_eq5.addWhereEqualTo("boxNumber", boxNum);
+        //查询条件3 药品名称
+        BmobQuery<DrugDataBean> query_eq6 = new BmobQuery<DrugDataBean>();
+        query_eq6.addWhereEqualTo("genericName", genericName);
+
+        //最后组装完整的and条件
+        List<BmobQuery<DrugDataBean>> queries2 = new ArrayList<BmobQuery<DrugDataBean>>();
+        queries2.add(query_eq4);
+        queries2.add(query_eq5);
+        queries2.add(query_eq6);
+
+        BmobQuery<DrugDataBean> query2 = new BmobQuery<DrugDataBean>();
+        query2.and(queries2);
+        query2.findObjects(new FindListener<DrugDataBean>() {
+            @Override
+            public void done(List<DrugDataBean> list, BmobException e) {
+                if(e==null){
+//                    Toast.makeText(getApplicationContext(), "当前用户的医药库中包含该种药品共："+object.size()+"种。", Toast.LENGTH_LONG).show();
+                    for (int i = 0; i < list.size(); i ++) {
+                        packingSpecifications_textView.setText(list.get(i).getPackingS());
+                        validityPeriod_textView.setText(list.get(i).getValidityPeriod());
+                        other_textView.setText(list.get(i).getOther());
+                        productionDate_textView.setText(list.get(i).getProductionDate());
+                        drugNumber_textView.setText(list.get(i).getDrugNumber());
                     }
                 }else{
                     Log.i("bmob","失败："+e.getMessage()+","+e.getErrorCode());
