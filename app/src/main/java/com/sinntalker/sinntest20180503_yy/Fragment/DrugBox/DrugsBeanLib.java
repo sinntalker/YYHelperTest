@@ -27,7 +27,7 @@ public class DrugsBeanLib extends BmobObject{
     String productionDate; //生产日期         15
     String validityPeriod;  //有效期          16
     String packingS;  //包装规格 17
-    String drugNumber; //药品数量              18
+//    String drugNumber; //药品数量              18
     String other;  //其他                      19
     String Barcode; //条形码
 
@@ -67,8 +67,8 @@ public class DrugsBeanLib extends BmobObject{
     public void setValidityPeriod(String validityPeriod) { this.validityPeriod = validityPeriod; }
     public String getPackingS() { return packingS; }
     public void setPackingS(String packingS) { this.packingS = packingS; }
-    public String getDrugNumber() { return drugNumber; }
-    public void setDrugNumber(String drugNumber) { this.drugNumber = drugNumber; }
+//    public String getDrugNumber() { return drugNumber; }
+//    public void setDrugNumber(String drugNumber) { this.drugNumber = drugNumber; }
     public String getOther() { return other; }
     public void setOther(String other) { this.other = other; }
 

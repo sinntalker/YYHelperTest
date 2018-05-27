@@ -137,7 +137,8 @@
         <activity android:name=".Fragment.health.StepCounter.WalkPlanSetActivity" />
         <activity android:name=".Fragment.health.BloodPressure.AddDataBloodPressureActivity" />
         <activity android:name=".Fragment.health.BloodSugar.AddDataBloodSugarActivity" />
-        <activity android:name=".Fragment.health.Weight.AddDataWeightActivity"></activity>
+        <activity android:name=".Fragment.health.Weight.AddDataWeightActivity" />
+        <activity android:name=".Fragment.DrugBox.PublicDrugDetailActivity"></activity>
     </application>
 
 </manifest>

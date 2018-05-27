@@ -165,8 +165,9 @@ public class AddDrugScanActivity extends Activity {
                                     viewHolder.drugInfo_image.setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View v) {
-                                            Toast.makeText(getApplicationContext(), "设置提醒", Toast.LENGTH_LONG).show();
+//                                            Toast.makeText(getApplicationContext(), "设置提醒", Toast.LENGTH_LONG).show();
                                             Log.i("bmob", drugName[position] + " 药品详情");
+                                            startActivity(new Intent(getApplicationContext(), PublicDrugDetailActivity.class).putExtra("drug_genericName", drugName[position]));
                                         }
                                     });
                                     return convertView;
