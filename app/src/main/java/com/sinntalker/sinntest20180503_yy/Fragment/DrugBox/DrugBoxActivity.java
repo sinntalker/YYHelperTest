@@ -76,16 +76,7 @@ public class DrugBoxActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(DrugBoxActivity.this, "扫描药品条形码", Toast.LENGTH_LONG).show();
-//                startActivity(new Intent(getApplicationContext(), AddDrugScanActivity.class));
-//                IntentIntegrator integrator = new IntentIntegrator(DrugBoxActivity.this);
-//                // 设置要扫描的条码类型，ONE_D_CODE_TYPES：一维码，QR_CODE_TYPES-二维码
-//                integrator.setDesiredBarcodeFormats(IntentIntegrator.ONE_D_CODE_TYPES);
-//                integrator.setCaptureActivity(ScanActivity.class);
-//                integrator.setPrompt("请扫描"); //底部的提示文字，设为""可以置空
-//                integrator.setCameraId(0); //前置或者后置摄像头
-//                integrator.setBeepEnabled(false); //扫描成功的「哔哔」声，默认开启
-//                integrator.setBarcodeImageEnabled(true);
-//                integrator.initiateScan();
+                startActivity(new Intent(getApplicationContext(), AddDrugScanActivity.class));
             }
         });
 
@@ -217,22 +208,6 @@ public class DrugBoxActivity extends Activity {
                 }
             }
         });
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-        if(result != null) {
-            if(result.getContents() == null) {
-                Toast.makeText(this, "扫码取消！", Toast.LENGTH_LONG).show();
-            } else {
-                Toast.makeText(this, "扫描成功，条码值: " + result.getContents(), Toast.LENGTH_LONG).show();
-                startActivity(new Intent(getApplicationContext(), AddDrugScanActivity.class).putExtra("ScanResult", result.getContents()));
-//                withdrawResult.setText(result.getContents());
-            }
-        } else {
-            super.onActivityResult(requestCode, resultCode, data);
-        }
     }
 
 }
