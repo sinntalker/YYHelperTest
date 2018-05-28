@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,18 +12,21 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.zxing.integration.android.IntentIntegrator;
-import com.google.zxing.integration.android.IntentResult;
-import com.sinntalker.sinntest20180503_yy.AllUserBean;
+import com.sinntalker.sinntest20180503_yy.Fragment.health.BloodPressure.BloodPressureData;
+import com.sinntalker.sinntest20180503_yy.Fragment.health.StepCounter.CommonAdapter;
+import com.sinntalker.sinntest20180503_yy.Fragment.health.StepCounter.CommonViewHolder;
 import com.sinntalker.sinntest20180503_yy.R;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
@@ -31,105 +35,118 @@ import cn.bmob.v3.listener.FindListener;
 
 public class DrugBoxActivity extends Activity {
 
-    private ImageView mBackDBIV;
-    private TextView scan;
-    private TextView manualAddDrug;
-    private TextView mDrugBoxNumTV;
-    private TextView mDrugNumShowTV;
+    //声明控件
+    ImageView mBackDBAIV; //返回
+    TextView mTitleDBATV; //标题-- 药箱X
+    ListView mDrugListDBALV; //药箱中药品列表
+    TextView mCountDrugDBATV; //药箱中所有药品总数显示 :当前药箱中共有X种药品
+    TextView mScanAddDrugDBABtn; //扫码添加药品
+    TextView mHandyAddDrugDBABtn; //手动添加药品
 
-    String num;
+    String strDrugBoxNum; //当前药箱编号 -- 由Intent传递
+    String strUserName; //当前用户名称，由BmobUser获取
+    String [] strDrugName; //药品名称字符串数组
+    String [] strDrugDosage; //药品用法用量数组
+    int drugCount; //当前药箱中药品总数
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);//去掉标题栏
-        setContentView(R.layout.activity_drug_box);
+        setContentView(R.layout.activity_drug_box); //对应布局
 
-        mBackDBIV = findViewById(R.id.backToHealth_tools_image);
-        scan = findViewById(R.id.scan_textView);
-        manualAddDrug = findViewById(R.id.manualAdd_textView);
-        mDrugBoxNumTV = findViewById(R.id.drugBoxNum_textView);
-        mDrugNumShowTV = findViewById(R.id.drugNumShow_textView);
+        //实例化控件
+        mBackDBAIV = findViewById(R.id.id_imageView_back_drugBox);
+        mTitleDBATV = findViewById(R.id.id_textView_drugBoxNum_drugBox);
+        mDrugListDBALV = findViewById(R.id.id_listView_drugList_drugBox);
+        mCountDrugDBATV = findViewById(R.id.id_textView_drugCount_drugBox);
+        mScanAddDrugDBABtn = findViewById(R.id.id_textView_scan_drugBox);
+        mHandyAddDrugDBABtn = findViewById(R.id.id_textView_handy_drugBox);
 
-        //获取当前药箱编号
-        num = getIntent().getStringExtra("DrugBoxNum");
-        mDrugBoxNumTV.setText("药箱 "+ num + " ");
+        //获取当前药箱编号数据
+        strDrugBoxNum = getIntent().getStringExtra("DrugBoxNum");
+        Log.i("bmob", "药箱activity：当前药箱编号："+strDrugBoxNum);
 
-        //--获取当前用户名，方便查找对应数据
-        final AllUserBean userBean = BmobUser.getCurrentUser(AllUserBean.class);
-        final String boxNum = num; //获取当前药箱编号
-        final String username = userBean.getUsername(); //获取当前用户名称
+        //设置活动窗口标题
+        mTitleDBATV.setText("药箱 " + strDrugBoxNum);
 
-        //初始化 获取 当前药箱药品种类和数目
-        initDrugBoxCurrent(username, boxNum);
-        mDrugNumShowTV.setText("当前共有 种药物");
-
-        //按键操作
-        mBackDBIV.setOnClickListener(new View.OnClickListener() {
+        //扫描条形码添加药品 -- 打开对应的窗口、并传递数据，关闭当前窗口，以便于对应动作完成后能够自动刷新当前窗口数据
+        mScanAddDrugDBABtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.i("bmob", "药箱activity：点击了扫一扫按键。");
+                startActivity(new Intent(DrugBoxActivity.this, AddDrugScanActivity.class).putExtra("DrugBoxNum", strDrugBoxNum));
                 finish();
             }
         });
 
-        scan.setOnClickListener(new View.OnClickListener() {
+        //手动添加药品 -- 打开对应的窗口、并传递数据，关闭当前窗口，以便于对应动作完成后能够自动刷新当前窗口数据
+        mHandyAddDrugDBABtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(DrugBoxActivity.this, "扫描药品条形码", Toast.LENGTH_LONG).show();
-                startActivity(new Intent(getApplicationContext(), AddDrugScanActivity.class));
-            }
-        });
-
-        manualAddDrug.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(DrugBoxActivity.this, "手动添加药品", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(getApplicationContext(), AddDrugHandyActivity.class);
-                intent.putExtra("drug_user", username);
-                intent.putExtra("drug_boxNum", boxNum);
-                getApplicationContext().startActivity(intent);
+                Log.i("bmob", "药箱activity：点击了手动添加按键。");
+                startActivity(new Intent(DrugBoxActivity.this, AddDrugHandyActivity.class).putExtra("DrugBoxNum", strDrugBoxNum));
                 finish();
             }
         });
+
+        //返回 -- 回退到MainActivity --> HomeFragment
+        mBackDBAIV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i("bmob", "药箱activity：点击了返回按键。");
+                finish();
+            }
+        });
+
+        //向服务器请求数据
+        //请求字符串： 当前用户、当前药箱
+        //返回数据： 对应药品名称
+        BmobUser mCurrentUser = BmobUser.getCurrentUser();
+        strUserName = mCurrentUser.getUsername();
+        Log.i("bmob", "DrugBoxActivity:当前用户：" + mCurrentUser.toString());
+        Log.i("bmob", "DrugBoxActivity:当前用户名称：" + strUserName);
+
+        RequestDrugListDataBmob(strUserName, strDrugBoxNum);
 
     }
 
-    public void initDrugBoxCurrent(final String username, final String boxNum) {
-        //获取药品数据
+    public void RequestDrugListDataBmob(String username, String drugBoxNum) {
+        //查询条件一：用户名称
+        BmobQuery<DrugDataBean> queryUserName = new BmobQuery<DrugDataBean>();
+        queryUserName.addWhereEqualTo("userName",username);
 
-        //根据用户名和药箱编号查询数据
-        //查询条件1 用户名
-        BmobQuery<DrugDataBean> query_eq1 = new BmobQuery<DrugDataBean>();
-        query_eq1.addWhereEqualTo("userName", username);
-        //查询条件2 药箱编号
-        BmobQuery<DrugDataBean> query_eq2 = new BmobQuery<DrugDataBean>();
-        query_eq2.addWhereEqualTo("boxNumber", boxNum);
+        //查询条件二：药箱编号
+        BmobQuery<DrugDataBean> queryDrugBoxNum = new BmobQuery<DrugDataBean>();
+        queryDrugBoxNum.addWhereEqualTo("boxNumber",drugBoxNum);
 
-        //最后组装完整的and条件
-        List<BmobQuery<DrugDataBean>> queries = new ArrayList<BmobQuery<DrugDataBean>>();
-        queries.add(query_eq1);
-        queries.add(query_eq2);
+        //最后查询时完整的条件
+        List<BmobQuery<DrugDataBean>> allQueries = new ArrayList<BmobQuery<DrugDataBean>>();
+        allQueries.add(queryUserName);
+        allQueries.add(queryDrugBoxNum);
 
+        //查询
         BmobQuery<DrugDataBean> query = new BmobQuery<DrugDataBean>();
-        query.and(queries);
-        //返回50条数据，如果不加上这条语句，默认返回10条数据
-        query.setLimit(10);
-        //执行查询方法
+        query.and(allQueries);
         query.findObjects(new FindListener<DrugDataBean>() {
             @Override
             public void done(List<DrugDataBean> object, BmobException e) {
-                if(e==null){
-//                    Toast.makeText(getApplicationContext(), "查询成功：共"+object.size()+"条数据。", Toast.LENGTH_LONG).show();
-
-                    mDrugNumShowTV.setText("当前共有 " + object.size() + " 种药物");
-
-                    final String [] drugName = new String[object.size()];
-                    final String [] drugDosage = new String[object.size()];
-
+                if (e == null) {
+                    Log.i("bmob", "DrugBoxActivity:查询药箱数据成功，共返回 " + object.size() + " 条数据。");
+                    //获取药品名称
+                    strDrugName = new String [object.size()];
+                    strDrugDosage = new String[object.size()];
                     for (int i = 0; i < object.size(); i ++) {
-                        drugName[i] = object.get(i).getGenericName(); //获取药品名称
-                        drugDosage[i] = object.get(i).getDosage(); //获取药品用法用量
+                        strDrugName[i] = object.get(i).getGenericName();
+                        strDrugDosage[i] = object.get(i).getDosage();
+                        Log.i("bmob", "DrugBoxActivity:第 "+ i + " 条数据： " + strDrugName[i]);
                     }
+
+                    Log.i("bmob", "DrugBoxActivity:提取数据结束");
+
+                    drugCount = object.size();
+
+                    mCountDrugDBATV.setText("当前共有 " + drugCount + " 种药品");
 
                     class DrugListAdapter extends BaseAdapter {
                         private Context context ;
@@ -139,12 +156,12 @@ public class DrugBoxActivity extends Activity {
 
                         @Override
                         public int getCount() {
-                            return drugName.length;
+                            return strDrugName.length;
                         }
 
                         @Override
                         public Object getItem(int position) {
-                            return drugName[position];
+                            return strDrugName[position];
                         }
 
                         @Override
@@ -155,59 +172,66 @@ public class DrugBoxActivity extends Activity {
 
                         @Override
                         public View getView(final int position, View convertView, ViewGroup parent) {
-//                            LayoutInflater inflater = LayoutInflater.from(context);
-//                            convertView = inflater.inflate(R.layout.listview_item_drug, null);//实例化一个布局文件
                             // 创建布局
-                            convertView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.listview_item_drug, parent, false);
+                            convertView = LayoutInflater.from(context).inflate(R.layout.listview_item_drug, parent, false);
                             viewHolder = new ViewHolder();
-                            viewHolder.drugName_text = (TextView) convertView.findViewById(R.id.drug_name_textView);
-                            viewHolder.drugInfo_image = (ImageView) convertView.findViewById(R.id.info_drug_image);
-                            viewHolder.setAlarm_btn = (Button) convertView.findViewById(R.id.settingAlarm_button);
-                            viewHolder.drugName_text.setText(drugName[position]);
-                            viewHolder.drugInfo_image.setOnClickListener(new View.OnClickListener() {
+                            viewHolder.drugName = convertView.findViewById(R.id.drug_name_textView);
+                            viewHolder.drugInfo = convertView.findViewById(R.id.info_drug_image);
+                            viewHolder.drugSetAlarm = convertView.findViewById(R.id.settingAlarm_button);
+
+                            viewHolder.drugName.setText(strDrugName[position]);
+
+                            viewHolder.drugInfo.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    Toast.makeText(getApplicationContext(), "药品信息", Toast.LENGTH_LONG).show();
-                                    Intent intent = new Intent(getApplicationContext(), DrugDetailsActivity.class); //打开药品详细信息页面
-                                    intent.putExtra("drug_user", username);//当前用户 username
-                                    intent.putExtra("drug_boxNum", boxNum);//当前药箱 boxNum
-                                    intent.putExtra("drug_genericName", drugName[position]);//药品通用名称 genericName
-                                    getApplicationContext().startActivity(intent);
+                                    Log.i("bmob","DrugBoxActivity：药品详情：" + strDrugName[position]);
+//                                    Intent intent = new Intent(DrugBoxActivity.this, DrugDetailsActivity.class); //打开药品详细信息页面
+//                                    intent.putExtra("drug_boxNum", strDrugBoxNum);//当前药箱 boxNum
+//                                    intent.putExtra("drug_genericName", strDrugName[position]);//药品通用名称 genericName
+//                                    getApplicationContext().startActivity(intent);
+                                    startActivity(new Intent(DrugBoxActivity.this, DrugDetailsActivity.class)
+                                        .putExtra("drug_boxNum", strDrugBoxNum)
+                                        .putExtra("drug_genericName", strDrugName[position])
+                                    );
+                                    finish();
                                 }
                             });
-                            viewHolder.setAlarm_btn.setOnClickListener(new View.OnClickListener() {
+
+                            viewHolder.drugSetAlarm.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    Toast.makeText(getApplicationContext(), "设置提醒", Toast.LENGTH_LONG).show();
-                                    Intent intent = new Intent(getApplicationContext(), SetAlarmActivity.class); //打开设置提醒页面
-//                                    intent.putExtra("drug_user", phone);//传送数据 药品所有者 -- phone
-                                    intent.putExtra("drug_user", username);//当前用户 username
-                                    intent.putExtra("drug_boxNum", boxNum);//当前药箱 boxNum
-                                    intent.putExtra("drug_genericName", drugName[position]);//药品通用名称 genericName
-                                    intent.putExtra("drug_dosage", drugDosage[position]); //传送数据 药品用法用量 dosage
-                                    getApplicationContext().startActivity(intent);
+                                    Log.i("bmob","DrugBoxActivity：药品设置提醒：" + strDrugName[position]);
+//                                    Intent intent = new Intent(DrugBoxActivity.this, SetAlarmActivity.class); //打开药品设置提醒页面
+//                                    intent.putExtra("drug_boxNum", strDrugBoxNum);//当前药箱 boxNum
+//                                    intent.putExtra("drug_genericName", strDrugName[position]);//药品通用名称 genericName
+//                                    intent.putExtra("drug_dosage", strDrugDosage[position]);//药品通用名称 genericName
+//                                    getApplicationContext().startActivity(intent);
+                                    startActivity(new Intent(DrugBoxActivity.this, SetAlarmActivity.class)
+                                        .putExtra("drug_boxNum", strDrugBoxNum)
+                                        .putExtra("drug_genericName", strDrugName[position])
+                                        .putExtra("drug_dosage", strDrugDosage[position])
+                                    );
+                                    finish();
                                 }
                             });
+
                             return convertView;
                         }
 
                         class ViewHolder{
-                            TextView drugName_text; //药品名称
-                            ImageView drugInfo_image; //药品详细信息
-                            Button setAlarm_btn; //设置提醒按键
+                            TextView drugName;  //List 药品名称
+                            ImageView drugInfo; //List 药品详情
+                            Button drugSetAlarm; //List 药品设置提醒
                         }
                     }
-                    //通过ID获取listView
-                    ListView listView = (ListView) findViewById(R.id.drugs_listView);
 
                     //设置listView的Adapter
-                    listView.setAdapter(new DrugListAdapter(getApplicationContext()));
-                }else{
-                    Log.i("bmob","失败："+e.getMessage()+","+e.getErrorCode());
-                    Toast.makeText(getApplicationContext(), "查询失败："+e.getMessage(), Toast.LENGTH_LONG).show();
+                    mDrugListDBALV.setAdapter(new DrugListAdapter(DrugBoxActivity.this));
+
+                } else {
+                    Log.i("bmob", "DrugBoxActivity:查询药箱数据失败，错误原因：" + e.getErrorCode());
                 }
             }
         });
     }
-
 }

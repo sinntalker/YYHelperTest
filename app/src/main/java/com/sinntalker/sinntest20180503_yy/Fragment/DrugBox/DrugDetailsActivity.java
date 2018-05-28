@@ -1,6 +1,7 @@
 package com.sinntalker.sinntest20180503_yy.Fragment.DrugBox;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -15,12 +16,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
 
 public class DrugDetailsActivity extends Activity {
 
     private ImageView imageView;
+
+    String strUserName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,9 +34,14 @@ public class DrugDetailsActivity extends Activity {
 
         imageView = findViewById(R.id.id_imageView_back_drugDetail);
 
+        BmobUser mCurrentUser = BmobUser.getCurrentUser();
+        strUserName = mCurrentUser.getUsername();
+        Log.i("bmob", "DrugBoxActivity:当前用户：" + mCurrentUser.toString());
+        Log.i("bmob", "DrugBoxActivity:当前用户名称：" + strUserName);
+
         // 从Intent获取数据
-        String username = getIntent().getStringExtra("drug_user"); //当前用户 username
-        String boxNum = getIntent().getStringExtra("drug_boxNum"); //当前药箱 boxNum
+//        String username = getIntent().getStringExtra("drug_user"); //当前用户 username
+        final String boxNum = getIntent().getStringExtra("drug_boxNum"); //当前药箱 boxNum
         final String genericName = getIntent().getStringExtra("drug_genericName");//药品通用名称 genericName
 
         // 获取特定的视图
@@ -63,7 +72,7 @@ public class DrugDetailsActivity extends Activity {
         //根据用户名和药箱编号和药品名称查询数据
         //查询条件1 用户名
         BmobQuery<DrugCommonDataBean> query_eq1 = new BmobQuery<DrugCommonDataBean>();
-        query_eq1.addWhereEqualTo("userName", username);
+        query_eq1.addWhereEqualTo("userName", strUserName);
         //查询条件2 药箱编号
         BmobQuery<DrugCommonDataBean> query_eq2 = new BmobQuery<DrugCommonDataBean>();
         query_eq2.addWhereEqualTo("boxNumber", boxNum);
@@ -108,7 +117,7 @@ public class DrugDetailsActivity extends Activity {
 
         //查询条件1 用户名
         BmobQuery<DrugDataBean> query_eq4 = new BmobQuery<DrugDataBean>();
-        query_eq4.addWhereEqualTo("userName", username);
+        query_eq4.addWhereEqualTo("userName", strUserName);
         //查询条件2 药箱编号
         BmobQuery<DrugDataBean> query_eq5 = new BmobQuery<DrugDataBean>();
         query_eq5.addWhereEqualTo("boxNumber", boxNum);
@@ -145,6 +154,7 @@ public class DrugDetailsActivity extends Activity {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                startActivity(new Intent(DrugDetailsActivity.this, DrugBoxActivity.class).putExtra("DrugBoxNum", boxNum));
                 finish();
             }
         });

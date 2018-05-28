@@ -13,17 +13,12 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.orhanobut.logger.Logger;
-import com.rey.material.widget.LinearLayout;
-import com.sinntalker.sinntest20180503_yy.AllUserBean;
-import com.sinntalker.sinntest20180503_yy.Fragment.DrugBox.DrugBoxActivity;
 import com.sinntalker.sinntest20180503_yy.Fragment.DrugBox.DrugDataBean;
 import com.sinntalker.sinntest20180503_yy.Fragment.health.StepCounter.CommonAdapter;
 import com.sinntalker.sinntest20180503_yy.Fragment.health.StepCounter.CommonViewHolder;
 import com.sinntalker.sinntest20180503_yy.Fragment.health.StepCounter.DbUtils;
-import com.sinntalker.sinntest20180503_yy.Fragment.health.Weight.WeightData;
 import com.sinntalker.sinntest20180503_yy.R;
 
 import java.util.ArrayList;
@@ -152,7 +147,7 @@ public class HomeSearchActivity extends Activity {
                                         @Override
                                         public void onClick(View v) {
 //                                    Toast.makeText(getApplicationContext(), "药品名称： " + mHomeSearchData.getDrugName()+ "所在药箱： " + mHomeSearchData.getDrugBoxNum(), Toast.LENGTH_SHORT).show();
-                                            startActivity(new Intent(getApplicationContext(), DrugBoxActivity.class).putExtra("DrugBoxNum", mHomeSearchData.getDrugBoxNum()));
+//                                            startActivity(new Intent(getApplicationContext(), DrugBoxActivity.class).putExtra("DrugBoxNum", mHomeSearchData.getDrugBoxNum()));
                                         }
                                     });
                                 }
@@ -237,7 +232,7 @@ public class HomeSearchActivity extends Activity {
                                 @Override
                                 public void onClick(View v) {
 //                                    Toast.makeText(getApplicationContext(), "药品名称： " + mHomeSearchData.getDrugName()+ "所在药箱： " + mHomeSearchData.getDrugBoxNum(), Toast.LENGTH_SHORT).show();
-                                    startActivity(new Intent(getApplicationContext(), DrugBoxActivity.class).putExtra("DrugBoxNum", mHomeSearchData.getDrugBoxNum()));
+//                                    startActivity(new Intent(getApplicationContext(), DrugBoxActivity.class).putExtra("DrugBoxNum", mHomeSearchData.getDrugBoxNum()));
                                 }
                             });
 //                            LinearLayout linearLayout = CommonViewHolder.get(item, R.id.id_layout_linearLayout_search_results);

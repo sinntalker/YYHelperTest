@@ -2,6 +2,7 @@ package com.sinntalker.sinntest20180503_yy.Fragment.DrugBox;
 
 import android.app.Activity;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -27,6 +28,7 @@ import java.util.List;
 import java.util.Locale;
 
 import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.SaveListener;
@@ -50,11 +52,18 @@ public class SetAlarmActivity extends Activity{
     Boolean mAlarm_Using = false;
     Boolean mAlarm_Buy = false;
 
+    String strUserName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);//去掉标题栏
         setContentView(R.layout.activity_set_alarm);
+
+        BmobUser mCurrentUser = BmobUser.getCurrentUser();
+        strUserName = mCurrentUser.getUsername();
+        Log.i("bmob", "DrugBoxActivity:当前用户：" + mCurrentUser.toString());
+        Log.i("bmob", "DrugBoxActivity:当前用户名称：" + strUserName);
 
         //实例化
         mBackSAIV = findViewById(R.id.id_imageView_back_setAlarm);
@@ -71,7 +80,6 @@ public class SetAlarmActivity extends Activity{
         mSaveSetSATV = findViewById(R.id.id_textView_saveSet_setAlarm);
 
         // 从Intent获取数据
-        final String username = getIntent().getStringExtra("drug_user"); //当前用户 username
         final String boxNum = getIntent().getStringExtra("drug_boxNum"); //当前药箱 boxNum
         final String genericName = getIntent().getStringExtra("drug_genericName");//药品通用名称 genericName
         String dosage = getIntent().getStringExtra("drug_dosage");//用法用量 dosage
@@ -97,7 +105,7 @@ public class SetAlarmActivity extends Activity{
         //根据用户名和药箱编号和药品名称查询数据
         //查询条件1 用户名
         BmobQuery<DrugUsingDataBean> query_eq1 = new BmobQuery<DrugUsingDataBean>();
-        query_eq1.addWhereEqualTo("userName", username);
+        query_eq1.addWhereEqualTo("userName", strUserName);
         //查询条件2 药箱编号
         BmobQuery<DrugUsingDataBean> query_eq2 = new BmobQuery<DrugUsingDataBean>();
         query_eq2.addWhereEqualTo("boxNumber", boxNum);
@@ -150,6 +158,7 @@ public class SetAlarmActivity extends Activity{
         mBackSAIV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                startActivity(new Intent(SetAlarmActivity.this, DrugBoxActivity.class).putExtra("DrugBoxNum", boxNum));
                 finish();
             }
         });
@@ -238,7 +247,7 @@ public class SetAlarmActivity extends Activity{
                 //根据用户名和药箱编号和药品名称在用药情况设置表中查询数据
                 //查询条件1 用户名
                 BmobQuery<DrugUsingDataBean> query_eq1 = new BmobQuery<DrugUsingDataBean>();
-                query_eq1.addWhereEqualTo("userName", username);
+                query_eq1.addWhereEqualTo("userName", strUserName);
                 //查询条件2 药箱编号
                 BmobQuery<DrugUsingDataBean> query_eq2 = new BmobQuery<DrugUsingDataBean>();
                 query_eq2.addWhereEqualTo("boxNumber", boxNum);
@@ -261,7 +270,7 @@ public class SetAlarmActivity extends Activity{
                         if(e==null){
                             //获取用户名、药箱编号、药品名
                             final DrugUsingDataBean mDrugUsingDataBean = new DrugUsingDataBean();
-                            mDrugUsingDataBean.setUserName(username);
+                            mDrugUsingDataBean.setUserName(strUserName);
                             mDrugUsingDataBean.setBoxNumber(boxNum);
                             mDrugUsingDataBean.setGenericName(genericName);
                             //获取用药提醒 -- 提醒开关、吃药数量、时间段（1~4） -- 6项
@@ -282,6 +291,7 @@ public class SetAlarmActivity extends Activity{
                                     public void done(BmobException e) {
                                         if(e==null){
                                             Log.i("bmob","更新成功");
+                                            startActivity(new Intent(SetAlarmActivity.this, DrugBoxActivity.class).putExtra("DrugBoxNum", boxNum));
                                             finish();
                                         }else{
                                             Log.i("bmob","更新失败："+e.getMessage()+","+e.getErrorCode());
@@ -294,6 +304,7 @@ public class SetAlarmActivity extends Activity{
                                     public void done(String s, BmobException e) {
                                         if(e==null){
                                             Log.i("bmob","保存成功！");
+                                            startActivity(new Intent(SetAlarmActivity.this, DrugBoxActivity.class).putExtra("DrugBoxNum", boxNum));
                                             finish();
                                         }else{
                                             Log.i("bmob","保存失败："+e.getMessage()+","+e.getErrorCode());
@@ -329,6 +340,5 @@ public class SetAlarmActivity extends Activity{
             }
         }, hour, minute, true).show();
     }
-
 
 }

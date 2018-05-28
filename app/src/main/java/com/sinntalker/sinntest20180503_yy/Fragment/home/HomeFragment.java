@@ -18,21 +18,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sinntalker.sinntest20180503_yy.AllUserBean;
-import com.sinntalker.sinntest20180503_yy.Common.StringUnits;
 import com.sinntalker.sinntest20180503_yy.Fragment.DrugBox.DrugBoxActivity;
-import com.sinntalker.sinntest20180503_yy.Fragment.DrugBox.DrugCommonDataBean;
-import com.sinntalker.sinntest20180503_yy.Fragment.DrugBox.DrugDataBean;
-import com.sinntalker.sinntest20180503_yy.Fragment.health.StepCounter.DbUtils;
-import com.sinntalker.sinntest20180503_yy.Fragment.health.Weight.WeightData;
 import com.sinntalker.sinntest20180503_yy.R;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
-import cn.bmob.v3.exception.BmobException;
-import cn.bmob.v3.listener.FindListener;
 
 
 /**
@@ -102,8 +91,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
                 convertView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(getContext(), "当前药箱编号："+textId[position], Toast.LENGTH_LONG).show();
+//                        Toast.makeText(getContext(), "当前药箱编号："+textId[position], Toast.LENGTH_LONG).show();
+                        Log.i("bmob","当前药箱编号："+textId[position]);
+                        //携带参数打开新的activity
                         startActivity(new Intent(getContext(), DrugBoxActivity.class).putExtra("DrugBoxNum", textId[position]));
+//                        startActivity(new Intent(getContext(), DrugBoxActivity.class).putExtra("DrugBoxNum", textId[position]));
                     }
                 });
 

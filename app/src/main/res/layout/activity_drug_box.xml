@@ -18,14 +18,14 @@
             android:background="#6495ED">
 
             <ImageView
-                android:id="@+id/backToHealth_tools_image"
+                android:id="@+id/id_imageView_back_drugBox"
                 android:layout_width="40dp"
                 android:layout_height="50dp"
                 android:layout_centerVertical="true"
                 android:src="@drawable/common_back"/>
 
             <TextView
-                android:id="@+id/drugBoxNum_textView"
+                android:id="@+id/id_textView_drugBoxNum_drugBox"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:padding="10dp"
@@ -40,10 +40,10 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="10dp"
-            android:layout_above="@id/scan_textView"/>
+            android:layout_above="@id/id_textView_scan_drugBox"/>
 
         <ListView
-            android:id="@+id/drugs_listView"
+            android:id="@+id/id_listView_drugList_drugBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1">
@@ -51,7 +51,7 @@
         </ListView>
 
         <TextView
-            android:id="@+id/drugNumShow_textView"
+            android:id="@+id/id_textView_drugCount_drugBox"
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:gravity="center"
@@ -65,10 +65,10 @@
         android:layout_width="match_parent"
         android:layout_height="5dp"
         android:background="#F0F0F0"
-        android:layout_above="@id/scan_textView"/>
+        android:layout_above="@id/id_textView_scan_drugBox"/>
 
     <TextView
-        android:id="@+id/scan_textView"
+        android:id="@+id/id_textView_scan_drugBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/view2"
@@ -84,10 +84,10 @@
         android:layout_width="match_parent"
         android:layout_height="5dp"
         android:background="#F0F0F0"
-        android:layout_above="@id/manualAdd_textView"/>
+        android:layout_above="@id/id_textView_handy_drugBox"/>
 
     <TextView
-        android:id="@+id/manualAdd_textView"
+        android:id="@+id/id_textView_handy_drugBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#6495ED"
