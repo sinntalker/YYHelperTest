@@ -69,7 +69,7 @@ public class HealthDocuActivity extends Activity implements View.OnClickListener
     @Override
     public void onClick(View v) {
         if(v == open_dosage_btn) {
-            Toast.makeText(getApplicationContext(), "开启药物", Toast.LENGTH_LONG).show();
+//            Toast.makeText(getApplicationContext(), "开启药物", Toast.LENGTH_LONG).show();
             startActivity(new Intent(getApplicationContext(), DrugUsingActivity.class));
         }
         if(v == open_bloodSuger_btn) {
@@ -81,7 +81,7 @@ public class HealthDocuActivity extends Activity implements View.OnClickListener
             startActivity(new Intent(getApplicationContext(), BloodPressureActivity.class));
         }
         if(v == open_weight_btn) {
-            Toast.makeText(getApplicationContext(), "开启称重功能", Toast.LENGTH_LONG).show();
+//            Toast.makeText(getApplicationContext(), "开启称重功能", Toast.LENGTH_LONG).show();
             startActivity(new Intent(getApplicationContext(), WeightActivity.class));
         }
         if(v == open_steps_btn) {

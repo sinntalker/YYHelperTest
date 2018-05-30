@@ -72,7 +72,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     @Override
     public void onClick(View v) {
         if(v == message_image) {
-            Toast.makeText(MainActivity.this, "消息提示", Toast.LENGTH_LONG).show();
+//            Toast.makeText(MainActivity.this, "消息提示", Toast.LENGTH_LONG).show();
             startActivity(new Intent(MainActivity.this, MessageActivity.class)); //打开通知消息界面
         }else {
             transaction = manager.beginTransaction();

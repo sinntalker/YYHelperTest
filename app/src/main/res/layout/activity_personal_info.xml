@@ -28,6 +28,7 @@
             android:textSize="18sp"/>
 
         <TextView
+            android:id="@+id/id_textView_savePersonInfo_personalInfo"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
@@ -68,9 +69,11 @@
                         android:gravity="center|left"/>
 
                     <EditText
+                        android:id="@+id/id_editText_nickName_personalInfo"
                         android:layout_width="wrap_content"
                         android:layout_height="50dp"
                         android:layout_weight="1"
+                        android:gravity="center|right"
                         android:imeOptions="actionDone"/>
                 </TableRow>
 
@@ -87,10 +90,11 @@
                         android:gravity="center|left"/>
 
                     <TextView
+                        android:id="@+id/id_textView_birthday_personalInfo"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:gravity="center|left"/>
+                        android:gravity="center|right"/>
                 </TableRow>
 
                 <View
@@ -111,11 +115,13 @@
                         android:layout_weight="1"
                         android:orientation="horizontal">
                         <RadioButton
+                            android:id="@+id/id_radioButton_male_personalInfo"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:text="男"/>
                         <RadioButton
+                            android:id="@+id/id_radioButton_female_personalInfo"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
@@ -136,10 +142,11 @@
                         android:gravity="center|left"/>
 
                     <TextView
+                        android:id="@+id/id_textView_area_personalInfo"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:gravity="center|left"/>
+                        android:gravity="center|right"/>
                 </TableRow>
 
                 <View
@@ -155,10 +162,11 @@
                         android:gravity="center|left"/>
 
                     <TextView
+                        android:id="@+id/id_textView_height_personalInfo"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:layout_weight="1"
-                        android:gravity="center|left"/>
+                        android:gravity="center|right"/>
                 </TableRow>
 
                 <View
@@ -179,11 +187,13 @@
                         android:layout_weight="1"
                         android:orientation="horizontal">
                         <RadioButton
+                            android:id="@+id/id_radioButton_idCard_personalInfo"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:text="身份证"/>
                         <RadioButton
+                            android:id="@+id/id_radioButton_passport_personalInfo"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
@@ -206,10 +216,11 @@
                         android:gravity="center|left"/>
 
                     <EditText
+                        android:id="@+id/id_editText_idNumber_personalInfo"
                         android:layout_width="wrap_content"
                         android:layout_height="50dp"
                         android:layout_weight="1"
-                        android:gravity="center|left"
+                        android:gravity="center|right"
                         android:imeOptions="actionDone"/>
                 </TableRow>
 
