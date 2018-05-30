@@ -74,7 +74,9 @@
                         android:layout_height="50dp"
                         android:layout_weight="1"
                         android:gravity="center|right"
-                        android:imeOptions="actionDone"/>
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:imeOptions="actionDone" />
                 </TableRow>
 
                 <View
@@ -221,6 +223,8 @@
                         android:layout_height="50dp"
                         android:layout_weight="1"
                         android:gravity="center|right"
+                        android:inputType="text"
+                        android:maxLines="1"
                         android:imeOptions="actionDone"/>
                 </TableRow>
 

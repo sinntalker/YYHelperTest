@@ -5,6 +5,10 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="Theme.AppCompat.Light.NoActionBar" parent="@style/Theme.AppCompat.Light">
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
     /**
     微信登录
     */
