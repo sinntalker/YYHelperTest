@@ -94,7 +94,7 @@ public class PersonalInfoActivity extends Activity {
                 if (e == null) {
                     Log.i("bmob", "查询成功，当前用户存在，开始获取用户信息");
                     for (int i = 0; i < object.size(); i ++) {
-                        mNickNamePIET.setText(object.get(i).getUserNick());
+                        mNickNamePIET.setText(object.get(i).getName());
                         mBirthDayPITV.setText(object.get(i).getBirth());
                         if (object.get(i).getSex().equals("男")) {
                             mMalePIRB.setChecked(true);
@@ -258,7 +258,7 @@ public class PersonalInfoActivity extends Activity {
                 strIDNumber = mIDCardNumberPIET.getText().toString().trim();
 
                 AllUserBean mUser = new AllUserBean();
-                mUser.setUserNick(strNickName);
+                mUser.setName(strNickName);
                 mUser.setBirth(strBirthDay);
                 mUser.setSex(strSex);
                 mUser.setArea(strArea);
@@ -271,6 +271,7 @@ public class PersonalInfoActivity extends Activity {
                         if(e==null){
                             Toast.makeText(PersonalInfoActivity.this, "个人信息更新成功！", Toast.LENGTH_SHORT).show();
                             Log.i("bmob","个人信息更新成功");
+                            finish();
                         }else{
                             Toast.makeText(PersonalInfoActivity.this, "个人信息更新失败，请稍后再试！", Toast.LENGTH_SHORT).show();
                             Log.i("bmob","个人信息更新失败："+e.getMessage()+","+e.getErrorCode());

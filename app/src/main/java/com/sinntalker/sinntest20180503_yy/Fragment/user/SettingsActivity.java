@@ -9,7 +9,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.sinntalker.sinntest20180503_yy.Activity.LoginActivity;
+import com.sinntalker.sinntest20180503_yy.Activity.MainActivity;
+import com.sinntalker.sinntest20180503_yy.Fragment.family.base.BaseActivity;
+import com.sinntalker.sinntest20180503_yy.Fragment.family.model.UserModel;
 import com.sinntalker.sinntest20180503_yy.R;
+
+import cn.bmob.newim.BmobIM;
 
 public class SettingsActivity extends Activity implements View.OnClickListener {
 
@@ -60,6 +66,11 @@ public class SettingsActivity extends Activity implements View.OnClickListener {
         }
         if(v == cancelUser_text) {
             Toast.makeText(getApplicationContext(), "注销", Toast.LENGTH_LONG).show();
+            UserModel.getInstance().logout();
+            //TODO 连接：3.2、退出登录需要断开与IM服务器的连接
+            BmobIM.getInstance().disConnect();
+            startActivity(new Intent(SettingsActivity.this, LoginActivity.class));
+            finish();
 //            showLogoutDialog(SettingActivity.this);
         }
     }

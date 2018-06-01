@@ -57,6 +57,8 @@ public class MessageDetailsActivity extends Activity {
             mMessageTypeMDTV.setText("添加消息");
             //向服务器请求信息
 
+
+
         }else if(Id == 4) {
             mMessageTypeMDTV.setText("系统消息");
             //向服务器请求信息

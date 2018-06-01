@@ -3,6 +3,8 @@ package com.sinntalker.sinntest20180503_yy;
 import android.content.Context;
 import android.widget.ImageView;
 
+import com.sinntalker.sinntest20180503_yy.Fragment.family.db.NewFriend;
+
 import java.net.IDN;
 
 import cn.bmob.v3.BmobUser;
@@ -12,6 +14,14 @@ import cn.bmob.v3.BmobUser;
  */
 
 public class AllUserBean extends BmobUser{
+
+    public AllUserBean(){}
+
+    public AllUserBean(NewFriend friend){
+        setObjectId(friend.getUid());
+        setUserNick(friend.getName());
+        setUserAvatar(friend.getAvatar());
+    }
 
     //通用 用户登陆方式 -- 手机号登陆、微博、QQ、微信登陆
     String snsType; //登陆方式 phone、weibo、 qq、 weixin
@@ -84,12 +94,19 @@ public class AllUserBean extends BmobUser{
     }
 
     //详细信息 包括 出生日期（birthday）、性别（sex）、所在地区（area）、身高（height）、证件类型（IDcardType）、证件号码（IDNumber）
+    String name; //用户名称
     String birth; //yyyy-MM-dd
     String sex; //男 0， 女 1
     String area; // 省-市-县/区
     String height;
     String IDCardType; //身份证 0， 护照 1
     String IDNumber;
+    public String getName() {
+        return this.name;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
     public String getBirth() {
         return this.birth;
     }

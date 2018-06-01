@@ -34,9 +34,9 @@ dependencies {
     api 'cn.bmob.android:bmob-sdk:3.5.5'
     //bmob-push：Bmob的推送包
     api 'cn.bmob.android:bmob-push:0.8'
-    //bmob-im：Bmob的即时通讯包，注意每个版本的im依赖特定版本的bmob-sdk，具体的依赖关系可查看下面注释[2]
-    api 'cn.bmob.android:bmob-im:2.0.5@aar'
-    api 'cn.bmob.android:bmob-sdk:3.4.7-aar'
+    //TODO 集成：1.2、配置IM SDK（bmob-im）版本和Data SDK（bmob-sdk）版本：特定版本的bmob-im依赖特定版本的bmob-sdk
+    implementation 'cn.bmob.android:bmob-im:2.1.0@aar'
+    implementation 'cn.bmob.android:bmob-sdk:3.6.1'
     implementation files('libs/open_sdk_r5990_lite.jar')
     api 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
     //扫描条形码和二维码
@@ -45,5 +45,20 @@ dependencies {
     implementation files('libs/lite-orm-1.7.0.jar')
     api 'com.orhanobut:logger:1.8'
     api 'org.apache.httpcomponents:httpclient-android:4.3.5.1'
-//    api 'com.android.support:appcompat-v7:26.1.0'
+    //    api 'com.android.support:appcompat-v7:26.1.0'
+    implementation files('libs/universal-image-loader-1.9.5.jar')
+
+    implementation 'com.orhanobut:logger:1.4'
+    implementation 'org.greenrobot:eventbus:3.0.0'
+
+    implementation 'com.jakewharton:butterknife:8.8.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+
+    //noinspection GradleCompatible
+    implementation 'com.android.support:appcompat-v7:25.3.0'
+    //noinspection GradleCompatible
+    implementation 'com.android.support:recyclerview-v7:25.3.0'
+
+    //汉字转拼音
+    implementation 'com.github.promeg:tinypinyin:1.0.0'
 }

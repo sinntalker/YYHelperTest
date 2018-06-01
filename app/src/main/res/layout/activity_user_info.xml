@@ -74,7 +74,6 @@
                 android:layout_margin="10dp"
                 android:text="xxxxx"
                 android:textSize="16sp"
-                android:textColor="#F0F0F0"
                 android:gravity="right"
                 android:paddingRight="20dp"/>
         </TableRow>
@@ -99,7 +98,6 @@
                 android:layout_margin="10dp"
                 android:text="xxxxx"
                 android:textSize="16sp"
-                android:textColor="#F0F0F0"
                 android:gravity="right"
                 android:paddingRight="20dp"/>
         </TableRow>
@@ -124,7 +122,6 @@
                 android:layout_margin="10dp"
                 android:text="xxxxx"
                 android:textSize="16sp"
-                android:textColor="#F0F0F0"
                 android:gravity="right"
                 android:paddingRight="20dp"/>
         </TableRow>
@@ -152,6 +149,5 @@
         </TableRow>
 
     </TableLayout>
-
 
 </LinearLayout>

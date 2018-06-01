@@ -87,6 +87,7 @@ public class RegisterActivity extends Activity {
                         userBean.setUserAvatar("");
                         userBean.setSignature("null");
                         //设置详细信息
+                        userBean.setName(phone);
                         userBean.setBirth("1990-01-01");
                         userBean.setSex("男");
                         userBean.setArea("北京市-东城区");

@@ -23,6 +23,17 @@
             android:text="添加亲友"
             android:layout_gravity="center"/>
 
+        <Button
+            android:id="@+id/id_button_newFriend_familyFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="新朋友"
+            android:gravity="center"
+            android:background="@drawable/edit_bg"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp" />
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"

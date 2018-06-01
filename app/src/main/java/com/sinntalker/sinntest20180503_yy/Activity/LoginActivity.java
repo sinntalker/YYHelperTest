@@ -79,7 +79,7 @@ public class LoginActivity extends Activity {
         setContentView(R.layout.activity_login);
 
         //Bmob 第一：默认初始化 -- 应用名称“ThirdLogin
-        Bmob.initialize(this, "e9572e950523fd526c4750e301ac444f");
+//        Bmob.initialize(this, "e9572e950523fd526c4750e301ac444f");
         //初始化微博SDK
         WbSdk.install(this,new AuthInfo(this, Constant.APP_KEY, Constant.REDIRECT_URL,
                 Constant.SCOPE));

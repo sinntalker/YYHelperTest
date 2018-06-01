@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Layout;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
@@ -12,6 +13,7 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.sinntalker.sinntest20180503_yy.Fragment.family.NewFriendActivity;
 import com.sinntalker.sinntest20180503_yy.R;
 
 public class MessageActivity extends Activity implements View.OnClickListener{
@@ -87,8 +89,10 @@ public class MessageActivity extends Activity implements View.OnClickListener{
             startActivity(new Intent(getApplicationContext(), MessageDetailsActivity.class).putExtra("MessageType", 2));
         }
         if (view == mAddMemberMessageTR) {
+            Log.i("bmob","添加消息");
             Toast.makeText(getApplicationContext(), "添加消息", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(getApplicationContext(), MessageDetailsActivity.class).putExtra("MessageType", 3));
+//            startActivity(new Intent(getApplicationContext(), MessageDetailsActivity.class).putExtra("MessageType", 3));
+            startActivity(new Intent(getApplicationContext(), NewFriendActivity.class));
         }
         if (view == mSystemMessageTR) {
             Toast.makeText(getApplicationContext(), "系统消息", Toast.LENGTH_SHORT).show();
