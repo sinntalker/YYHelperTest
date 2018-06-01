@@ -10,7 +10,7 @@
         android:id="@+id/drug_name_textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
+        android:layout_marginLeft="10dp"
         android:layout_weight="1"
         android:text="New Text"
         android:textSize="16sp"
@@ -18,9 +18,20 @@
         android:layout_gravity="center_vertical" />
 
     <ImageView
+        android:id="@+id/edit_drug_image"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:src="@drawable/edit_drug"
+        android:layout_gravity="center_vertical"/>
+
+    <ImageView
         android:id="@+id/info_drug_image"
         android:layout_width="30dp"
         android:layout_height="30dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:src="@drawable/ic_drug_info"
         android:layout_gravity="center_vertical"/>
 
@@ -28,8 +39,8 @@
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:orientation="vertical">
 
         <Button

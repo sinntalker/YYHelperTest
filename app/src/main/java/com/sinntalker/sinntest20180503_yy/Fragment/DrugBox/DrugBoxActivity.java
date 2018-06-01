@@ -176,10 +176,23 @@ public class DrugBoxActivity extends Activity {
                             convertView = LayoutInflater.from(context).inflate(R.layout.listview_item_drug, parent, false);
                             viewHolder = new ViewHolder();
                             viewHolder.drugName = convertView.findViewById(R.id.drug_name_textView);
+                            viewHolder.drugEdit = convertView.findViewById(R.id.edit_drug_image);
                             viewHolder.drugInfo = convertView.findViewById(R.id.info_drug_image);
                             viewHolder.drugSetAlarm = convertView.findViewById(R.id.settingAlarm_button);
 
                             viewHolder.drugName.setText(strDrugName[position]);
+
+                            viewHolder.drugEdit.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Log.i("bmob","DrugBoxActivity：药品编辑：" + strDrugName[position]);
+                                    startActivity(new Intent(DrugBoxActivity.this, DrugEditActivity.class)
+                                            .putExtra("drug_boxNum", strDrugBoxNum)
+                                            .putExtra("drug_genericName", strDrugName[position])
+                                    );
+                                    finish();
+                                }
+                            });
 
                             viewHolder.drugInfo.setOnClickListener(new View.OnClickListener() {
                                 @Override
@@ -220,6 +233,7 @@ public class DrugBoxActivity extends Activity {
 
                         class ViewHolder{
                             TextView drugName;  //List 药品名称
+                            ImageView drugEdit; //编辑药品信息
                             ImageView drugInfo; //List 药品详情
                             Button drugSetAlarm; //List 药品设置提醒
                         }

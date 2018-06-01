@@ -168,7 +168,8 @@
 
         <activity android:name=".Fragment.family.ChatActivity" />
         <activity android:name=".Fragment.family.base.BaseActivity" />
-        <activity android:name=".Fragment.family.NewFriendActivity"></activity>
+        <activity android:name=".Fragment.family.NewFriendActivity" />
+        <activity android:name=".Fragment.DrugBox.DrugEditActivity"></activity>
     </application>
 
 </manifest>
