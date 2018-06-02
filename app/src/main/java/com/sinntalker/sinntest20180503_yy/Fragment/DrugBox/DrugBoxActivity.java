@@ -1,7 +1,9 @@
 package com.sinntalker.sinntest20180503_yy.Fragment.DrugBox;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -16,7 +18,11 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.sinntalker.sinntest20180503_yy.Activity.MainActivity;
+import com.sinntalker.sinntest20180503_yy.Fragment.family.bean.Friend;
+import com.sinntalker.sinntest20180503_yy.Fragment.family.model.UserModel;
 import com.sinntalker.sinntest20180503_yy.Fragment.health.BloodPressure.BloodPressureData;
 import com.sinntalker.sinntest20180503_yy.Fragment.health.StepCounter.CommonAdapter;
 import com.sinntalker.sinntest20180503_yy.Fragment.health.StepCounter.CommonViewHolder;
@@ -32,6 +38,7 @@ import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
+import cn.bmob.v3.listener.UpdateListener;
 
 public class DrugBoxActivity extends Activity {
 
@@ -47,6 +54,8 @@ public class DrugBoxActivity extends Activity {
     String strUserName; //当前用户名称，由BmobUser获取
     String [] strDrugName; //药品名称字符串数组
     String [] strDrugDosage; //药品用法用量数组
+    String [] strObjectId; //药品objectId -- 药品信息分两个表存储：第一个表（具有5个特殊信息）
+    String [] strObjectIdCommon; //药品objectId -- 药品信息分两个表存储：第二个表（具有14个普通信息）
     int drugCount; //当前药箱中药品总数
 
     @Override
@@ -111,7 +120,7 @@ public class DrugBoxActivity extends Activity {
 
     }
 
-    public void RequestDrugListDataBmob(String username, String drugBoxNum) {
+    public void RequestDrugListDataBmob(final String username, final String drugBoxNum) {
         //查询条件一：用户名称
         BmobQuery<DrugDataBean> queryUserName = new BmobQuery<DrugDataBean>();
         queryUserName.addWhereEqualTo("userName",username);
@@ -136,9 +145,11 @@ public class DrugBoxActivity extends Activity {
                     //获取药品名称
                     strDrugName = new String [object.size()];
                     strDrugDosage = new String[object.size()];
+                    strObjectId = new String[object.size()];
                     for (int i = 0; i < object.size(); i ++) {
                         strDrugName[i] = object.get(i).getGenericName();
                         strDrugDosage[i] = object.get(i).getDosage();
+                        strObjectId[i] = object.get(i).getObjectId();
                         Log.i("bmob", "DrugBoxActivity:第 "+ i + " 条数据： " + strDrugName[i]);
                     }
 
@@ -225,6 +236,115 @@ public class DrugBoxActivity extends Activity {
                                         .putExtra("drug_dosage", strDrugDosage[position])
                                     );
                                     finish();
+                                }
+                            });
+
+                            viewHolder.drugName.setOnLongClickListener(new View.OnLongClickListener() {
+                                @Override
+                                public boolean onLongClick(View v) {
+                                    Log.i("bmob", "长按删除：" + strDrugName[position]);
+
+                                    AlertDialog dialog = new AlertDialog.Builder(DrugBoxActivity.this)
+//                                            .setIcon(R.mipmap.icon)//设置标题的图片
+                                            .setTitle("温馨提示")//设置对话框的标题
+                                            .setMessage("您确定要删除该药品吗？")//设置对话框的内容
+                                            //设置对话框的按钮
+                                            .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+//                                                    Toast.makeText(DrugBoxActivity.this, "点击了取消按钮", Toast.LENGTH_SHORT).show();
+                                                    Log.i("bmob", "点击了取消按钮，不删除该药品");
+                                                    RequestDrugListDataBmob(strUserName, strDrugBoxNum);
+                                                    dialog.dismiss();
+                                                }
+                                            })
+                                            .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+//                                                    Toast.makeText(DrugBoxActivity.this, "点击了确定的按钮", Toast.LENGTH_SHORT).show();
+                                                    Log.i("bmob", "点击了确定的按钮，删除该药品");
+                                                    //查询条件一：用户名称
+                                                    BmobQuery<DrugCommonDataBean> queryUserName_common = new BmobQuery<DrugCommonDataBean>();
+                                                    queryUserName_common.addWhereEqualTo("userName",strUserName);
+
+                                                    Log.i("bmob","查询名称：" + strUserName);
+
+                                                    //查询条件二：药箱编号
+                                                    BmobQuery<DrugCommonDataBean> queryDrugBoxNum_common = new BmobQuery<DrugCommonDataBean>();
+                                                    queryDrugBoxNum_common.addWhereEqualTo("boxNumber",strDrugBoxNum);
+
+                                                    Log.i("bmob","查询药箱编号：" + strDrugBoxNum);
+
+                                                    //查询条件三：药箱编号
+                                                    BmobQuery<DrugCommonDataBean> queryDrugName_common = new BmobQuery<DrugCommonDataBean>();
+                                                    queryDrugName_common.addWhereEqualTo("genericName",strDrugName[position]);
+
+                                                    Log.i("bmob","查询药品名称：" + strDrugName[position]);
+
+                                                    //最后查询时完整的条件
+                                                    List<BmobQuery<DrugCommonDataBean>> allQueries = new ArrayList<BmobQuery<DrugCommonDataBean>>();
+                                                    allQueries.add(queryUserName_common);
+                                                    allQueries.add(queryDrugBoxNum_common);
+                                                    allQueries.add(queryDrugName_common);
+
+                                                    //查询
+                                                    BmobQuery<DrugCommonDataBean> query = new BmobQuery<DrugCommonDataBean>();
+                                                    query.and(allQueries);
+                                                    query.findObjects(new FindListener<DrugCommonDataBean>() {
+                                                        @Override
+                                                        public void done(List<DrugCommonDataBean> object, BmobException e) {
+                                                            if (e == null) {
+                                                                Log.i("bmob", "DrugCommonDataBean查询成功，共 " + object.size() + " 条结果");
+
+                                                                strObjectIdCommon = new String[object.size()];
+
+                                                                for (int i = 0; i < object.size(); i ++) {
+                                                                    strObjectIdCommon[i] = object.get(i).getObjectId();
+                                                                    Log.i("bmob","设置strObjectIdCommon ObjectID成功，数据为：" + strObjectIdCommon[i]);
+                                                                    DrugCommonDataBean drugCommonDataBean = new DrugCommonDataBean();
+                                                                    drugCommonDataBean.setObjectId(strObjectIdCommon[0]);
+                                                                    drugCommonDataBean.delete(new UpdateListener() {
+
+                                                                        @Override
+                                                                        public void done(BmobException e) {
+                                                                            if(e == null){
+                                                                                Log.i("bmob","DrugCommonDataBean数据表删除成功");
+                                                                            }else{
+                                                                                Log.i("bmob","DrugCommonDataBean数据表删除失败："+e.getMessage()+","+e.getErrorCode());
+                                                                            }
+                                                                        }
+                                                                    });
+                                                                }
+
+                                                            } else {
+                                                                Log.i("bmob", "查询失败，错误码：" + e.getMessage() + e.getErrorCode());
+                                                                Log.i("bmob","设置strObjectIdCommon ObjectID失败");
+                                                            }
+                                                        }
+                                                    });
+
+                                                    Log.i("bmob","开始删除该药品在DrugDataBean和DrugCommonDataBean数据表中的数据");
+
+                                                    DrugDataBean drugDataBean = new DrugDataBean();
+                                                    drugDataBean.setObjectId(strObjectId[position]);
+                                                    drugDataBean.delete(new UpdateListener() {
+
+                                                        @Override
+                                                        public void done(BmobException e) {
+                                                            if(e == null){
+                                                                Log.i("bmob","DrugDataBean数据表删除成功");
+                                                            }else{
+                                                                Log.i("bmob","DrugDataBean数据表删除失败："+e.getMessage()+","+e.getErrorCode());
+                                                            }
+                                                        }
+                                                    });
+                                                    RequestDrugListDataBmob(strUserName, strDrugBoxNum);
+                                                    dialog.dismiss();
+                                                }
+                                            }).create();
+                                    dialog.show();
+
+                                    return true;
                                 }
                             });
 
