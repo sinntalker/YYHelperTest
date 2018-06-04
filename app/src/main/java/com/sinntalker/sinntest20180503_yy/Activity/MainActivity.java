@@ -1,5 +1,6 @@
 package com.sinntalker.sinntest20180503_yy.Activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 import com.orhanobut.logger.Logger;
 import com.sinntalker.sinntest20180503_yy.AllUserBean;
 import com.sinntalker.sinntest20180503_yy.Fragment.family.FamilyFragment;
+import com.sinntalker.sinntest20180503_yy.Fragment.family.all.BmobIMApplication;
 import com.sinntalker.sinntest20180503_yy.Fragment.family.util.IMMLeaks;
 import com.sinntalker.sinntest20180503_yy.Fragment.family.event.RefreshEvent;
 import com.sinntalker.sinntest20180503_yy.Fragment.family.db.NewFriendManager;
@@ -40,6 +42,8 @@ import cn.bmob.v3.exception.BmobException;
 
 public class MainActivity extends FragmentActivity implements View.OnClickListener {
 
+    public static MainActivity test_a = null;
+
     //RadioButton
     private ImageView rb_home;    //home button
     private ImageView rb_health;  //health button
@@ -54,11 +58,20 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     private FragmentManager manager;
     private FragmentTransaction transaction;
 
+    public BmobIMApplication mBmobIMApplication;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);//去掉标题栏
         setContentView(R.layout.activity_main);
+
+        test_a = this;
+
+        if (mBmobIMApplication == null) {
+            mBmobIMApplication = (BmobIMApplication) getApplication();
+            mBmobIMApplication.addActivity_(MainActivity.this);
+        }
 
         initView();//实例化
 

@@ -14,6 +14,7 @@
         android:background="#6495ED">
 
         <ImageView
+            android:id="@+id/id_imageView_back_generalSetting"
             android:layout_width="40dp"
             android:layout_height="50dp"
             android:src="@drawable/common_back"/>
@@ -53,6 +54,7 @@
             android:layout_weight="1"/>
 
         <Switch
+            android:id="@+id/id_switch_addFriend_generalSetting"
             android:layout_width="wrap_content"
             android:layout_height="50dp"/>
     </TableRow>
@@ -79,6 +81,7 @@
             android:layout_weight="1"/>
 
         <Switch
+            android:id="@+id/id_switch_noticeContact_generalSetting"
             android:layout_width="wrap_content"
             android:layout_height="50dp"/>
     </TableRow>
@@ -117,6 +120,7 @@
             android:layout_weight="1"/>
 
         <Switch
+            android:id="@+id/id_switch_noticeNew_generalSetting"
             android:layout_width="wrap_content"
             android:layout_height="50dp"/>
     </TableRow>
@@ -143,6 +147,7 @@
             android:layout_weight="1"/>
 
         <Switch
+            android:id="@+id/id_switch_alarmNew_generalSetting"
             android:layout_width="wrap_content"
             android:layout_height="50dp"/>
     </TableRow>

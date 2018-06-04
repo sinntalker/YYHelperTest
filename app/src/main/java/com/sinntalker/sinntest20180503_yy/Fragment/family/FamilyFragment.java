@@ -254,7 +254,8 @@ public class FamilyFragment extends Fragment {
                             //添加首字母
                             for (int i = 0; i < list.size(); i++) {
                                 Friend friend = list.get(i);
-                                String username = friend.getFriendUser().getUsername();
+//                                String username = friend.getFriendUser().getUsername();
+                                String username = friend.getFriendUser().getUserNick();
                                 if (username != null) {
                                     String pinyin = Pinyin.toPinyin(username.charAt(0));
                                     friend.setPinyin(pinyin.substring(0, 1).toUpperCase());

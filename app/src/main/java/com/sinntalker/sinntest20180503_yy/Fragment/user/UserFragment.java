@@ -11,9 +11,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.sinntalker.sinntest20180503_yy.AllUserBean;
 import com.sinntalker.sinntest20180503_yy.Fragment.Device.MyDeviceActivity;
 import com.sinntalker.sinntest20180503_yy.Fragment.health.HealthDocuActivity;
 import com.sinntalker.sinntest20180503_yy.R;
+
+import cn.bmob.v3.BmobUser;
 
 
 /**
@@ -27,6 +30,8 @@ public class UserFragment extends Fragment implements View.OnClickListener{
     private TextView myFamily_txt;
     private TextView settings_txt;
     private TextView myDevice_txt;
+
+    String strUsername;
 
     public UserFragment() {
         // Required empty public constructor
@@ -46,6 +51,11 @@ public class UserFragment extends Fragment implements View.OnClickListener{
         settings_txt = view.findViewById(R.id.settings_txt);
         myDevice_txt = view.findViewById(R.id.myDevice_txt);
 
+        AllUserBean mCurrentUser = BmobUser.getCurrentUser(AllUserBean.class);
+        strUsername = mCurrentUser.getUserNick();
+
+        userName_txt.setText(strUsername);
+
         userIcon_image.setOnClickListener(this);
 //        userName_txt.setOnClickListener(this);
         healthDocument_txt.setOnClickListener(this);
@@ -59,28 +69,28 @@ public class UserFragment extends Fragment implements View.OnClickListener{
     @Override
     public void onClick(View v) {
         if (v == userIcon_image) {
-            Toast.makeText(getContext(), "用户头像", Toast.LENGTH_LONG).show();
+//            Toast.makeText(getContext(), "用户头像", Toast.LENGTH_LONG).show();
             startActivity(new Intent(getContext(), UserInfoActivity.class));
         }
         if (v == healthDocument_txt) {
-            Toast.makeText(getContext(), "健康档案", Toast.LENGTH_LONG).show();
+//            Toast.makeText(getContext(), "健康档案", Toast.LENGTH_LONG).show();
             startActivity(new Intent(getContext(), HealthDocuActivity.class));
         }
         if (v == myFamily_txt) {
-            Toast.makeText(getContext(), "我的家人", Toast.LENGTH_LONG).show();
+//            Toast.makeText(getContext(), "我的家人", Toast.LENGTH_LONG).show();
             startActivity(new Intent(getContext(), MyFamilyActivity.class));
         }
         if (v == settings_txt) {
-            Toast.makeText(getContext(), "设置", Toast.LENGTH_LONG).show();
+//            Toast.makeText(getContext(), "设置", Toast.LENGTH_LONG).show();
             startActivity(new Intent(getContext(), SettingsActivity.class));
         }
         if (v == myDevice_txt) {
-            Toast.makeText(getContext(), "我的设备", Toast.LENGTH_LONG).show();
+//            Toast.makeText(getContext(), "我的设备", Toast.LENGTH_LONG).show();
             //打开我的设备
             startActivity(new Intent(getContext(), MyDeviceActivity.class));
         }
         if (v == userName_txt) {
-            Toast.makeText(getContext(), "用户名", Toast.LENGTH_LONG).show();
+//            Toast.makeText(getContext(), "用户名", Toast.LENGTH_LONG).show();
             //打开我的个人信息界面
             startActivity(new Intent(getContext(), UserInfoActivity.class));
         }

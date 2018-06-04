@@ -24,7 +24,7 @@
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_gravity="center_vertical"
-                android:src="@drawable/message"/>
+                android:src="@drawable/avatar"/>
 
             <TextView
                 android:id="@+id/userName_txt"

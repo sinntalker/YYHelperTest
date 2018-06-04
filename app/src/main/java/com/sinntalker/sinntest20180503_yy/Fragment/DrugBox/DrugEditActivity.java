@@ -50,7 +50,7 @@ public class DrugEditActivity extends Activity {
     EditText mManufacturerET; //生产企业       13
     EditText mClassificationET; //药物分类     14
 
-    String strDrugBoxNum;
+//    String strDrugBoxNum;
     String strUserName;
 
 //    String genericName;
@@ -206,8 +206,8 @@ public class DrugEditActivity extends Activity {
         mBackDEIV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(DrugEditActivity.this, DrugBoxActivity.class).putExtra("DrugBoxNum", strDrugBoxNum));
-                Log.i("bmob", "AddDrugHandy：向drugBox中传递数据成功：传递数据为：" + strDrugBoxNum);
+                startActivity(new Intent(DrugEditActivity.this, DrugBoxActivity.class).putExtra("DrugBoxNum", boxNum));
+                Log.i("bmob", "DrugEdit：向drugBox中传递数据成功：传递数据为：" + boxNum);
                 finish();
             }
         });
@@ -242,7 +242,7 @@ public class DrugEditActivity extends Activity {
 
                     DrugDataBean mDrugDataBean = new DrugDataBean();
                     mDrugDataBean.setUserName(strUserName);
-                    mDrugDataBean.setBoxNumber(strDrugBoxNum);
+                    mDrugDataBean.setBoxNumber(boxNum);
                     mDrugDataBean.setGenericName(drugName[0]);
                     if (dosage.length() !=  0) { mDrugDataBean.setDosage(dosage); }else {  mDrugDataBean.setDosage("暂不明确"); }
                     if (productionDate.length() !=  0) { mDrugDataBean.setProductionDate(productionDate); }else { mDrugDataBean.setProductionDate("暂不明确"); }
@@ -268,7 +268,7 @@ public class DrugEditActivity extends Activity {
 
                     DrugCommonDataBean mDrugCommonDataBean = new DrugCommonDataBean();
                     mDrugCommonDataBean.setUserName(strUserName);
-                    mDrugCommonDataBean.setBoxNumber(strDrugBoxNum);
+                    mDrugCommonDataBean.setBoxNumber(boxNum);
                     mDrugCommonDataBean.setGenericName(drugName[0]);
                     if (traits.length() !=  0) { mDrugCommonDataBean.setTraits(traits); }else { mDrugCommonDataBean.setTraits("暂不明确"); }
                     if (ingredients.length() !=  0) { mDrugCommonDataBean.setIngredients(ingredients); }else { mDrugCommonDataBean.setIngredients("暂不明确"); }
@@ -291,8 +291,8 @@ public class DrugEditActivity extends Activity {
                                 Log.i("bmob","DrugCommonDataBean更新成功.");
                                 Log.i("bmob","SaveOk[0]状态：" + SaveOk[0]);
                                 Toast.makeText(DrugEditActivity.this, "更新成功!", Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(DrugEditActivity.this, DrugBoxActivity.class).putExtra("DrugBoxNum", strDrugBoxNum));
-                                Log.i("bmob","更新成功，返回drugBox");
+                                startActivity(new Intent(DrugEditActivity.this, DrugBoxActivity.class).putExtra("DrugBoxNum", boxNum));
+                                Log.i("bmob","更新成功，返回drugBox" + boxNum);
                                 finish();
                             }else{
                                 SaveOk[0] = false;

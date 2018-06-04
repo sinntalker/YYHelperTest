@@ -8,7 +8,7 @@ android {
         minSdkVersion 15
         targetSdkVersion 26
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -47,18 +47,17 @@ dependencies {
     api 'org.apache.httpcomponents:httpclient-android:4.3.5.1'
     //    api 'com.android.support:appcompat-v7:26.1.0'
     implementation files('libs/universal-image-loader-1.9.5.jar')
-
     implementation 'com.orhanobut:logger:1.4'
     implementation 'org.greenrobot:eventbus:3.0.0'
-
     implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
-
     //noinspection GradleCompatible
     implementation 'com.android.support:appcompat-v7:25.3.0'
     //noinspection GradleCompatible
     implementation 'com.android.support:recyclerview-v7:25.3.0'
-
     //汉字转拼音
     implementation 'com.github.promeg:tinypinyin:1.0.0'
+    /*SD卡权限获取*/
+    compile 'com.yanzhenjie:permission:1.0.5'
+    implementation files('libs/nineoldandroids-2.4.0.jar')
 }

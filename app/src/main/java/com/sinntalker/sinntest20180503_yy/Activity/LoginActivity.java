@@ -20,6 +20,7 @@ import com.sinntalker.sinntest20180503_yy.AllUserBean;
 import com.sinntalker.sinntest20180503_yy.Common.CommonUnits;
 import com.sinntalker.sinntest20180503_yy.Common.Constant;
 import com.sinntalker.sinntest20180503_yy.Common.StringUnits;
+import com.sinntalker.sinntest20180503_yy.Fragment.family.all.BmobIMApplication;
 import com.sinntalker.sinntest20180503_yy.R;
 import com.sinntalker.sinntest20180503_yy.Weibo.WBAuthActivity;
 import com.tencent.connect.UserInfo;
@@ -72,11 +73,18 @@ public class LoginActivity extends Activity {
     //微信登陆
     public IWXAPI api_wx; //第三方APP和微信通信的openapi接口
 
+    public BmobIMApplication mBmobIMApplication;
+
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);//去掉标题栏
         setContentView(R.layout.activity_login);
+
+        if (mBmobIMApplication == null) {
+            mBmobIMApplication = (BmobIMApplication) getApplication();
+            mBmobIMApplication.addActivity_(LoginActivity.this);
+        }
 
         //Bmob 第一：默认初始化 -- 应用名称“ThirdLogin
 //        Bmob.initialize(this, "e9572e950523fd526c4750e301ac444f");
@@ -152,7 +160,8 @@ public class LoginActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(), "重置密码", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(getApplicationContext(), ResetActivity.class));
+                startActivity(new Intent(getApplicationContext(), ResetActivity.class)
+                    .putExtra("inputActivity", "login"));
                 LoginActivity.this.finish();
             }
         });
@@ -362,6 +371,11 @@ public class LoginActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
     }
 
 }

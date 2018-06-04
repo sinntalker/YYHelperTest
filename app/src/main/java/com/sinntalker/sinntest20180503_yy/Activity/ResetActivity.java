@@ -51,6 +51,8 @@ public class ResetActivity extends Activity {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);//去掉标题栏
         setContentView(R.layout.activity_reset);
 
+        final String inputActivity = getIntent().getStringExtra("inputActivity");
+
         back_image = findViewById(R.id.id_common_back_resetToLogin);
         mPhoneET_reset = findViewById(R.id.id_phone_et_reset);
         mCodeET_reset = findViewById(R.id.id_code_et_reset);
@@ -63,7 +65,7 @@ public class ResetActivity extends Activity {
         back_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ResetActivity.this, LoginActivity.class));
+//                startActivity(new Intent(ResetActivity.this, LoginActivity.class));
                 ResetActivity.this.finish();
             }
         });
@@ -130,6 +132,11 @@ public class ResetActivity extends Activity {
                                         public void done(cn.bmob.v3.exception.BmobException e) {
                                             if (e == null) {
                                                 Toast.makeText(ResetActivity.this, "重置密码成功", Toast.LENGTH_SHORT).show();
+                                                if (inputActivity.equals("login")) {
+                                                    startActivity(new Intent(ResetActivity.this, LoginActivity.class));
+                                                } else {
+                                                    finish();
+                                                }
                                             } else {
                                                 Toast.makeText(ResetActivity.this, "更新失败，请稍后重试"+ e.getMessage(), Toast.LENGTH_SHORT).show();
                                             }

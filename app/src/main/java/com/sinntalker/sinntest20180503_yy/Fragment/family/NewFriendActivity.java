@@ -13,6 +13,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.orhanobut.logger.Logger;
+import com.sinntalker.sinntest20180503_yy.Activity.MainActivity;
+import com.sinntalker.sinntest20180503_yy.Fragment.family.all.BmobIMApplication;
 import com.sinntalker.sinntest20180503_yy.Fragment.family.base.ParentWithNaviActivity;
 import com.sinntalker.sinntest20180503_yy.Fragment.family.db.NewFriend;
 import com.sinntalker.sinntest20180503_yy.Fragment.family.db.NewFriendManager;
@@ -41,36 +43,18 @@ public class NewFriendActivity extends Activity {
     NewFriendAdapter adapter;
     LinearLayoutManager layoutManager;
 
-//    @Override
-//    protected String title() {
-//        return "新朋友";
-//    }
-//
-//    @Override
-//    public Object right() {
-//        return R.drawable.base_action_bar_add_bg_selector;
-//    }
-//
-//    @Override
-//    public ParentWithNaviActivity.ToolBarListener setToolBarListener() {
-//        return new ParentWithNaviActivity.ToolBarListener() {
-//            @Override
-//            public void clickLeft() {
-//                finish();
-//            }
-//
-//            @Override
-//            public void clickRight() {
-//                startActivity(AddFamilyMembersActivity.class,null);
-//            }
-//        };
-//    }
+    public BmobIMApplication mBmobIMApplication;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_friend);
 //        initNaviView();
+
+        if (mBmobIMApplication == null) {
+            mBmobIMApplication = (BmobIMApplication) getApplication();
+            mBmobIMApplication.addActivity_(NewFriendActivity.this);
+        }
 
         ButterKnife.bind(this);
         //单一布局
