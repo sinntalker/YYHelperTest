@@ -52,7 +52,7 @@
             android:textSize="16sp"
             android:gravity="center"
             android:inputType="numberDecimal"
-            android:imeOptions="actionNext"/>
+            android:imeOptions="actionDone"/>
 
     </TableRow>
 

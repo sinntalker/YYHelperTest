@@ -7,7 +7,7 @@ import android.view.Window;
 import com.sinntalker.sinntest20180503_yy.R;
 
 /**
- *
+ *我的设备 在设置界面中进入
  */
 public class MyDeviceActivity extends Activity {
 

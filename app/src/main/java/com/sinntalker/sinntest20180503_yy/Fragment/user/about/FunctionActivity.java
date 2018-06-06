@@ -1,4 +1,4 @@
-package com.sinntalker.sinntest20180503_yy.Fragment.user;
+package com.sinntalker.sinntest20180503_yy.Fragment.user.about;
 
 import android.app.Activity;
 import android.os.Bundle;

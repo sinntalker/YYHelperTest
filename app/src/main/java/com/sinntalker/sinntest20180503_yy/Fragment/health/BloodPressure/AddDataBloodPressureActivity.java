@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -16,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import com.sinntalker.sinntest20180503_yy.AllUserBean;
 import com.sinntalker.sinntest20180503_yy.Fragment.health.StepCounter.DbUtils;
 import com.sinntalker.sinntest20180503_yy.R;
 
@@ -25,6 +27,10 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+
+import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.SaveListener;
 
 public class AddDataBloodPressureActivity extends Activity implements View.OnClickListener{
 
@@ -124,8 +130,24 @@ public class AddDataBloodPressureActivity extends Activity implements View.OnCli
         data.setMinPressure(strBloodPressure_Diastolic);
         DbUtils.insert(data);
 
-        startActivity(new Intent(getApplicationContext(), BloodPressureActivity.class)); //打开对应Activity可以刷新数据
-        this.finish();
+        AllUserBean mCurrentUser = BmobUser.getCurrentUser(AllUserBean.class);
+        BloodDataBean bloodDataBean = new BloodDataBean();
+        bloodDataBean.setSetTime(strPressureMeasure_Date + " " + strPressureMeasure_Time);
+        bloodDataBean.setUser(mCurrentUser);
+        bloodDataBean.setBloodDiastolic(strBloodPressure_Diastolic);
+        bloodDataBean.setBloodSystolic(strBloodPressure_Systolic);
+        bloodDataBean.save(new SaveListener<String>() {
+            @Override
+            public void done(String s, BmobException e) {
+                if (e == null) {
+                    Log.i("bmob", "保存成功");
+                    startActivity(new Intent(AddDataBloodPressureActivity.this, BloodPressureActivity.class)); //打开对应Activity可以刷新数据
+                    AddDataBloodPressureActivity.this.finish();
+                } else {
+                    Log.i("bmob", "保存失败" + e.getErrorCode() + e.getMessage());
+                }
+            }
+        });
     }
 
     private void showTimeDialog_date() {

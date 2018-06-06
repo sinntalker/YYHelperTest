@@ -10,9 +10,11 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:layout_marginBottom="10dp"
         android:background="#6495ED">
 
         <ImageView
+            android:id="@+id/id_imageView_back_myFamily"
             android:layout_width="40dp"
             android:layout_height="50dp"
             android:src="@drawable/common_back"/>
@@ -27,6 +29,7 @@
             android:textSize="18sp"/>
 
         <TextView
+            android:id="@+id/id_textView_add_myFamily"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
@@ -40,44 +43,26 @@
 
     </RelativeLayout>
 
-    <ScrollView
+    <ListView
+        android:id="@+id/id_listView_familyMember_myFamily"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+    </ListView>
 
-            <ListView
-                android:id="@+id/id_listView_familyMember_myFamily"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-            </ListView>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:padding="5dp">
-
-                <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="添加家人"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:textColor="#FFFFFF"
-                    android:drawableLeft="@drawable/ic_add_outline"
-                    android:background="@drawable/roundrectanglerlinearlayout_bg"
-                    android:layout_centerInParent="true"/>
-
-            </RelativeLayout>
-
-        </LinearLayout>
-    </ScrollView>
+    <Button
+        android:id="@+id/id_button_add_myFamily"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="20dp"
+        android:padding="10dp"
+        android:text="添加家人"
+        android:textColor="#FFFFFF"
+        android:drawableLeft="@drawable/ic_add_outline"
+        android:background="@drawable/roundrectanglerlinearlayout_bg" />
 
 </LinearLayout>

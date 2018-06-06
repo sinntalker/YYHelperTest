@@ -1,4 +1,4 @@
-package com.sinntalker.sinntest20180503_yy.Fragment.user;
+package com.sinntalker.sinntest20180503_yy.Fragment.user.about;
 
 import android.Manifest;
 import android.app.Activity;
@@ -41,9 +41,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
 
-import cn.bmob.v3.listener.BmobUpdateListener;
 import cn.bmob.v3.update.BmobUpdateAgent;
-import cn.bmob.v3.update.UpdateResponse;
 
 public class AboutUsActivity extends Activity {
 

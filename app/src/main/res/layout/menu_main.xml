@@ -1,0 +1,27 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app = "http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="wrap_content"
+    android:layout_width="wrap_content"
+    tools:context=".Fragment.Device.AddDeviceActivity">
+    <item
+        android:id="@+id/show_devices"
+        android:title="@string/show_devices"
+        android:orderInCategory="100"
+        />
+    <item
+        android:id="@+id/start_bluetooth"
+        android:title="@string/start_bluetooth"
+        android:orderInCategory="100"
+        />
+    <item
+        android:id="@+id/find_devices"
+        android:title="@string/find_devices"
+        android:orderInCategory="100"
+        />
+    <item
+        android:id="@+id/connect_devices"
+        android:title="@string/connect_devices"
+        android:orderInCategory="100"
+        />
+</menu>

@@ -5,6 +5,7 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -16,6 +17,10 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.sinntalker.sinntest20180503_yy.AllUserBean;
+import com.sinntalker.sinntest20180503_yy.Fragment.health.BloodPressure.AddDataBloodPressureActivity;
+import com.sinntalker.sinntest20180503_yy.Fragment.health.BloodPressure.BloodDataBean;
+import com.sinntalker.sinntest20180503_yy.Fragment.health.BloodPressure.BloodPressureActivity;
 import com.sinntalker.sinntest20180503_yy.Fragment.health.StepCounter.DbUtils;
 import com.sinntalker.sinntest20180503_yy.R;
 
@@ -25,6 +30,10 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+
+import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.SaveListener;
 
 public class AddDataBloodSugarActivity extends Activity implements View.OnClickListener{
 
@@ -42,7 +51,7 @@ public class AddDataBloodSugarActivity extends Activity implements View.OnClickL
     TextView mTimeSetADBSATV;
     Button mSaveADBSABtn;
 
-    String strRadioButtonChecked = "";
+    String strChecked = "";
     String strSugarValueET = "";
     String strCurrentDate = "";
     String strCurrentTime = "";
@@ -71,7 +80,7 @@ public class AddDataBloodSugarActivity extends Activity implements View.OnClickL
         mTimeSetADBSATV = findViewById(R.id.id_textView_timeSetData_addDataBloodSugar);
         mSaveADBSABtn = findViewById(R.id.id_button_saveData_addDataBloodSugar);
 
-        strRadioButtonChecked = "早餐前";
+        strChecked = "早餐前";
         mTimeNo1ADBSARB.setChecked(true);
         mTimeNo2ADBSARB.setChecked(false);
         mTimeNo3ADBSARB.setChecked(false);
@@ -100,106 +109,125 @@ public class AddDataBloodSugarActivity extends Activity implements View.OnClickL
         mDateSetADBSATV.setText(strCurrentDate);
         mTimeSetADBSATV.setText(strCurrentTime);
 
-        mBackADBSAIV.setOnClickListener(this);
-        mDateSetADBSATV.setOnClickListener(this);
-        mTimeSetADBSATV.setOnClickListener(this);
-        mSaveADBSABtn.setOnClickListener(this);
+        mBackADBSAIV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), BloodSugerActivity.class)); //打开对应Activity可以刷新数据
+                finish();
+            }
+        });
+        mDateSetADBSATV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showTimeDialog_date();
+            }
+        });
+        mTimeSetADBSATV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showTimeDialog_time();
+            }
+        });
+        mSaveADBSABtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                save();
+            }
+        });
+        mTimeNo1ADBSARB.setOnClickListener(this);
+        mTimeNo2ADBSARB.setOnClickListener(this);
+        mTimeNo3ADBSARB.setOnClickListener(this);
+        mTimeNo4ADBSARB.setOnClickListener(this);
+        mTimeNo5ADBSARB.setOnClickListener(this);
+        mTimeNo6ADBSARB.setOnClickListener(this);
+        mTimeNo7ADBSARB.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-        if (v == mBackADBSAIV) {
-            finish();
-        } else if (v == mDateSetADBSATV) {
-            showTimeDialog_date();
-        } else if (v == mTimeSetADBSATV) {
-            showTimeDialog_time();
-        } else if (v == mSaveADBSABtn) {
-            save();
-        } else {
-            switch (v.getId()) {
-                case R.id.id_radioButton_timeNo1_addDataBloodSugar:
-                    mTimeNo1ADBSARB.setChecked(true);
-                    mTimeNo2ADBSARB.setChecked(false);
-                    mTimeNo3ADBSARB.setChecked(false);
-                    mTimeNo4ADBSARB.setChecked(false);
-                    mTimeNo5ADBSARB.setChecked(false);
-                    mTimeNo6ADBSARB.setChecked(false);
-                    mTimeNo7ADBSARB.setChecked(false);
-                    strRadioButtonChecked = "早餐前";
-                    break;
-                case R.id.id_radioButton_timeNo2_addDataBloodSugar:
-                    mTimeNo1ADBSARB.setChecked(false);
-                    mTimeNo2ADBSARB.setChecked(true);
-                    mTimeNo3ADBSARB.setChecked(false);
-                    mTimeNo4ADBSARB.setChecked(false);
-                    mTimeNo5ADBSARB.setChecked(false);
-                    mTimeNo6ADBSARB.setChecked(false);
-                    mTimeNo7ADBSARB.setChecked(false);
-                    strRadioButtonChecked = "早餐后";
-                    break;
-                case R.id.id_radioButton_timeNo3_addDataBloodSugar:
-                    mTimeNo1ADBSARB.setChecked(false);
-                    mTimeNo2ADBSARB.setChecked(false);
-                    mTimeNo3ADBSARB.setChecked(true);
-                    mTimeNo4ADBSARB.setChecked(false);
-                    mTimeNo5ADBSARB.setChecked(false);
-                    mTimeNo6ADBSARB.setChecked(false);
-                    mTimeNo7ADBSARB.setChecked(false);
-                    strRadioButtonChecked = "午餐前";
-                    break;
-                case R.id.id_radioButton_timeNo4_addDataBloodSugar:
-                    mTimeNo1ADBSARB.setChecked(false);
-                    mTimeNo2ADBSARB.setChecked(false);
-                    mTimeNo3ADBSARB.setChecked(false);
-                    mTimeNo4ADBSARB.setChecked(true);
-                    mTimeNo5ADBSARB.setChecked(false);
-                    mTimeNo6ADBSARB.setChecked(false);
-                    mTimeNo7ADBSARB.setChecked(false);
-                    strRadioButtonChecked = "午餐后";
-                    break;
-                case R.id.id_radioButton_timeNo5_addDataBloodSugar:
-                    mTimeNo1ADBSARB.setChecked(false);
-                    mTimeNo2ADBSARB.setChecked(false);
-                    mTimeNo3ADBSARB.setChecked(false);
-                    mTimeNo4ADBSARB.setChecked(false);
-                    mTimeNo5ADBSARB.setChecked(true);
-                    mTimeNo6ADBSARB.setChecked(false);
-                    mTimeNo7ADBSARB.setChecked(false);
-                    strRadioButtonChecked = "晚餐前";
-                    break;
-                case R.id.id_radioButton_timeNo6_addDataBloodSugar:
-                    mTimeNo1ADBSARB.setChecked(false);
-                    mTimeNo2ADBSARB.setChecked(false);
-                    mTimeNo3ADBSARB.setChecked(false);
-                    mTimeNo4ADBSARB.setChecked(false);
-                    mTimeNo5ADBSARB.setChecked(false);
-                    mTimeNo6ADBSARB.setChecked(true);
-                    mTimeNo7ADBSARB.setChecked(false);
-                    strRadioButtonChecked = "晚餐后";
-                    break;
-                case R.id.id_radioButton_timeNo7_addDataBloodSugar:
-                    mTimeNo1ADBSARB.setChecked(false);
-                    mTimeNo2ADBSARB.setChecked(false);
-                    mTimeNo3ADBSARB.setChecked(false);
-                    mTimeNo4ADBSARB.setChecked(false);
-                    mTimeNo5ADBSARB.setChecked(false);
-                    mTimeNo6ADBSARB.setChecked(false);
-                    mTimeNo7ADBSARB.setChecked(true);
-                    strRadioButtonChecked = "睡前";
-                    break;
-                default:
-                    mTimeNo1ADBSARB.setChecked(true);
-                    mTimeNo2ADBSARB.setChecked(false);
-                    mTimeNo3ADBSARB.setChecked(false);
-                    mTimeNo4ADBSARB.setChecked(false);
-                    mTimeNo5ADBSARB.setChecked(false);
-                    mTimeNo6ADBSARB.setChecked(false);
-                    mTimeNo7ADBSARB.setChecked(false);
-                    strRadioButtonChecked = "早餐前";
-                    break;
-            }
+        switch (v.getId()) {
+            case R.id.id_radioButton_timeNo1_addDataBloodSugar:
+                mTimeNo1ADBSARB.setChecked(true);
+                mTimeNo2ADBSARB.setChecked(false);
+                mTimeNo3ADBSARB.setChecked(false);
+                mTimeNo4ADBSARB.setChecked(false);
+                mTimeNo5ADBSARB.setChecked(false);
+                mTimeNo6ADBSARB.setChecked(false);
+                mTimeNo7ADBSARB.setChecked(false);
+                strChecked = "早餐前";
+                break;
+            case R.id.id_radioButton_timeNo2_addDataBloodSugar:
+                mTimeNo1ADBSARB.setChecked(false);
+                mTimeNo2ADBSARB.setChecked(true);
+                mTimeNo3ADBSARB.setChecked(false);
+                mTimeNo4ADBSARB.setChecked(false);
+                mTimeNo5ADBSARB.setChecked(false);
+                mTimeNo6ADBSARB.setChecked(false);
+                mTimeNo7ADBSARB.setChecked(false);
+                strChecked = "早餐后";
+                break;
+            case R.id.id_radioButton_timeNo3_addDataBloodSugar:
+                mTimeNo1ADBSARB.setChecked(false);
+                mTimeNo2ADBSARB.setChecked(false);
+                mTimeNo3ADBSARB.setChecked(true);
+                mTimeNo4ADBSARB.setChecked(false);
+                mTimeNo5ADBSARB.setChecked(false);
+                mTimeNo6ADBSARB.setChecked(false);
+                mTimeNo7ADBSARB.setChecked(false);
+                strChecked = "午餐前";
+                break;
+            case R.id.id_radioButton_timeNo4_addDataBloodSugar:
+                mTimeNo1ADBSARB.setChecked(false);
+                mTimeNo2ADBSARB.setChecked(false);
+                mTimeNo3ADBSARB.setChecked(false);
+                mTimeNo4ADBSARB.setChecked(true);
+                mTimeNo5ADBSARB.setChecked(false);
+                mTimeNo6ADBSARB.setChecked(false);
+                mTimeNo7ADBSARB.setChecked(false);
+                strChecked = "午餐后";
+                break;
+            case R.id.id_radioButton_timeNo5_addDataBloodSugar:
+                mTimeNo1ADBSARB.setChecked(false);
+                mTimeNo2ADBSARB.setChecked(false);
+                mTimeNo3ADBSARB.setChecked(false);
+                mTimeNo4ADBSARB.setChecked(false);
+                mTimeNo5ADBSARB.setChecked(true);
+                mTimeNo6ADBSARB.setChecked(false);
+                mTimeNo7ADBSARB.setChecked(false);
+                strChecked = "晚餐前";
+                break;
+            case R.id.id_radioButton_timeNo6_addDataBloodSugar:
+                mTimeNo1ADBSARB.setChecked(false);
+                mTimeNo2ADBSARB.setChecked(false);
+                mTimeNo3ADBSARB.setChecked(false);
+                mTimeNo4ADBSARB.setChecked(false);
+                mTimeNo5ADBSARB.setChecked(false);
+                mTimeNo6ADBSARB.setChecked(true);
+                mTimeNo7ADBSARB.setChecked(false);
+                strChecked = "晚餐后";
+                break;
+            case R.id.id_radioButton_timeNo7_addDataBloodSugar:
+                mTimeNo1ADBSARB.setChecked(false);
+                mTimeNo2ADBSARB.setChecked(false);
+                mTimeNo3ADBSARB.setChecked(false);
+                mTimeNo4ADBSARB.setChecked(false);
+                mTimeNo5ADBSARB.setChecked(false);
+                mTimeNo6ADBSARB.setChecked(false);
+                mTimeNo7ADBSARB.setChecked(true);
+                strChecked = "睡前";
+                break;
+            default:
+                mTimeNo1ADBSARB.setChecked(true);
+                mTimeNo2ADBSARB.setChecked(false);
+                mTimeNo3ADBSARB.setChecked(false);
+                mTimeNo4ADBSARB.setChecked(false);
+                mTimeNo5ADBSARB.setChecked(false);
+                mTimeNo6ADBSARB.setChecked(false);
+                mTimeNo7ADBSARB.setChecked(false);
+                strChecked = "早餐前";
+                break;
         }
+
     }
 
     private void save() {
@@ -211,11 +239,52 @@ public class AddDataBloodSugarActivity extends Activity implements View.OnClickL
             BloodSugarData data = new BloodSugarData();
             data.setTime(strCurrentDate+"\n"+strCurrentTime);
             data.setSugarValue(strSugarValueET);
-            data.setDuring(strRadioButtonChecked);
+            data.setDuring(strChecked);
             DbUtils.insert(data);
 
-            startActivity(new Intent(getApplicationContext(), BloodSugerActivity.class)); //打开对应Activity可以刷新数据
-            this.finish();
+//            AllUserBean mCurrentUser = BmobUser.getCurrentUser(AllUserBean.class);
+
+            AllUserBean mCurrentUser = BmobUser.getCurrentUser(AllUserBean.class);
+            SugarValueBean sugarValueBean = new SugarValueBean();
+            sugarValueBean.setSetTime(strCurrentDate+"\n"+strCurrentTime);
+            sugarValueBean.setUser(mCurrentUser);
+            sugarValueBean.setDuring(strChecked);
+            sugarValueBean.setSugarValue(strSugarValueET);
+            sugarValueBean.save(new SaveListener<String>() {
+                @Override
+                public void done(String s, BmobException e) {
+                    if (e == null) {
+                        Log.i("bmob", "保存成功");
+                        startActivity(new Intent(AddDataBloodSugarActivity.this, BloodSugerActivity.class)); //打开对应Activity可以刷新数据
+                        AddDataBloodSugarActivity.this.finish();
+                    } else {
+                        Log.i("bmob", "保存失败" + e.getErrorCode() + e.getMessage());
+                    }
+                }
+            });
+
+//            SugarValueBean bloodSugarBean = new SugarValueBean();
+////            bloodSugarBean.setDuring(strChecked);
+//            Log.i("bmob", "保存当前数据：" + strChecked);
+//            bloodSugarBean.setUser(mCurrentUser);
+//            Log.i("bmob", "保存当前数据：" + mCurrentUser);
+//            bloodSugarBean.setSugarValue(strSugarValueET);
+//            Log.i("bmob", "保存当前数据:" + strSugarValueET);
+//            bloodSugarBean.setSetTime(strCurrentDate+" "+strCurrentTime);
+//            Log.i("bmob", "保存当前数据:" + strCurrentDate+" "+strCurrentTime);
+//            bloodSugarBean.save(new SaveListener<String>() {
+//                @Override
+//                public void done(String s, BmobException e) {
+//                    if (e == null) {
+//                        Log.i("bmob", "血糖值保存成功！");
+//                    } else {
+//                        Log.i("bmob", "血糖值保存失败！");
+//                    }
+//                }
+//            });
+
+//            startActivity(new Intent(getApplicationContext(), BloodSugerActivity.class)); //打开对应Activity可以刷新数据
+//            this.finish();
         }
     }
 

@@ -18,6 +18,10 @@ public abstract class CommonAdapter <T> extends BaseAdapter {
     private List<T> datas;
     private int layoutId;
 
+    public CommonAdapter(Context context) {
+        this.context = context;
+    }
+
     public CommonAdapter(Context context, List<T> datas, int layoutId) {
         this.context = context;
         this.datas = datas;

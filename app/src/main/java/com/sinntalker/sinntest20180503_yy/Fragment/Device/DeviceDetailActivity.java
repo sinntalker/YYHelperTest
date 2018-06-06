@@ -7,7 +7,7 @@ import android.view.Window;
 import com.sinntalker.sinntest20180503_yy.R;
 
 /**
- * 
+ * 设备信息 由 我的设备 进入
  */
 public class DeviceDetailActivity extends Activity {
 

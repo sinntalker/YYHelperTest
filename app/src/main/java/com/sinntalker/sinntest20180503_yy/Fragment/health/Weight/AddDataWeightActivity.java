@@ -5,6 +5,7 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.sinntalker.sinntest20180503_yy.AllUserBean;
 import com.sinntalker.sinntest20180503_yy.Fragment.health.StepCounter.DbUtils;
 import com.sinntalker.sinntest20180503_yy.R;
 
@@ -24,6 +26,10 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+
+import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.SaveListener;
 
 public class AddDataWeightActivity extends Activity implements View.OnClickListener{
 
@@ -103,8 +109,24 @@ public class AddDataWeightActivity extends Activity implements View.OnClickListe
             data.setWeight(strWeightET);
             DbUtils.insert(data);
 
-            startActivity(new Intent(getApplicationContext(), WeightActivity.class)); //打开对应Activity可以刷新数据
-            this.finish();
+            AllUserBean mCurrentUser = BmobUser.getCurrentUser(AllUserBean.class);
+            WeightBean weightBean = new WeightBean();
+            weightBean.setUser(mCurrentUser);
+            weightBean.setSetTime(strCurrentDate+" "+strCurrentTime);
+            weightBean.setWeight(strWeightET);
+            weightBean.save(new SaveListener<String>() {
+                @Override
+                public void done(String s, BmobException e) {
+                    if (e == null) {
+                        Log.i("bmob", "save success.");
+                        startActivity(new Intent(getApplicationContext(), WeightActivity.class)); //打开对应Activity可以刷新数据
+                        AddDataWeightActivity.this.finish();
+                    } else {
+                        Log.i("bmob", "save failed, error: " + e.getMessage() + e.getErrorCode());
+                    }
+                }
+            });
+
         }
     }
 

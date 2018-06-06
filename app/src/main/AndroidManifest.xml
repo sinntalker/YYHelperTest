@@ -14,6 +14,12 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+
     <!-- 网络请求 -->
     <uses-permission android:name="android.permission.INTERNET" />
     <!-- 保持手机唤醒 -->
@@ -122,7 +128,7 @@
         <activity android:name=".Fragment.family.AddFamilyMembersActivity" />
         <activity android:name=".Fragment.user.MyFamilyActivity" />
         <activity android:name=".Fragment.user.UserInfoActivity" />
-        <activity android:name=".Fragment.user.AboutUsActivity" />
+        <activity android:name=".Fragment.user.about.AboutUsActivity" />
         <activity android:name=".Fragment.user.CreateFamilyMemberActivity" />
         <activity android:name=".Fragment.user.GeneralSettingsActivity" />
         <activity android:name=".Fragment.health.StepCounter.StepHistoryDataActivity" />
@@ -187,8 +193,9 @@
         <activity
             android:name="cn.bmob.v3.update.UpdateDialogActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <activity android:name=".Fragment.user.FeedbackActivity" />
-        <activity android:name=".Fragment.user.FunctionActivity"></activity>
+        <activity android:name=".Fragment.user.about.FeedbackActivity" />
+        <activity android:name=".Fragment.user.about.FunctionActivity"></activity>
+
     </application>
 
 </manifest>

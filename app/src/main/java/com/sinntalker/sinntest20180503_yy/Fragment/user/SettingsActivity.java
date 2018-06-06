@@ -5,19 +5,16 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.sinntalker.sinntest20180503_yy.Activity.LoginActivity;
 import com.sinntalker.sinntest20180503_yy.Activity.MainActivity;
 import com.sinntalker.sinntest20180503_yy.Fragment.family.all.BmobIMApplication;
-import com.sinntalker.sinntest20180503_yy.Fragment.family.base.BaseActivity;
 import com.sinntalker.sinntest20180503_yy.Fragment.family.model.UserModel;
+import com.sinntalker.sinntest20180503_yy.Fragment.user.about.AboutUsActivity;
 import com.sinntalker.sinntest20180503_yy.R;
 
 import cn.bmob.newim.BmobIM;

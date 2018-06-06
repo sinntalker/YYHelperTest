@@ -1,4 +1,4 @@
-package com.sinntalker.sinntest20180503_yy.Fragment.user;
+package com.sinntalker.sinntest20180503_yy.Fragment.user.about;
 
 import com.sinntalker.sinntest20180503_yy.AllUserBean;
 

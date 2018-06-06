@@ -1,4 +1,4 @@
-package com.sinntalker.sinntest20180503_yy.Fragment.user;
+package com.sinntalker.sinntest20180503_yy.Fragment.user.about;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -13,14 +13,10 @@ import android.widget.Toast;
 import com.sinntalker.sinntest20180503_yy.AllUserBean;
 import com.sinntalker.sinntest20180503_yy.R;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 
-import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
-import cn.bmob.v3.listener.QueryListener;
 import cn.bmob.v3.listener.SaveListener;
 
 public class FeedbackActivity extends Activity {

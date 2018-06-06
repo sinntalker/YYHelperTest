@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="#F0F0F0"
-    tools:context="com.sinntalker.sinntest20180503_yy.Fragment.user.AboutUsActivity">
+    tools:context="com.sinntalker.sinntest20180503_yy.Fragment.user.about.AboutUsActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
