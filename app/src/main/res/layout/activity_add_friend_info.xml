@@ -130,6 +130,89 @@
                 android:paddingRight="20dp"/>
         </TableRow>
 
+        <TableLayout
+            android:id="@+id/id_tableLayout_healthInfo_addFriendInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:background="#000000"/>
+
+            <TableRow>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="当前血压"
+                    android:textSize="18sp"
+                    android:gravity="center|left"/>
+
+                <TextView
+                    android:id="@+id/id_textView_pressure_addFriendInfo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:text="xxxxx"
+                    android:textSize="16sp"
+                    android:gravity="right|center"
+                    android:paddingRight="20dp"/>
+            </TableRow>
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:background="#000000"/>
+
+            <TableRow>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="当前血糖"
+                    android:textSize="18sp"
+                    android:gravity="center|left"/>
+
+                <TextView
+                    android:id="@+id/id_textView_sugar_addFriendInfo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:text="xxxxx"
+                    android:textSize="16sp"
+                    android:gravity="right|center"
+                    android:paddingRight="20dp"/>
+            </TableRow>
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:background="#000000"/>
+
+            <TableRow>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="当前体重"
+                    android:textSize="18sp"
+                    android:gravity="center|left"/>
+
+                <TextView
+                    android:id="@+id/id_textView_weight_addFriendInfo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:text="xxxxx"
+                    android:textSize="16sp"
+                    android:gravity="right|center"
+                    android:paddingRight="20dp"/>
+            </TableRow>
+
+        </TableLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="5dp" />

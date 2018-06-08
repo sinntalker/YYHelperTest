@@ -1,6 +1,5 @@
 package com.sinntalker.sinntest20180503_yy.Fragment.family;
 
-import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -107,6 +106,8 @@ public class ChatActivity extends BaseActivity implements MessageListHandler {
     //标题
     @BindView(R.id.id_imageView_back_chat)
     ImageView mBackCIV;
+//    @BindView(R.id.id_imageView_friendInfo_chat)
+//    ImageView mFriendInfoCIV;
     @BindView(R.id.id_textView_title_chat)
     TextView mTitleCTV;
 
@@ -125,7 +126,7 @@ public class ChatActivity extends BaseActivity implements MessageListHandler {
 
         ButterKnife.bind(ChatActivity.this);
 
-        BmobIMConversation conversationEntrance = (BmobIMConversation) getBundle().getSerializable("c");
+        final BmobIMConversation conversationEntrance = (BmobIMConversation) getBundle().getSerializable("c");
         //TODO 消息：5.1、根据会话入口获取消息管理，聊天页面
         mConversationManager = BmobIMConversation.obtain(BmobIMClient.getInstance(), conversationEntrance);
         initSwipeLayout();
@@ -138,6 +139,13 @@ public class ChatActivity extends BaseActivity implements MessageListHandler {
                 finish();
             }
         });
+
+//        mFriendInfoCIV.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//            }
+//        });
 
         mTitleCTV.setText(mConversationManager.getConversationTitle());
     }

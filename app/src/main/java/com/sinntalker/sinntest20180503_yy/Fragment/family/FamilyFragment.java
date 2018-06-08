@@ -1,6 +1,7 @@
 package com.sinntalker.sinntest20180503_yy.Fragment.family;
 
-import android.support.v4.app.Fragment;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -21,10 +22,8 @@ import com.sinntalker.sinntest20180503_yy.AllUserBean;
 import com.sinntalker.sinntest20180503_yy.Fragment.family.adapter.ContactAdapter;
 import com.sinntalker.sinntest20180503_yy.Fragment.family.adapter.IMutlipleItem;
 import com.sinntalker.sinntest20180503_yy.Fragment.family.adapter.OnRecyclerViewListener;
-import com.sinntalker.sinntest20180503_yy.Fragment.family.base.ParentWithNaviActivity;
-import com.sinntalker.sinntest20180503_yy.Fragment.family.base.ParentWithNaviFragment;
+import com.sinntalker.sinntest20180503_yy.Fragment.family.base.BaseFragment;
 import com.sinntalker.sinntest20180503_yy.Fragment.family.bean.Friend;
-import com.sinntalker.sinntest20180503_yy.Fragment.family.db.NewFriendDao;
 import com.sinntalker.sinntest20180503_yy.Fragment.family.event.RefreshEvent;
 import com.sinntalker.sinntest20180503_yy.Fragment.family.model.UserModel;
 import com.sinntalker.sinntest20180503_yy.R;
@@ -34,7 +33,6 @@ import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.zip.Inflater;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -45,10 +43,9 @@ import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.UpdateListener;
 
-import static com.litesuits.orm.db.utils.DataUtil.NULL;
 
 
-public class FamilyFragment extends Fragment {
+public class FamilyFragment extends BaseFragment {
 
     @BindView(R.id.rc_view)
     RecyclerView rc_view;
@@ -187,21 +184,52 @@ public class FamilyFragment extends Fragment {
                     return true;
                 }
 
-                Friend friend = adapter.getItem(position);
-
-                UserModel.getInstance().deleteFriend(friend,
-                        new UpdateListener() {
+                final String items[] = { "查看个人信息", "删除该好友" };
+                AlertDialog dialog = new AlertDialog.Builder(getContext())
+//                        .setIcon(R.mipmap.icon)//设置标题的图片
+                        .setTitle("操作")//设置对话框的标题
+                        .setItems(items, new DialogInterface.OnClickListener() {
                             @Override
-                            public void done(BmobException e) {
-                                if (e == null) {
-                                    toast("好友删除成功");
-                                    adapter.remove(position);
-                                } else {
-                                    toast("好友删除失败：" + e.getErrorCode() + ",s =" + e.getMessage());
+                            public void onClick(DialogInterface dialog, int which) {
+                                Toast.makeText(getContext(), items[which], Toast.LENGTH_SHORT).show();
+                                if (which == 0) {
+                                    Bundle bundle = new Bundle();
+                                    Friend friend = adapter.getItem(position);
+                                    AllUserBean user = friend.getFriendUser();
+                                    bundle.putSerializable("u", user);
+                                    bundle.putString("type", "friendInfo");
+                                    startActivity(AddFriendInfoActivity.class, bundle);
+                                } else if (which == 1){ //删除该好友
+                                    Friend friend = adapter.getItem(position);
+
+                                    UserModel.getInstance().deleteFriend(friend,
+                                            new UpdateListener() {
+                                                @Override
+                                                public void done(BmobException e) {
+                                                    if (e == null) {
+                                                        toast("好友删除成功");
+                                                        adapter.remove(position);
+                                                    } else {
+                                                        toast("好友删除失败：" + e.getErrorCode() + ",s =" + e.getMessage());
+                                                    }
+                                                }
+                                            });
                                 }
                             }
-                        });
-
+                        })
+                        .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        }).create();
+                dialog.show();
 
                 return true;
             }
