@@ -18,10 +18,6 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.sinntalker.sinntest20180503_yy.AllUserBean;
-import com.sinntalker.sinntest20180503_yy.Fragment.health.BloodPressure.AddDataBloodPressureActivity;
-import com.sinntalker.sinntest20180503_yy.Fragment.health.BloodPressure.BloodDataBean;
-import com.sinntalker.sinntest20180503_yy.Fragment.health.BloodPressure.BloodPressureActivity;
-import com.sinntalker.sinntest20180503_yy.Fragment.health.StepCounter.DbUtils;
 import com.sinntalker.sinntest20180503_yy.R;
 
 import java.text.DateFormat;
@@ -56,11 +52,15 @@ public class AddDataBloodSugarActivity extends Activity implements View.OnClickL
     String strCurrentDate = "";
     String strCurrentTime = "";
 
+    String type;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);//去掉标题栏
         setContentView(R.layout.activity_add_data_blood_sugar);
+
+        type = getIntent().getStringExtra("family");
 
         initView();
 
@@ -236,32 +236,54 @@ public class AddDataBloodSugarActivity extends Activity implements View.OnClickL
         if (strSugarValueET.length() == 0) {
             Toast.makeText(getApplicationContext(), "请填写血糖值", Toast.LENGTH_SHORT).show();
         }else {
-            BloodSugarData data = new BloodSugarData();
-            data.setTime(strCurrentDate+"\n"+strCurrentTime);
-            data.setSugarValue(strSugarValueET);
-            data.setDuring(strChecked);
-            DbUtils.insert(data);
+//            BloodSugarData data = new BloodSugarData();
+//            data.setTime(strCurrentDate+"\n"+strCurrentTime);
+//            data.setSugarValue(strSugarValueET);
+//            data.setDuring(strChecked);
+//            DbUtils.insert(data);
 
 //            AllUserBean mCurrentUser = BmobUser.getCurrentUser(AllUserBean.class);
-
             AllUserBean mCurrentUser = BmobUser.getCurrentUser(AllUserBean.class);
-            SugarValueBean sugarValueBean = new SugarValueBean();
-            sugarValueBean.setSetTime(strCurrentDate+"\n"+strCurrentTime);
-            sugarValueBean.setUser(mCurrentUser);
-            sugarValueBean.setDuring(strChecked);
-            sugarValueBean.setSugarValue(strSugarValueET);
-            sugarValueBean.save(new SaveListener<String>() {
-                @Override
-                public void done(String s, BmobException e) {
-                    if (e == null) {
-                        Log.i("bmob", "保存成功");
-                        startActivity(new Intent(AddDataBloodSugarActivity.this, BloodSugerActivity.class)); //打开对应Activity可以刷新数据
-                        AddDataBloodSugarActivity.this.finish();
-                    } else {
-                        Log.i("bmob", "保存失败" + e.getErrorCode() + e.getMessage());
+
+            if (type != null && type.length() > 0) {
+                FamilySugarValueBean familySugarValueBean = new FamilySugarValueBean();
+                familySugarValueBean.setSetTime(strCurrentDate+"\n"+strCurrentTime);
+                familySugarValueBean.setUser(mCurrentUser);
+                familySugarValueBean.setRelations(type);
+                familySugarValueBean.setDuring(strChecked);
+                familySugarValueBean.setSugarValue(strSugarValueET);
+                familySugarValueBean.save(new SaveListener<String>() {
+                    @Override
+                    public void done(String s, BmobException e) {
+                        if (e == null) {
+                            Log.i("bmob", "保存成功");
+                            startActivity(new Intent(AddDataBloodSugarActivity.this, BloodSugerActivity.class)
+                                    .putExtra("family", type)); //打开对应Activity可以刷新数据
+                            AddDataBloodSugarActivity.this.finish();
+                        } else {
+                            Log.i("bmob", "保存失败" + e.getErrorCode() + e.getMessage());
+                        }
                     }
-                }
-            });
+                });
+            } else {
+                SugarValueBean sugarValueBean = new SugarValueBean();
+                sugarValueBean.setSetTime(strCurrentDate+"\n"+strCurrentTime);
+                sugarValueBean.setUser(mCurrentUser);
+                sugarValueBean.setDuring(strChecked);
+                sugarValueBean.setSugarValue(strSugarValueET);
+                sugarValueBean.save(new SaveListener<String>() {
+                    @Override
+                    public void done(String s, BmobException e) {
+                        if (e == null) {
+                            Log.i("bmob", "保存成功");
+                            startActivity(new Intent(AddDataBloodSugarActivity.this, BloodSugerActivity.class)); //打开对应Activity可以刷新数据
+                            AddDataBloodSugarActivity.this.finish();
+                        } else {
+                            Log.i("bmob", "保存失败" + e.getErrorCode() + e.getMessage());
+                        }
+                    }
+                });
+            }
 
 //            SugarValueBean bloodSugarBean = new SugarValueBean();
 ////            bloodSugarBean.setDuring(strChecked);

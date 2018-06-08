@@ -17,7 +17,6 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.sinntalker.sinntest20180503_yy.AllUserBean;
-import com.sinntalker.sinntest20180503_yy.Fragment.health.StepCounter.DbUtils;
 import com.sinntalker.sinntest20180503_yy.R;
 
 import java.text.DateFormat;
@@ -44,11 +43,15 @@ public class AddDataWeightActivity extends Activity implements View.OnClickListe
     String strCurrentDate = "";
     String strCurrentTime = "";
 
+    String type;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);//去掉标题栏
         setContentView(R.layout.activity_add_data_weight);
+
+        type = getIntent().getStringExtra("family");
 
         mBackWAIV = findViewById(R.id.id_imageView_back_addDataWeight);
         mWeightWAET = findViewById(R.id.id_editView_weight_addDataWeight);
@@ -104,29 +107,50 @@ public class AddDataWeightActivity extends Activity implements View.OnClickListe
         if (strWeightET.length() == 0) {
             Toast.makeText(getApplicationContext(), "请填写体重", Toast.LENGTH_SHORT).show();
         }else {
-            WeightData data = new WeightData();
-            data.setTime(strCurrentDate+" "+strCurrentTime);
-            data.setWeight(strWeightET);
-            DbUtils.insert(data);
+//            WeightData data = new WeightData();
+//            data.setTime(strCurrentDate+" "+strCurrentTime);
+//            data.setWeight(strWeightET);
+//            DbUtils.insert(data);
 
-            AllUserBean mCurrentUser = BmobUser.getCurrentUser(AllUserBean.class);
-            WeightBean weightBean = new WeightBean();
-            weightBean.setUser(mCurrentUser);
-            weightBean.setSetTime(strCurrentDate+" "+strCurrentTime);
-            weightBean.setWeight(strWeightET);
-            weightBean.save(new SaveListener<String>() {
-                @Override
-                public void done(String s, BmobException e) {
-                    if (e == null) {
-                        Log.i("bmob", "save success.");
-                        startActivity(new Intent(getApplicationContext(), WeightActivity.class)); //打开对应Activity可以刷新数据
-                        AddDataWeightActivity.this.finish();
-                    } else {
-                        Log.i("bmob", "save failed, error: " + e.getMessage() + e.getErrorCode());
+            if (type != null && type.length() > 0) {
+                AllUserBean mCurrentUser = BmobUser.getCurrentUser(AllUserBean.class);
+                FamilyWeightBean weightBean = new FamilyWeightBean();
+                weightBean.setUser(mCurrentUser);
+                weightBean.setRelations(type);
+                weightBean.setSetTime(strCurrentDate+" "+strCurrentTime);
+                weightBean.setWeight(strWeightET);
+                weightBean.save(new SaveListener<String>() {
+                    @Override
+                    public void done(String s, BmobException e) {
+                        if (e == null) {
+                            Log.i("bmob", "save success.");
+                            startActivity(new Intent(getApplicationContext(), WeightActivity.class)
+                                    .putExtra("family", type)); //打开对应Activity可以刷新数据
+                            AddDataWeightActivity.this.finish();
+                        } else {
+                            Log.i("bmob", "save failed, error: " + e.getMessage() + e.getErrorCode());
+                        }
                     }
-                }
-            });
-
+                });
+            } else {
+                AllUserBean mCurrentUser = BmobUser.getCurrentUser(AllUserBean.class);
+                WeightBean weightBean = new WeightBean();
+                weightBean.setUser(mCurrentUser);
+                weightBean.setSetTime(strCurrentDate+" "+strCurrentTime);
+                weightBean.setWeight(strWeightET);
+                weightBean.save(new SaveListener<String>() {
+                    @Override
+                    public void done(String s, BmobException e) {
+                        if (e == null) {
+                            Log.i("bmob", "save success.");
+                            startActivity(new Intent(getApplicationContext(), WeightActivity.class)); //打开对应Activity可以刷新数据
+                            AddDataWeightActivity.this.finish();
+                        } else {
+                            Log.i("bmob", "save failed, error: " + e.getMessage() + e.getErrorCode());
+                        }
+                    }
+                });
+            }
         }
     }
 

@@ -1,9 +1,7 @@
 package com.sinntalker.sinntest20180503_yy.Fragment.health.Weight;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,23 +12,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.orhanobut.logger.Logger;
 import com.sinntalker.sinntest20180503_yy.AllUserBean;
-import com.sinntalker.sinntest20180503_yy.Fragment.DrugBox.DrugBoxActivity;
-import com.sinntalker.sinntest20180503_yy.Fragment.DrugBox.DrugCommonDataBean;
-import com.sinntalker.sinntest20180503_yy.Fragment.DrugBox.DrugDataBean;
-import com.sinntalker.sinntest20180503_yy.Fragment.DrugBox.DrugDetailsActivity;
-import com.sinntalker.sinntest20180503_yy.Fragment.DrugBox.DrugEditActivity;
-import com.sinntalker.sinntest20180503_yy.Fragment.DrugBox.SetAlarmActivity;
-import com.sinntalker.sinntest20180503_yy.Fragment.health.StepCounter.CommonAdapter;
-import com.sinntalker.sinntest20180503_yy.Fragment.health.StepCounter.CommonViewHolder;
-import com.sinntalker.sinntest20180503_yy.Fragment.health.StepCounter.DbUtils;
 import com.sinntalker.sinntest20180503_yy.R;
 
 import java.util.ArrayList;
@@ -40,7 +26,6 @@ import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
-import cn.bmob.v3.listener.UpdateListener;
 
 public class WeightActivity extends Activity {
 
@@ -51,11 +36,15 @@ public class WeightActivity extends Activity {
 
     List<WeightBean> weightData = null;
 
+    String type;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);//去掉标题栏
         setContentView(R.layout.activity_weight);
+
+        type = getIntent().getStringExtra("family");
 
         mBackWAIV = findViewById(R.id.id_imageView_back_weight);
         mMessureHWATV = findViewById(R.id.id_textView_measureHand_weight);
@@ -71,81 +60,171 @@ public class WeightActivity extends Activity {
         mMessureHWATV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), AddDataWeightActivity.class));
+                startActivity(new Intent(getApplicationContext(), AddDataWeightActivity.class)
+                    .putExtra("family", type));
                 finish();
             }
         });
-
+        setEmptyView(mWTrendWALV);
         AllUserBean mCurrentUser = BmobUser.getCurrentUser(AllUserBean.class);
-        BmobQuery<WeightBean> query = new BmobQuery<WeightBean>();
-        query.addWhereEqualTo("user", mCurrentUser);
-        query.findObjects(new FindListener<WeightBean>() {
-            @Override
-            public void done(List<WeightBean> list, BmobException e) {
-                if (e == null) {
-                    Log.i("bmob", "query success. total data :" + list.size());
-                    final String[] strWeight = new String[list.size()];
-                    final String[] strTime = new String[list.size()];
+        if (type != null && type.length() > 0) {
+            //查询条件一：用户名称
+            BmobQuery<FamilyWeightBean> queryUserName = new BmobQuery<FamilyWeightBean>();
+            queryUserName.addWhereEqualTo("user",mCurrentUser);
 
-                    for (int i = 0; i < list.size(); i ++) {
-                        strWeight[i] = list.get(i).getWeight();
-                        strTime[i] = list.get(i).getSetTime();
-                    }
+            //查询条件二：药箱编号
+            BmobQuery<FamilyWeightBean> queryDrugBoxNum = new BmobQuery<FamilyWeightBean>();
+            queryDrugBoxNum.addWhereEqualTo("relations",type);
 
-                    class WeightDataAdapter extends BaseAdapter {
-                        private Context context ;
-                        public WeightDataAdapter(Context context){
-                            this.context = context;
+            //最后查询时完整的条件
+            List<BmobQuery<FamilyWeightBean>> allQueries = new ArrayList<BmobQuery<FamilyWeightBean>>();
+            allQueries.add(queryUserName);
+            allQueries.add(queryDrugBoxNum);
+
+            //查询
+            BmobQuery<FamilyWeightBean> query = new BmobQuery<FamilyWeightBean>();
+            query.and(allQueries);
+            query.findObjects(new FindListener<FamilyWeightBean>() {
+                @Override
+                public void done(List<FamilyWeightBean> list, BmobException e) {
+                    if (e == null) {
+                        Log.i("bmob", "query success. total data :" + list.size());
+                        final String[] strWeight = new String[list.size()];
+                        final String[] strTime = new String[list.size()];
+
+                        for (int i = 0; i < list.size(); i ++) {
+                            strWeight[i] = list.get(i).getWeight();
+                            strTime[i] = list.get(i).getSetTime();
                         }
 
-                        @Override
-                        public int getCount() {
-                            return strWeight.length;
+                        class WeightDataAdapter extends BaseAdapter {
+                            private Context context ;
+                            public WeightDataAdapter(Context context){
+                                this.context = context;
+                            }
+
+                            @Override
+                            public int getCount() {
+                                return strWeight.length;
+                            }
+
+                            @Override
+                            public Object getItem(int position) {
+                                return strWeight[position];
+                            }
+
+                            @Override
+                            public long getItemId(int position) {
+                                return position;
+                            }
+                            ViewHolder viewHolder;
+
+                            @Override
+                            public View getView(final int position, View convertView, ViewGroup parent) {
+                                // 创建布局
+                                convertView = LayoutInflater.from(context).inflate(R.layout.listview_item_step_history_data, parent, false);
+                                viewHolder = new ViewHolder();
+                                viewHolder.time = convertView.findViewById(R.id.id_item_textView_dataTime_historyData);
+                                viewHolder.weight = convertView.findViewById(R.id.id_item_textView_dataStep_historyData);
+
+                                viewHolder.weight.setText(strWeight[position] + "kg");
+                                viewHolder.time.setText(strTime[position]);
+
+                                return convertView;
+                            }
+
+                            class ViewHolder{
+                                TextView time;  //测量体重时间
+                                TextView weight; //测量体重数据
+                            }
                         }
 
-                        @Override
-                        public Object getItem(int position) {
-                            return strWeight[position];
+                        if (list.size() == 0) {
+                            setEmptyView(mWTrendWALV);
+                        } else {
+                            //设置listView的Adapter
+                            mWTrendWALV.setAdapter(new WeightDataAdapter(WeightActivity.this));
                         }
 
-                        @Override
-                        public long getItemId(int position) {
-                            return position;
-                        }
-                        ViewHolder viewHolder;
-
-                        @Override
-                        public View getView(final int position, View convertView, ViewGroup parent) {
-                            // 创建布局
-                            convertView = LayoutInflater.from(context).inflate(R.layout.listview_item_step_history_data, parent, false);
-                            viewHolder = new ViewHolder();
-                            viewHolder.time = convertView.findViewById(R.id.id_item_textView_dataTime_historyData);
-                            viewHolder.weight = convertView.findViewById(R.id.id_item_textView_dataStep_historyData);
-
-                            viewHolder.weight.setText(strWeight[position] + "kg");
-                            viewHolder.time.setText(strTime[position]);
-
-                            return convertView;
-                        }
-
-                        class ViewHolder{
-                            TextView time;  //测量体重时间
-                            TextView weight; //测量体重数据
-                        }
-                    }
-
-                    if (list.size() == 0) {
-                        setEmptyView(mWTrendWALV);
                     } else {
-                        //设置listView的Adapter
-                        mWTrendWALV.setAdapter(new WeightDataAdapter(WeightActivity.this));
+                        Log.i("bmob", "query failed. error message:" + e.getMessage() + e.getErrorCode());
                     }
-
-                } else {
-                    Log.i("bmob", "query failed. error message:" + e.getMessage() + e.getErrorCode());
                 }
-            }
-        });
+            });
+        } else {
+
+            BmobQuery<WeightBean> query = new BmobQuery<WeightBean>();
+            query.addWhereEqualTo("user", mCurrentUser);
+            query.findObjects(new FindListener<WeightBean>() {
+                @Override
+                public void done(List<WeightBean> list, BmobException e) {
+                    if (e == null) {
+                        Log.i("bmob", "query success. total data :" + list.size());
+                        final String[] strWeight = new String[list.size()];
+                        final String[] strTime = new String[list.size()];
+
+                        for (int i = 0; i < list.size(); i ++) {
+                            strWeight[i] = list.get(i).getWeight();
+                            strTime[i] = list.get(i).getSetTime();
+                        }
+
+                        class WeightDataAdapter extends BaseAdapter {
+                            private Context context ;
+                            public WeightDataAdapter(Context context){
+                                this.context = context;
+                            }
+
+                            @Override
+                            public int getCount() {
+                                return strWeight.length;
+                            }
+
+                            @Override
+                            public Object getItem(int position) {
+                                return strWeight[position];
+                            }
+
+                            @Override
+                            public long getItemId(int position) {
+                                return position;
+                            }
+                            ViewHolder viewHolder;
+
+                            @Override
+                            public View getView(final int position, View convertView, ViewGroup parent) {
+                                // 创建布局
+                                convertView = LayoutInflater.from(context).inflate(R.layout.listview_item_step_history_data, parent, false);
+                                viewHolder = new ViewHolder();
+                                viewHolder.time = convertView.findViewById(R.id.id_item_textView_dataTime_historyData);
+                                viewHolder.weight = convertView.findViewById(R.id.id_item_textView_dataStep_historyData);
+
+                                viewHolder.weight.setText(strWeight[position] + "kg");
+                                viewHolder.time.setText(strTime[position]);
+
+                                return convertView;
+                            }
+
+                            class ViewHolder{
+                                TextView time;  //测量体重时间
+                                TextView weight; //测量体重数据
+                            }
+                        }
+
+                        if (list.size() == 0) {
+                            setEmptyView(mWTrendWALV);
+                        } else {
+                            //设置listView的Adapter
+                            mWTrendWALV.setAdapter(new WeightDataAdapter(WeightActivity.this));
+                        }
+
+                    } else {
+                        Log.i("bmob", "query failed. error message:" + e.getMessage() + e.getErrorCode());
+                    }
+                }
+            });
+        }
+
+
 ////        if(DbUtils.getLiteOrm()==null){
 ////            DbUtils.createDb(this, "jingzhi");
 ////        }

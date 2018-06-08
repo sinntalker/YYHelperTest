@@ -17,7 +17,6 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.sinntalker.sinntest20180503_yy.Activity.MainActivity;
 import com.sinntalker.sinntest20180503_yy.AllUserBean;
 import com.sinntalker.sinntest20180503_yy.Fragment.user.city.ScrollerNumberPicker;
 import com.sinntalker.sinntest20180503_yy.R;
@@ -25,6 +24,7 @@ import com.sinntalker.sinntest20180503_yy.R;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -61,11 +61,16 @@ public class PersonalInfoActivity extends Activity {
 
     String objectID;
 
+    String type;
+    String objectIDFamily;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);//去掉标题栏
         setContentView(R.layout.activity_personal_info);
+
+        type = getIntent().getStringExtra("family");
 
         //实例化
         mBackPIIV = findViewById(R.id.id_imageView_back_personalInfo);
@@ -85,41 +90,95 @@ public class PersonalInfoActivity extends Activity {
         String username = mCurrentUser.getUsername();
         objectID = mCurrentUser.getObjectId();
 
-        //查询当前用户信息，并展示所能修改的个人信息
-        BmobQuery<AllUserBean> query = new BmobQuery<AllUserBean>();
-        query.addWhereEqualTo("username", username);
-        query.findObjects(new FindListener<AllUserBean>() {
-            @Override
-            public void done(List<AllUserBean> object, BmobException e) {
-                if (e == null) {
-                    Log.i("bmob", "查询成功，当前用户存在，开始获取用户信息");
-                    for (int i = 0; i < object.size(); i ++) {
-                        mNickNamePIET.setText(object.get(i).getName());
-                        mBirthDayPITV.setText(object.get(i).getBirth());
-                        if (object.get(i).getSex().equals("男")) {
-                            mMalePIRB.setChecked(true);
-                            mFemalePIRB.setChecked(false);
-                        } else {
-                            mMalePIRB.setChecked(false);
-                            mFemalePIRB.setChecked(true);
-                        }
-                        mAreaPITV.setText(object.get(i).getArea());
-                        mHeightPITV.setText(object.get(i).getHeight() + "cm");
-                        if (object.get(i).getIDCardType().equals("身份证")) {
-                            mIDCardPIRB.setChecked(true);
-                            mPassportPIRB.setChecked(false);
-                        } else {
-                            mIDCardPIRB.setChecked(false);
-                            mPassportPIRB.setChecked(true);
-                        }
-                        mIDCardNumberPIET.setText(object.get(i).getIDNumber());
-                    }
+        if (type != null && type.length() != 0) {
+            AllUserBean user = BmobUser.getCurrentUser(AllUserBean.class);
+            //查询条件一：用户名称
+            BmobQuery<FamilyBean> queryUserName = new BmobQuery<FamilyBean>();
+            queryUserName.addWhereEqualTo("user",user);
 
-                } else {
-                    Log.i("bmob", "查询用户信息失败，错误信息：" + e.getErrorCode() + e.getMessage());
+            //查询条件二：药箱编号
+            BmobQuery<FamilyBean> queryDrugBoxNum = new BmobQuery<FamilyBean>();
+            queryDrugBoxNum.addWhereEqualTo("relations",type);
+
+            //最后查询时完整的条件
+            List<BmobQuery<FamilyBean>> allQueries = new ArrayList<BmobQuery<FamilyBean>>();
+            allQueries.add(queryUserName);
+            allQueries.add(queryDrugBoxNum);
+
+            //查询
+            BmobQuery<FamilyBean> query = new BmobQuery<FamilyBean>();
+            query.and(allQueries);
+            query.findObjects(new FindListener<FamilyBean>() {
+                @Override
+                public void done(List<FamilyBean> object, BmobException e) {
+                    if (e == null) {
+                        Log.i("bmob", "查询家人信息成功！");
+                        objectIDFamily = object.get(0).getObjectId();
+                        for (int i = 0; i < object.size(); i ++) {
+                            mNickNamePIET.setText(object.get(i).getName());
+                            mBirthDayPITV.setText(object.get(i).getBirth());
+                            if (object.get(i).getSex().equals("男")) {
+                                mMalePIRB.setChecked(true);
+                                mFemalePIRB.setChecked(false);
+                            } else {
+                                mMalePIRB.setChecked(false);
+                                mFemalePIRB.setChecked(true);
+                            }
+                            mAreaPITV.setText(object.get(i).getArea());
+                            mHeightPITV.setText(object.get(i).getHeight());
+                            if (object.get(i).getIDCardType().equals("身份证")) {
+                                mIDCardPIRB.setChecked(true);
+                                mPassportPIRB.setChecked(false);
+                            } else {
+                                mIDCardPIRB.setChecked(false);
+                                mPassportPIRB.setChecked(true);
+                            }
+                            mIDCardNumberPIET.setText(object.get(i).getIDNumber());
+                        }
+                    } else {
+                        Log.i("bmob", "查询家人信息失败！" + e.getMessage() + e.getErrorCode());
+                    }
                 }
-            }
-        });
+            });
+        } else {
+            //查询当前用户信息，并展示所能修改的个人信息
+            BmobQuery<AllUserBean> query = new BmobQuery<AllUserBean>();
+            query.addWhereEqualTo("username", username);
+            query.findObjects(new FindListener<AllUserBean>() {
+                @Override
+                public void done(List<AllUserBean> object, BmobException e) {
+                    if (e == null) {
+                        Log.i("bmob", "查询成功，当前用户存在，开始获取用户信息");
+                        for (int i = 0; i < object.size(); i ++) {
+                            mNickNamePIET.setText(object.get(i).getName());
+                            mBirthDayPITV.setText(object.get(i).getBirth());
+                            if (object.get(i).getSex().equals("男")) {
+                                mMalePIRB.setChecked(true);
+                                mFemalePIRB.setChecked(false);
+                            } else {
+                                mMalePIRB.setChecked(false);
+                                mFemalePIRB.setChecked(true);
+                            }
+                            mAreaPITV.setText(object.get(i).getArea());
+                            mHeightPITV.setText(object.get(i).getHeight());
+                            if (object.get(i).getIDCardType().equals("身份证")) {
+                                mIDCardPIRB.setChecked(true);
+                                mPassportPIRB.setChecked(false);
+                            } else {
+                                mIDCardPIRB.setChecked(false);
+                                mPassportPIRB.setChecked(true);
+                            }
+                            mIDCardNumberPIET.setText(object.get(i).getIDNumber());
+                        }
+
+                    } else {
+                        Log.i("bmob", "查询用户信息失败，错误信息：" + e.getErrorCode() + e.getMessage());
+                    }
+                }
+            });
+        }
+
+
 
         mBackPIIV.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -207,8 +266,8 @@ public class PersonalInfoActivity extends Activity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
 //                                Toast.makeText(PersonalInfoActivity.this, items[which], Toast.LENGTH_SHORT).show();
-                                mHeightPITV.setText(items[which] + "cm");
-                                Log.i("bmob", "当前身高为 " + items[which] + "cm");
+                                mHeightPITV.setText(items[which]);
+                                Log.i("bmob", "当前身高为 " + items[which]);
                             }
                         })
                         .setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -220,8 +279,8 @@ public class PersonalInfoActivity extends Activity {
                         .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                mHeightPITV.setText(items[which] + "cm");
-                                Log.i("bmob", "当前身高为 " + items[which] + "cm");
+                                mHeightPITV.setText(items[which]);
+                                Log.i("bmob", "当前身高为 " + items[which]);
                                 dialog.dismiss();
                             }
                         }).create();
@@ -257,27 +316,51 @@ public class PersonalInfoActivity extends Activity {
 //                strIDcardType = ;
                 strIDNumber = mIDCardNumberPIET.getText().toString().trim();
 
-                AllUserBean mUser = new AllUserBean();
-                mUser.setName(strNickName);
-                mUser.setBirth(strBirthDay);
-                mUser.setSex(strSex);
-                mUser.setArea(strArea);
-                mUser.setHeight(strHeight);
-                mUser.setIDCardType(strIDcardType);
-                mUser.setIDNumber(strIDNumber);
-                mUser.update(objectID, new UpdateListener() {
-                    @Override
-                    public void done(BmobException e) {
-                        if(e==null){
-                            Toast.makeText(PersonalInfoActivity.this, "个人信息更新成功！", Toast.LENGTH_SHORT).show();
-                            Log.i("bmob","个人信息更新成功");
-                            finish();
-                        }else{
-                            Toast.makeText(PersonalInfoActivity.this, "个人信息更新失败，请稍后再试！", Toast.LENGTH_SHORT).show();
-                            Log.i("bmob","个人信息更新失败："+e.getMessage()+","+e.getErrorCode());
+                if (type != null && type.length() != 0) {
+                    FamilyBean mFamily = new FamilyBean();
+                    mFamily.setName(strNickName);
+                    mFamily.setBirth(strBirthDay);
+                    mFamily.setSex(strSex);
+                    mFamily.setArea(strArea);
+                    mFamily.setHeight(strHeight);
+                    mFamily.setIDCardType(strIDcardType);
+                    mFamily.setIDNumber(strIDNumber);
+                    mFamily.update(objectIDFamily, new UpdateListener() {
+                        @Override
+                        public void done(BmobException e) {
+                            if(e==null){
+                                Toast.makeText(PersonalInfoActivity.this, "个人信息更新成功！", Toast.LENGTH_SHORT).show();
+                                Log.i("bmob","个人信息更新成功");
+                                finish();
+                            }else{
+                                Toast.makeText(PersonalInfoActivity.this, "个人信息更新失败，请稍后再试！", Toast.LENGTH_SHORT).show();
+                                Log.i("bmob","个人信息更新失败："+e.getMessage()+","+e.getErrorCode());
+                            }
                         }
-                    }
-                });
+                    });
+                } else {
+                    AllUserBean mUser = new AllUserBean();
+                    mUser.setName(strNickName);
+                    mUser.setBirth(strBirthDay);
+                    mUser.setSex(strSex);
+                    mUser.setArea(strArea);
+                    mUser.setHeight(strHeight);
+                    mUser.setIDCardType(strIDcardType);
+                    mUser.setIDNumber(strIDNumber);
+                    mUser.update(objectID, new UpdateListener() {
+                        @Override
+                        public void done(BmobException e) {
+                            if(e==null){
+                                Toast.makeText(PersonalInfoActivity.this, "个人信息更新成功！", Toast.LENGTH_SHORT).show();
+                                Log.i("bmob","个人信息更新成功");
+                                finish();
+                            }else{
+                                Toast.makeText(PersonalInfoActivity.this, "个人信息更新失败，请稍后再试！", Toast.LENGTH_SHORT).show();
+                                Log.i("bmob","个人信息更新失败："+e.getMessage()+","+e.getErrorCode());
+                            }
+                        }
+                    });
+                }
             }
         });
     }

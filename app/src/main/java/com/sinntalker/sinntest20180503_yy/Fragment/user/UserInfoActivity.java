@@ -3,28 +3,20 @@ package com.sinntalker.sinntest20180503_yy.Fragment.user;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
-import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.sinntalker.sinntest20180503_yy.Activity.LoginActivity;
-import com.sinntalker.sinntest20180503_yy.Activity.MainActivity;
 import com.sinntalker.sinntest20180503_yy.Activity.ResetActivity;
 import com.sinntalker.sinntest20180503_yy.AllUserBean;
-import com.sinntalker.sinntest20180503_yy.Fragment.family.model.UserModel;
 import com.sinntalker.sinntest20180503_yy.R;
 
-import cn.bmob.newim.BmobIM;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.UpdateListener;

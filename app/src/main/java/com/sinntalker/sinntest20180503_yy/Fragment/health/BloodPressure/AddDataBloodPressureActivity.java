@@ -18,7 +18,6 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.sinntalker.sinntest20180503_yy.AllUserBean;
-import com.sinntalker.sinntest20180503_yy.Fragment.health.StepCounter.DbUtils;
 import com.sinntalker.sinntest20180503_yy.R;
 
 import java.text.DateFormat;
@@ -47,12 +46,16 @@ public class AddDataBloodPressureActivity extends Activity implements View.OnCli
     String strPressureMeasure_Date; //当前日期 字符串 用于获取控件中字符串完成保存功能
     String strPressureMeasure_Time; //当前时间 字符串 用于获取控件中字符串完成保存功能
 
+    String type;
+
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);//去掉标题栏
         setContentView(R.layout.activity_add_data_blood_pressure);
+
+        type = getIntent().getStringExtra("family");
 
         //实例化
         mBackADBPIV = findViewById(R.id.id_imageView_back_addDataBloodPressure);
@@ -124,30 +127,52 @@ public class AddDataBloodPressureActivity extends Activity implements View.OnCli
         strPressureMeasure_Date = mDateADBPTV.getText().toString().trim();
         strPressureMeasure_Time = mTimeADBPTV.getText().toString().trim();
 
-        BloodPressureData data = new BloodPressureData();
-        data.setToday(strPressureMeasure_Date+"\n"+strPressureMeasure_Time);
-        data.setMaxPressure(strBloodPressure_Systolic);
-        data.setMinPressure(strBloodPressure_Diastolic);
-        DbUtils.insert(data);
+//        BloodPressureData data = new BloodPressureData();
+//        data.setToday(strPressureMeasure_Date+"\n"+strPressureMeasure_Time);
+//        data.setMaxPressure(strBloodPressure_Systolic);
+//        data.setMinPressure(strBloodPressure_Diastolic);
+//        DbUtils.insert(data);
 
         AllUserBean mCurrentUser = BmobUser.getCurrentUser(AllUserBean.class);
-        BloodDataBean bloodDataBean = new BloodDataBean();
-        bloodDataBean.setSetTime(strPressureMeasure_Date + " " + strPressureMeasure_Time);
-        bloodDataBean.setUser(mCurrentUser);
-        bloodDataBean.setBloodDiastolic(strBloodPressure_Diastolic);
-        bloodDataBean.setBloodSystolic(strBloodPressure_Systolic);
-        bloodDataBean.save(new SaveListener<String>() {
-            @Override
-            public void done(String s, BmobException e) {
-                if (e == null) {
-                    Log.i("bmob", "保存成功");
-                    startActivity(new Intent(AddDataBloodPressureActivity.this, BloodPressureActivity.class)); //打开对应Activity可以刷新数据
-                    AddDataBloodPressureActivity.this.finish();
-                } else {
-                    Log.i("bmob", "保存失败" + e.getErrorCode() + e.getMessage());
+        if (type != null && type.length() > 0) {
+            FamilyBloodDataBean familyBloodDataBean = new FamilyBloodDataBean();
+            familyBloodDataBean.setSetTime(strPressureMeasure_Date + " " + strPressureMeasure_Time);
+            familyBloodDataBean.setUser(mCurrentUser);
+            familyBloodDataBean.setRelations(type);
+            familyBloodDataBean.setBloodDiastolic(strBloodPressure_Diastolic);
+            familyBloodDataBean.setBloodSystolic(strBloodPressure_Systolic);
+            familyBloodDataBean.save(new SaveListener<String>() {
+                @Override
+                public void done(String s, BmobException e) {
+                    if (e == null) {
+                        Log.i("bmob", "保存成功");
+                        startActivity(new Intent(AddDataBloodPressureActivity.this, BloodPressureActivity.class)
+                            .putExtra("family", type)); //打开对应Activity可以刷新数据
+                        AddDataBloodPressureActivity.this.finish();
+                    } else {
+                        Log.i("bmob", "保存失败" + e.getErrorCode() + e.getMessage());
+                    }
                 }
-            }
-        });
+            });
+        } else {
+            BloodDataBean bloodDataBean = new BloodDataBean();
+            bloodDataBean.setSetTime(strPressureMeasure_Date + " " + strPressureMeasure_Time);
+            bloodDataBean.setUser(mCurrentUser);
+            bloodDataBean.setBloodDiastolic(strBloodPressure_Diastolic);
+            bloodDataBean.setBloodSystolic(strBloodPressure_Systolic);
+            bloodDataBean.save(new SaveListener<String>() {
+                @Override
+                public void done(String s, BmobException e) {
+                    if (e == null) {
+                        Log.i("bmob", "保存成功");
+                        startActivity(new Intent(AddDataBloodPressureActivity.this, BloodPressureActivity.class)); //打开对应Activity可以刷新数据
+                        AddDataBloodPressureActivity.this.finish();
+                    } else {
+                        Log.i("bmob", "保存失败" + e.getErrorCode() + e.getMessage());
+                    }
+                }
+            });
+        }
     }
 
     private void showTimeDialog_date() {

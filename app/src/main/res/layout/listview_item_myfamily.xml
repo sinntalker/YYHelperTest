@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bluebutton_bg"
+    android:layout_margin="10dp"
+    android:paddingBottom="10dp"
     android:orientation="vertical">
 
     <LinearLayout
@@ -11,13 +14,13 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:id="@+id/id_imageView_avatar_myFamily"
+            android:id="@+id/id_imageView_avatar_myFamilyListView"
             android:layout_width="75dp"
             android:layout_height="75dp"
             android:src="@drawable/avatar" />
 
         <TextView
-            android:id="@+id/id_textView_relation_myFamily"
+            android:id="@+id/id_textView_relation_myFamilyListView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
@@ -33,7 +36,8 @@
         android:layout_height="100dp"
         android:layout_marginTop="5dp"
         android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp">
+        android:layout_marginRight="10dp"
+        android:background="@drawable/bluebutton_bg">
 
         <TextView
             android:layout_width="wrap_content"
@@ -62,18 +66,11 @@
             android:layout_marginRight="20dp"
             android:layout_marginTop="15dp"
             android:background="@drawable/bluebutton_bg"
-            android:text="开启"
+            android:text="记录"
             android:textSize="14sp"
             android:textColor="#6495ED" />
 
     </RelativeLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:background="#000000"/>
 
     <RelativeLayout
         android:id="@+id/relativeLayout_blood"
@@ -81,7 +78,8 @@
         android:layout_height="100dp"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp">
+        android:layout_marginRight="10dp"
+        android:background="@drawable/bluebutton_bg">
 
         <TextView
             android:layout_width="wrap_content"
@@ -110,18 +108,11 @@
             android:layout_marginRight="20dp"
             android:layout_marginTop="15dp"
             android:background="@drawable/bluebutton_bg"
-            android:text="开启"
+            android:text="记录"
             android:textSize="14sp"
             android:textColor="#6495ED" />
 
     </RelativeLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:background="#000000"/>
 
     <RelativeLayout
         android:id="@+id/relativeLayout_weight"
@@ -130,7 +121,8 @@
         android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginBottom="10dp">
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/bluebutton_bg">
 
         <TextView
             android:layout_width="wrap_content"
@@ -159,7 +151,7 @@
             android:layout_marginRight="20dp"
             android:layout_marginTop="15dp"
             android:background="@drawable/bluebutton_bg"
-            android:text="开启"
+            android:text="记录"
             android:textSize="14sp"
             android:textColor="#6495ED" />
 

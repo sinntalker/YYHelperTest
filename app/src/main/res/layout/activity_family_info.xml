@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.sinntalker.sinntest20180503_yy.Fragment.user.FamilyInfoActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#6495ED">
+
+        <ImageView
+            android:id="@+id/id_imageView_back_familyInfo"
+            android:layout_width="40dp"
+            android:layout_height="50dp"
+            android:src="@drawable/common_back"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="40dp"
+            android:gravity="center"
+            android:text="用户信息"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"/>
+
+        <!--<ImageView-->
+            <!--android:id="@+id/id_imageView_edit_familyInfo"-->
+            <!--android:layout_width="50dp"-->
+            <!--android:layout_height="50dp"-->
+            <!--android:padding="5dp"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:src="@drawable/edit_drug_white"/>-->
+
+    </RelativeLayout>
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:background="#FFFFFF">
+
+        <TableRow>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="个人头像"
+                android:textSize="18sp"
+                android:gravity="center|left"/>
+
+            <ImageView
+                android:id="@+id/id_imageView_avatar_familyInfo"
+                android:layout_width="150dp"
+                android:layout_height="75dp"
+                android:layout_margin="10dp"
+                android:paddingLeft="50dp"
+                android:src="@drawable/avatar"/>
+        </TableRow>
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:background="#000000"/>
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="50dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="用户关系"
+                android:textSize="18sp"
+                android:gravity="center|left"/>
+
+            <TextView
+                android:id="@+id/id_textView_nick_familyInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                android:background="@null"
+                android:text="xxxxx"
+                android:textSize="16sp"
+                android:gravity="right"
+                android:paddingRight="20dp"/>
+        </TableRow>
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:background="#000000"/>
+
+        <TableRow
+            android:layout_height="50dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="手机号"
+                android:textSize="18sp"
+                android:gravity="center|left"/>
+
+            <TextView
+                android:id="@+id/id_textView_phone_familyInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                android:text="xxxxx"
+                android:textSize="16sp"
+                android:gravity="right"
+                android:paddingRight="20dp"/>
+        </TableRow>
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:background="#000000"/>
+
+        <TableRow
+            android:id="@+id/id_tableRow_detail_familyInfo"
+            android:layout_height="50dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="详细信息"
+                android:textSize="18sp"
+                android:gravity="center|left"/>
+
+            <ImageView
+                android:layout_width="10dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="120dp"
+                android:padding="10dp"
+                android:src="@drawable/ic_arrow_right_gray"/>
+        </TableRow>
+
+    </TableLayout>
+
+
+</LinearLayout>

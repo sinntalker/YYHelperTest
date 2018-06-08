@@ -13,6 +13,7 @@
         android:background="#6495ED">
 
         <ImageView
+            android:id="@+id/id_imageView_back_createFamilyMember"
             android:layout_width="40dp"
             android:layout_height="50dp"
             android:src="@drawable/common_back"/>
@@ -29,14 +30,16 @@
     </RelativeLayout>
 
     <ImageView
+        android:id="@+id/id_imageView_avatar_createFamilyMember"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="10dp"
-        android:src="@drawable/icons_qq"
+        android:src="@drawable/avatar"
         android:layout_gravity="center"/>
 
     <TextView
+        android:id="@+id/id_textView_editAvatar_createFamilyMember"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="自定义头像"
@@ -53,6 +56,7 @@
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingLeft="20dp"
         android:orientation="vertical">
 
         <TableRow
@@ -60,14 +64,18 @@
             android:layout_height="50dp">
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
                 android:text="家人关系"
                 android:gravity="center"
                 android:textSize="16sp"/>
 
             <Spinner
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:id="@+id/id_spinner_relation_createFamilyMember"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"/>
 
         </TableRow>
 
@@ -76,16 +84,21 @@
             android:layout_height="50dp">
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
                 android:text="年龄"
                 android:gravity="center"
                 android:textSize="16sp"/>
 
             <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:id="@+id/id_editText_age_createFamilyMember"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
                 android:inputType="number"
-                android:imeOptions="actionNext"/>
+                android:imeOptions="actionNext"
+                android:background="@drawable/edit_bg"/>
 
         </TableRow>
 
@@ -94,14 +107,18 @@
             android:layout_height="50dp">
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:text="居住地"
                 android:gravity="center"
                 android:textSize="16sp"/>
 
-            <Spinner
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/id_textView_area_createFamilyMember"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:text="单击选择居住地"
+                android:gravity="center"
+                android:textSize="16sp" />
 
         </TableRow>
 
@@ -110,14 +127,18 @@
             android:layout_height="50dp">
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:text="手机号"
                 android:gravity="center"
                 android:textSize="16sp"/>
 
             <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:id="@+id/id_editText_phone_createFamilyMember"
+                android:layout_width="200dp"
+                android:layout_height="40dp"
+                android:background="@drawable/edit_bg"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
                 android:inputType="phone"
                 android:imeOptions="actionDone"/>
 
@@ -128,9 +149,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"/>
+
     <Button
+        android:id="@+id/id_button_save_createFamilyMember"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="保存"/>
+        android:background="@drawable/roundrectanglerlinearlayout_bg"
+        android:text="保存"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"/>
 
 </LinearLayout>
