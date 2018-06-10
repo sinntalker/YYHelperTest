@@ -14,7 +14,7 @@
 
         <ImageView
             android:id="@+id/backToUser_settings_image"
-            android:layout_width="30dp"
+            android:layout_width="40dp"
             android:layout_height="50dp"
             android:layout_centerVertical="true"
             android:src="@drawable/common_back"/>
@@ -38,11 +38,12 @@
     <TextView
         android:id="@+id/infoSet_textView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_marginLeft="15dp"
         android:padding="10dp"
         android:textSize="16sp"
-        android:text="个人信息"/>
+        android:text="个人信息"
+        android:gravity="center|left"/>
 
     <View
         android:layout_width="match_parent"
@@ -66,11 +67,12 @@
     <TextView
         android:id="@+id/universal_textView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_marginLeft="15dp"
         android:padding="10dp"
         android:textSize="16sp"
-        android:text="通用"/>
+        android:text="通用"
+        android:gravity="center|left"/>
 
     <View
         android:layout_width="match_parent"
@@ -80,11 +82,12 @@
     <TextView
         android:id="@+id/about_textView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_marginLeft="15dp"
         android:padding="10dp"
         android:textSize="16sp"
-        android:text="关于"/>
+        android:text="关于"
+        android:gravity="center|left"/>
 
     <View
         android:layout_width="match_parent"
@@ -94,11 +97,12 @@
     <TextView
         android:id="@+id/cancelUser_textView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_marginLeft="15dp"
         android:padding="10dp"
         android:textSize="16sp"
-        android:text="注销"/>
+        android:text="注销"
+        android:gravity="center|left"/>
 
     <View
         android:layout_width="match_parent"

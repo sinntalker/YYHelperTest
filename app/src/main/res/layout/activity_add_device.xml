@@ -29,20 +29,62 @@
 
     </RelativeLayout>
 
-    <TextView
-        android:id="@+id/state"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <!--<TextView-->
+        <!--android:id="@+id/state"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content" />-->
 
-    <ListView
-        android:id="@+id/id_listview_deviceResult_addDevice"
+    <!--<ListView-->
+        <!--android:id="@+id/id_listview_deviceResult_addDevice"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="50dp"-->
+        <!--android:layout_marginTop="10dp"-->
+        <!--android:layout_marginBottom="10dp"-->
+        <!--android:layout_weight="1">-->
+
+    <!--</ListView>-->
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="设备列表"
+        android:textSize="16sp"
+        android:paddingLeft="15dp"
+        android:gravity="center|left"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="#000000" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/devices"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
         android:layout_weight="1">
 
-    </ListView>
+    </android.support.v7.widget.RecyclerView>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="消息列表"
+        android:textSize="16sp"
+        android:paddingLeft="15dp"
+        android:gravity="center|left"
+        android:visibility="gone"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/msglist"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:visibility="gone"
+        >
+
+    </android.support.v7.widget.RecyclerView>
 
     <Button
         android:id="@+id/id_button_search_addDevice"
@@ -51,6 +93,72 @@
         android:text="搜索设备"
         android:textSize="16sp"
         android:textColor="#FFFFFF"
-        android:background="@drawable/roundrectanglerlinearlayout_bg"/>
+        android:background="@drawable/roundrectanglerlinearlayout_bg"
+        android:visibility="gone"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/open"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:text="打开"
+            android:textSize="16sp"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/roundrectanglerlinearlayout_bg"/>
+
+        <Button
+            android:id="@+id/close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:text="关闭"
+            android:textSize="16sp"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/roundrectanglerlinearlayout_bg"/>
+
+        <Button
+            android:id="@+id/start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:text="搜索"
+            android:textSize="16sp"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/roundrectanglerlinearlayout_bg"/>
+
+        <Button
+            android:id="@+id/stop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:text="停止"
+            android:textSize="16sp"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/roundrectanglerlinearlayout_bg"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:text="请蓝牙搜索结束或停止搜索后再进行连接操作"
+        android:textColor="#FFFFFF"
+        android:gravity="center"
+        android:background="#AAAAAA"/>
 
 </LinearLayout>

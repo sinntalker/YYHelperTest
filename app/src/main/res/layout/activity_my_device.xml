@@ -13,6 +13,7 @@
         android:background="#6495ED">
 
         <ImageView
+            android:id="@+id/id_imageView_back_myDevice"
             android:layout_width="40dp"
             android:layout_height="50dp"
             android:src="@drawable/common_back"/>
@@ -26,12 +27,27 @@
             android:textColor="#FFFFFF"
             android:textSize="18sp"/>
 
+        <TextView
+            android:id="@+id/id_textView_add_myDevice"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginRight="20dp"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:text="添加设备"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"/>
+
     </RelativeLayout>
 
     <ListView
         android:id="@+id/id_listView_myDeviceList_myDevice"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp">
 
     </ListView>
 

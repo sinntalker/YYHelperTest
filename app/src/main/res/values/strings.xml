@@ -1,5 +1,6 @@
 <resources>
-    <string name="app_name">SinnTest20180503_YY</string>
+    <!--<string name="app_name">SinnTest20180503_YY</string>-->
+    <string name="app_name">医药Helper</string>
 
     <!-- 获取 Token -->
     <string name="weibosdk_demo_obtain_token_via_sso_all_in_one">SSO 授权（ALL IN ONE）</string>
@@ -89,5 +90,10 @@
     <string name="show_devices">查询配对设备</string>
     <string name="find_devices">搜索设备</string>
     <string name="connect_devices">连接设备</string>
+    <string name="select_device">请选择一个设备连接</string>
+    <string name="none_found">"没有发现新设备,需要打开APP的定位权限才能搜索到设备"</string>
+    <string name="none_paired">没有已配对的设备</string>
+    <string name="scanning">正在扫描新的蓝牙设备...</string>
+    <string name="title_paired_devices">已配对的设备</string>
 
 </resources>

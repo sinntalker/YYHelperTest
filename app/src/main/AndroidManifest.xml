@@ -10,6 +10,20 @@
     <!-- android:minSdkVersion="8" -->
     <!-- android:targetSdkVersion="17" /> -->
 
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
+
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -120,7 +134,8 @@
         <activity android:name=".Fragment.DrugBox.SetAlarmActivity" />
         <activity android:name=".Fragment.Device.AddDeviceActivity" />
         <activity android:name=".Fragment.Device.DeviceDetailActivity" />
-        <activity android:name=".Fragment.Device.MyDeviceActivity" />
+        <activity android:name=".Fragment.Device.MyDeviceActivity"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"/>
         <activity android:name=".Activity.GuideActivity" />
         <activity android:name=".Fragment.DrugBox.ScanActivity" />
         <activity android:name=".Fragment.family.AddFamilyMembersActivity" />
