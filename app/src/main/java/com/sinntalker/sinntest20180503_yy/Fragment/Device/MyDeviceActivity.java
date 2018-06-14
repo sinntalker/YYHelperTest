@@ -130,7 +130,7 @@ public class MyDeviceActivity extends Activity {
                             state[i] = false;
                         }
 
-                        adapter = new DeviceListAdapter(MyDeviceActivity.this);
+                        adapter = new DeviceListAdapter(MyDeviceActivity.this, name);
                         mDeviceMDLV.setAdapter(adapter);
                         adapter.notifyDataSetChanged();
                     }
@@ -147,6 +147,7 @@ public class MyDeviceActivity extends Activity {
 
     class DeviceListAdapter extends BaseAdapter {
         private Context context;
+        String [] arr;
 
 //                            // 用来存放输入的数据
 //                            public HashMap<Integer, Object> inputContainer;
@@ -159,14 +160,19 @@ public class MyDeviceActivity extends Activity {
             this.context = context;
         }
 
+        public DeviceListAdapter(Context context, String [] arr) {
+            this.context = context;
+            this.arr = arr;
+        }
+
         @Override
         public int getCount() {
-            return name.length;
+            return arr.length;
         }
 
         @Override
         public Object getItem(int position) {
-            return name[position];
+            return arr[position];
         }
 
         @Override
@@ -283,9 +289,9 @@ public class MyDeviceActivity extends Activity {
             viewHolder.dType.setText(type[position]);
             viewHolder.dAddress.setText(address[position]);
 
-            if (!mSocket.isConnected()) {
-                state[position] = true;
-            }
+//            if (!mSocket.isConnected()) {
+//                state[position] = true;
+//            }
 
             //将输入框与msg相绑定
 //                                viewHolder.dContext.setTag(msg);
