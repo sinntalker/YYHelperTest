@@ -13,6 +13,7 @@
         android:background="#6495ED">
 
         <ImageView
+            android:id="@+id/id_imageView_back_drugUsing"
             android:layout_width="40dp"
             android:layout_height="50dp"
             android:src="@drawable/common_back"/>
@@ -27,5 +28,17 @@
             android:textSize="18sp"/>
 
     </RelativeLayout>
+
+    <ListView
+        android:id="@+id/id_listView_using_drugUsing"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp"
+        android:background="@null">
+
+    </ListView>
 
 </LinearLayout>
