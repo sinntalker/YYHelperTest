@@ -1,6 +1,8 @@
 package com.sinntalker.sinntest20180503_yy.Fragment.DrugBox;
 
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,6 +18,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.sinntalker.sinntest20180503_yy.AllUserBean;
 import com.sinntalker.sinntest20180503_yy.R;
 
 import java.text.DateFormat;
@@ -54,13 +57,25 @@ public class SetAlarmActivity extends Activity{
 
     String strUserName;
 
+    int [] time_hour = null;
+    int [] time_min = null;
+    int timeH = 0;
+    int timeM = 0;
+
+    String strSetNum;
+
+//    static int count_time = 0;
+    static int count_num_request = 0;
+    static int flag = 0;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);//去掉标题栏
         setContentView(R.layout.activity_set_alarm);
 
-        BmobUser mCurrentUser = BmobUser.getCurrentUser();
+        final AllUserBean mCurrentUser = BmobUser.getCurrentUser(AllUserBean.class);
         strUserName = mCurrentUser.getUsername();
         Log.i("bmob", "DrugBoxActivity:当前用户：" + mCurrentUser.toString());
         Log.i("bmob", "DrugBoxActivity:当前用户名称：" + strUserName);
@@ -82,7 +97,7 @@ public class SetAlarmActivity extends Activity{
         // 从Intent获取数据
         final String boxNum = getIntent().getStringExtra("drug_boxNum"); //当前药箱 boxNum
         final String genericName = getIntent().getStringExtra("drug_genericName");//药品通用名称 genericName
-        String dosage = getIntent().getStringExtra("drug_dosage");//用法用量 dosage
+        final String dosage = getIntent().getStringExtra("drug_dosage");//用法用量 dosage
 
         mAlarm_Using = false;
         mAlarm_Buy = false;
@@ -275,7 +290,11 @@ public class SetAlarmActivity extends Activity{
                             mDrugUsingDataBean.setGenericName(genericName);
                             //获取用药提醒 -- 提醒开关、吃药数量、时间段（1~4） -- 6项
                             mDrugUsingDataBean.setRemindUsingDrug(mAlarm_Using.toString());
-                            mDrugUsingDataBean.setUsingDrugNumber(String.valueOf(preSetNum_edit.getText()));
+                            strSetNum = String.valueOf(preSetNum_edit.getText());
+                            if (strSetNum == null || strSetNum.equals("") || strSetNum.equals("0")) {
+                                strSetNum = "1";
+                            }
+                            mDrugUsingDataBean.setUsingDrugNumber(strSetNum);
                             mDrugUsingDataBean.setUsingDrugTimeNo1(String.valueOf(firstAlarm_btn.getText()));
                             mDrugUsingDataBean.setUsingDrugTimeNo2(String.valueOf(secondAlarm_btn.getText()));
                             mDrugUsingDataBean.setUsingDrugTimeNo3(String.valueOf(thirdAlarm_btn.getText()));
@@ -291,10 +310,18 @@ public class SetAlarmActivity extends Activity{
                                     public void done(BmobException e) {
                                         if(e==null){
                                             Log.i("bmob","更新成功");
+                                            flag = 1;
+                                            setAlarm(mCurrentUser, genericName, Integer.parseInt(boxNum));
                                             startActivity(new Intent(SetAlarmActivity.this, DrugBoxActivity.class).putExtra("DrugBoxNum", boxNum));
                                             finish();
+//                                            count_time = 0;
+//                                            setAlarm(mCurrentUser, genericName);
+//                                            startActivity(new Intent(SetAlarmActivity.this, DrugBoxActivity.class).putExtra("DrugBoxNum", boxNum));
+//                                            finish();
                                         }else{
+                                            flag = 0;
                                             Log.i("bmob","更新失败："+e.getMessage()+","+e.getErrorCode());
+                                            Toast.makeText(SetAlarmActivity.this, "当前数据更新失败，请稍后重试！", Toast.LENGTH_SHORT).show();
                                         }
                                     }
                                 });
@@ -304,21 +331,238 @@ public class SetAlarmActivity extends Activity{
                                     public void done(String s, BmobException e) {
                                         if(e==null){
                                             Log.i("bmob","保存成功！");
+                                            flag = 2;
+                                            setAlarm(mCurrentUser, genericName, Integer.parseInt(boxNum));
                                             startActivity(new Intent(SetAlarmActivity.this, DrugBoxActivity.class).putExtra("DrugBoxNum", boxNum));
                                             finish();
                                         }else{
+                                            flag = 0;
                                             Log.i("bmob","保存失败："+e.getMessage()+","+e.getErrorCode());
+                                            Toast.makeText(SetAlarmActivity.this, "当前数据保存失败，请稍后重试！", Toast.LENGTH_SHORT).show();
                                         }
                                     }
                                 });
                             }
+
+//                            Log.i("bmob", "当前flag：" + flag);
+//                            if (flag == 1 || flag == 2) {
+//
+//                            } else {
+//                                Toast.makeText(SetAlarmActivity.this, "当前数据设置失败，请稍后重试！", Toast.LENGTH_SHORT).show();
+//                            }
+
                         }else{
                             Log.i("bmob","查询失败："+e.getMessage()+","+e.getErrorCode());
                         }
                     }
                 });
+
             }
         });
+
+    }
+
+    private void setAlarm(final AllUserBean mCurrentUser, final String genericName, final int drugNum) {
+        Log.i("bmob", "当前flag：" + flag);
+
+        if (!firstAlarm_btn.getText().toString().equals("未设置")) {
+            AlarmBean alarmBean = new AlarmBean();
+            alarmBean.setUser(mCurrentUser); //设置当前用户
+            alarmBean.setDrug(genericName); //设置当前药品名称
+            alarmBean.setDrugNum(drugNum);
+            alarmBean.setDosage("每次" + strSetNum + "片");
+            alarmBean.setNum(1);
+            alarmBean.setTimeH(Integer.valueOf(firstAlarm_btn.getText().toString().substring(0, 2)));
+            alarmBean.setTimeM(Integer.parseInt(firstAlarm_btn.getText().toString().substring(3)));
+            alarmBean.setTouched(false);
+            alarmBean.setTouchedTime("");
+            alarmBean.setRequestCode(count_num_request%50);
+            alarmBean.save(new SaveListener<String>() {
+                @Override
+                public void done(String s, BmobException e) {
+                    if (e == null) {
+                        Log.i("bmob", "闹钟时间保存成功！第i条：" );
+                        Intent intent =new Intent(SetAlarmActivity.this, ReceiveAlarm.class);
+                        intent.setAction("short");
+                        intent.putExtra("msg", "该吃" + genericName + "药了,每次" + strSetNum + "片。");
+                        intent.putExtra("drugNum", drugNum);
+                        intent.putExtra("drugName", genericName);
+                        intent.putExtra("user", mCurrentUser.getUsername());
+                        PendingIntent sender=
+                                PendingIntent.getBroadcast(SetAlarmActivity.this, count_num_request % 50, intent, 0);
+                        Log.i("bmob", "闹钟回调 requestCode:" + count_num_request % 50);
+                        count_num_request ++;
+                        //设定一个五秒后的时间
+                        Calendar calendar=Calendar.getInstance();
+                        calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get
+                                (Calendar.DAY_OF_MONTH), Integer.parseInt(firstAlarm_btn.getText().toString().substring(0, 2)), Integer.parseInt(firstAlarm_btn.getText().toString().substring(3)), 5);
+//                        calendar.setTimeInMillis(System.currentTimeMillis());
+//                        calendar.add(Calendar.SECOND, 5 + count_time);
+                        Calendar c_cur = Calendar.getInstance();
+                        if(c_cur.getTimeInMillis() >  calendar.getTimeInMillis()){
+                            calendar.set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_MONTH) + 1);
+                        }
+                        AlarmManager alarm=(AlarmManager)getSystemService(ALARM_SERVICE);
+                        alarm.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), sender);
+                    } else {
+                        Log.i("bmob", "闹钟时间保存失败！" + e.getErrorCode() + e.getMessage());
+                    }
+                }
+            });
+        } else {
+            Log.i("bmob", "时间结点错误！");
+        }
+
+        if (!secondAlarm_btn.getText().toString().equals("未设置")) {
+            AlarmBean alarmBean = new AlarmBean();
+            //锁定当前药物
+            alarmBean.setUser(mCurrentUser); //设置当前用户
+            alarmBean.setDrug(genericName); //设置当前药品名称
+            alarmBean.setDrugNum(drugNum); //设置当前药箱编号
+            //确定当前药物用药方式
+            alarmBean.setDosage("每次" + strSetNum + "片");
+            //设置药品用药编号
+            alarmBean.setNum(2);
+            //设置是否已读
+            alarmBean.setTouched(false);
+            alarmBean.setTouchedTime(""); //设置已读时间
+            //设置闹钟时间
+            alarmBean.setTimeH(Integer.valueOf(secondAlarm_btn.getText().toString().substring(0, 2)));
+            alarmBean.setTimeM(Integer.parseInt(secondAlarm_btn.getText().toString().substring(3)));
+            //设置回调参数
+            alarmBean.setRequestCode(count_num_request%50);
+            alarmBean.save(new SaveListener<String>() {
+                @Override
+                public void done(String s, BmobException e) {
+                    if (e == null) {
+                        Log.i("bmob", "闹钟时间保存成功！第i条：" );
+                        Intent intent =new Intent(SetAlarmActivity.this, ReceiveAlarm.class);
+                        intent.setAction("short");
+                        intent.putExtra("msg", "该吃" + genericName + "药了,每次" + strSetNum + "片。");
+                        intent.putExtra("drugNum", drugNum);
+                        intent.putExtra("drugName", genericName);
+                        intent.putExtra("user", mCurrentUser.getUsername());
+                        PendingIntent sender=
+                                PendingIntent.getBroadcast(SetAlarmActivity.this, count_num_request % 50, intent, 0);
+                        Log.i("bmob", "闹钟回调 requestCode:" + count_num_request % 50);
+                        count_num_request ++;
+                        //设定一个五秒后的时间
+                        Calendar calendar=Calendar.getInstance();
+                        calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get
+                                (Calendar.DAY_OF_MONTH), Integer.valueOf(secondAlarm_btn.getText().toString().substring(0, 2)), Integer.parseInt(secondAlarm_btn.getText().toString().substring(3)), 5);
+//                        calendar.setTimeInMillis(System.currentTimeMillis());
+//                        calendar.add(Calendar.SECOND, 5 + count_time);
+                        Calendar c_cur = Calendar.getInstance();
+                        if(c_cur.getTimeInMillis() >  calendar.getTimeInMillis()){
+                            calendar.set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_MONTH) + 1);
+                        }
+                        AlarmManager alarm=(AlarmManager)getSystemService(ALARM_SERVICE);
+                        alarm.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), sender);
+                    } else {
+                        Log.i("bmob", "闹钟时间保存失败！" + e.getErrorCode() + e.getMessage());
+                    }
+                }
+            });
+        } else {
+            Log.i("bmob", "时间结点错误！");
+        }
+
+        if (!thirdAlarm_btn.getText().toString().equals("未设置")) {
+            AlarmBean alarmBean = new AlarmBean();
+            alarmBean.setUser(mCurrentUser); //设置当前用户
+            alarmBean.setDrug(genericName); //设置当前药品名称
+            alarmBean.setDrugNum(drugNum);
+            alarmBean.setDosage("每次" + strSetNum + "片");
+            alarmBean.setNum(3);
+            //设置闹钟时间
+            alarmBean.setTimeH(Integer.valueOf(thirdAlarm_btn.getText().toString().substring(0, 2)));
+            alarmBean.setTimeM(Integer.parseInt(thirdAlarm_btn.getText().toString().substring(3)));
+            alarmBean.setTouched(false);
+            alarmBean.setTouchedTime("");
+            alarmBean.setRequestCode(count_num_request % 50);
+            alarmBean.save(new SaveListener<String>() {
+                @Override
+                public void done(String s, BmobException e) {
+                    if (e == null) {
+                        Log.i("bmob", "闹钟时间保存成功！第i条：" );
+                        Intent intent =new Intent(SetAlarmActivity.this, ReceiveAlarm.class);
+                        intent.setAction("short");
+                        intent.putExtra("msg", "该吃" + genericName + "药了,每次" + strSetNum + "片。");
+                        intent.putExtra("drugNum", drugNum);
+                        intent.putExtra("drugName", genericName);
+                        intent.putExtra("user", mCurrentUser.getUsername());
+                        PendingIntent sender=
+                                PendingIntent.getBroadcast(SetAlarmActivity.this, count_num_request % 50, intent, 0);
+                        Log.i("bmob", "闹钟回调 requestCode:" + count_num_request % 50);
+                        count_num_request ++;
+                        //设定一个五秒后的时间
+                        Calendar calendar=Calendar.getInstance();
+                        calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get
+                                (Calendar.DAY_OF_MONTH), Integer.valueOf(thirdAlarm_btn.getText().toString().substring(0, 2)), Integer.parseInt(thirdAlarm_btn.getText().toString().substring(3)), 5);
+//                        calendar.setTimeInMillis(System.currentTimeMillis());
+//                        calendar.add(Calendar.SECOND, 5 + count_time);
+                        Calendar c_cur = Calendar.getInstance();
+                        if(c_cur.getTimeInMillis() >  calendar.getTimeInMillis()){
+                            calendar.set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_MONTH) + 1);
+                        }
+                        AlarmManager alarm=(AlarmManager)getSystemService(ALARM_SERVICE);
+                        alarm.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), sender);
+                    } else {
+                        Log.i("bmob", "闹钟时间保存失败！" + e.getErrorCode() + e.getMessage());
+                    }
+                }
+            });
+        } else {
+            Log.i("bmob", "时间结点错误！");
+        }
+
+        if (!forthAlarm_btn.getText().toString().equals("未设置")) {
+            AlarmBean alarmBean = new AlarmBean();
+            alarmBean.setUser(mCurrentUser); //设置当前用户
+            alarmBean.setDrug(genericName); //设置当前药品名称
+            alarmBean.setDrugNum(drugNum);
+            alarmBean.setDosage("每次" + strSetNum + "片");
+            alarmBean.setNum(4);
+            //设置闹钟时间
+            alarmBean.setTimeH(Integer.valueOf(forthAlarm_btn.getText().toString().substring(0, 2)));
+            alarmBean.setTimeM(Integer.parseInt(forthAlarm_btn.getText().toString().substring(3)));
+            alarmBean.setTouched(false);
+            alarmBean.setTouchedTime("");
+            alarmBean.setRequestCode(count_num_request % 50);
+            alarmBean.save(new SaveListener<String>() {
+                @Override
+                public void done(String s, BmobException e) {
+                    if (e == null) {
+                        Log.i("bmob", "闹钟时间保存成功！第i条：" );
+                        Intent intent =new Intent(SetAlarmActivity.this, ReceiveAlarm.class);
+                        intent.setAction("short");
+                        intent.putExtra("msg", "该吃" + genericName + "药了,每次" + strSetNum + "片。");
+                        intent.putExtra("drugNum", drugNum);
+                        intent.putExtra("drugName", genericName);
+                        intent.putExtra("user", mCurrentUser.getUsername());
+                        intent.putExtra("msg", "该吃" + genericName + "药了,每次" + strSetNum + "片。");
+                        PendingIntent sender=
+                                PendingIntent.getBroadcast(SetAlarmActivity.this, count_num_request % 50, intent, 0);
+                        Log.i("bmob", "闹钟回调 requestCode:" + count_num_request % 50);
+                        count_num_request ++;
+                        //设定一个五秒后的时间
+                        Calendar calendar=Calendar.getInstance();
+                        calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get
+                                (Calendar.DAY_OF_MONTH), Integer.valueOf(forthAlarm_btn.getText().toString().substring(0, 2)), Integer.valueOf(forthAlarm_btn.getText().toString().substring(3)), 5);
+                        Calendar c_cur = Calendar.getInstance();
+                        if(c_cur.getTimeInMillis() >  calendar.getTimeInMillis()){
+                            calendar.set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_MONTH) + 1);
+                        }
+                        AlarmManager alarm=(AlarmManager)getSystemService(ALARM_SERVICE);
+                        alarm.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), sender);
+                    } else {
+                        Log.i("bmob", "闹钟时间保存失败！" + e.getErrorCode() + e.getMessage());
+                    }
+                }
+            });
+        } else {
+            Log.i("bmob", "时间结点错误！");
+        }
 
     }
 
@@ -336,6 +580,7 @@ public class SetAlarmActivity extends Activity{
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
+
                 button.setText(timeFormat.format(date));
             }
         }, hour, minute, true).show();

@@ -1,11 +1,6 @@
 package com.sinntalker.sinntest20180503_yy;
 
-import android.content.Context;
-import android.widget.ImageView;
-
 import com.sinntalker.sinntest20180503_yy.Fragment.family.db.NewFriend;
-
-import java.net.IDN;
 
 import cn.bmob.v3.BmobUser;
 
@@ -13,7 +8,17 @@ import cn.bmob.v3.BmobUser;
  * Created by Administrator on 2018/5/24.
  */
 
+//@Entity
 public class AllUserBean extends BmobUser{
+
+//    @Id(autoincrement = true)
+//    private Long id;
+
+//    @Property(nameInDb = "UserId")
+//    private Long UserId;
+//    //一对多关联
+//    @ToMany(referencedJoinProperty = "id")
+//    private List<MessageDataBean> messageDataBeanList;
 
     public AllUserBean(){}
 
@@ -101,6 +106,7 @@ public class AllUserBean extends BmobUser{
     String height;
     String IDCardType; //身份证 0， 护照 1
     String IDNumber;
+
     public String getName() {
         return this.name;
     }
@@ -143,5 +149,20 @@ public class AllUserBean extends BmobUser{
     public void setIDNumber(String IDNumber) {
         this.IDNumber = IDNumber;
     }
+
+
+
+
+    /**
+     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#delete(Object)}.
+     * Entity must attached to an entity context.
+     */
+//    @Generated(hash = 128553479)
+//    public void delete() {
+//        if (myDao == null) {
+//            throw new DaoException("Entity is detached from DAO context");
+//        }
+//        myDao.delete(this);
+//    }
 
 }

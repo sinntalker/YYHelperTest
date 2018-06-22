@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Toast;
 
 import com.sinntalker.sinntest20180503_yy.R;
 
@@ -26,6 +25,7 @@ public class SplashActivity extends Activity {
         setContentView(R.layout.activity_splash);
 
         mHandler = new Handler();
+
         //获取屏幕的大小和密度--采用DisplayMetrics类
 
         //检查版本更新
@@ -38,9 +38,14 @@ public class SplashActivity extends Activity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent mainIntent = new Intent(SplashActivity.this, LoginActivity.class);
-                startActivity(mainIntent);
-                finish();
+                BmobUser user = BmobUser.getCurrentUser();
+                if (user != null) {
+                    startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                    finish();
+                } else {
+                    startActivity(new Intent(SplashActivity.this, LoginActivity.class));
+                    finish();
+                }
             }
         },500);
 

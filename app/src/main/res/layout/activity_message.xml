@@ -45,13 +45,33 @@
                 android:layout_width="75dp"
                 android:layout_height="75dp">
 
-                <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:padding="10dp"
-                    android:layout_margin="10dp"
-                    android:src="@drawable/concern_message"
-                    android:background="@drawable/message_bg"/>
+                <RelativeLayout>
+
+                    <ImageView
+                        android:id="@+id/id_imageView_tips_drugUsing_message"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_margin="8dp"
+                        android:layout_marginTop="7dp"
+                        android:background="@mipmap/msg_tips"
+                        android:contentDescription="@string/action_settings"
+                        android:gravity="center"
+                        android:textColor="@android:color/holo_red_dark"
+                        android:textSize="12sp"
+                        android:visibility="visible"/>
+
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:padding="10dp"
+                        android:layout_margin="10dp"
+                        android:src="@drawable/concern_message"
+                        android:background="@drawable/message_bg"/>
+
+                </RelativeLayout>
+
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -91,13 +111,32 @@
                 android:layout_width="75dp"
                 android:layout_height="75dp">
 
-                <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:padding="10dp"
-                    android:layout_margin="10dp"
-                    android:src="@drawable/health_message"
-                    android:background="@drawable/message_bg"/>
+                <RelativeLayout>
+
+                    <ImageView
+                        android:id="@+id/id_imageView_tips_health_message"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_margin="8dp"
+                        android:layout_marginTop="7dp"
+                        android:background="@mipmap/msg_tips"
+                        android:contentDescription="@string/action_settings"
+                        android:gravity="center"
+                        android:textColor="@android:color/holo_red_dark"
+                        android:textSize="12sp"
+                        android:visibility="visible"/>
+
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:padding="10dp"
+                        android:layout_margin="10dp"
+                        android:src="@drawable/health_message"
+                        android:background="@drawable/message_bg"/>
+
+                </RelativeLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -137,13 +176,32 @@
                 android:layout_width="75dp"
                 android:layout_height="75dp">
 
-                <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:padding="10dp"
-                    android:layout_margin="10dp"
-                    android:src="@drawable/drug_message"
-                    android:background="@drawable/message_bg"/>
+                <RelativeLayout>
+
+                    <ImageView
+                        android:id="@+id/id_imageView_tips_drugValued_message"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_margin="8dp"
+                        android:layout_marginTop="7dp"
+                        android:background="@mipmap/msg_tips"
+                        android:contentDescription="@string/action_settings"
+                        android:gravity="center"
+                        android:textColor="@android:color/holo_red_dark"
+                        android:textSize="12sp"
+                        android:visibility="visible"/>
+
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:padding="10dp"
+                        android:layout_margin="10dp"
+                        android:src="@drawable/drug_message"
+                        android:background="@drawable/message_bg"/>
+
+                </RelativeLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -183,13 +241,32 @@
                 android:layout_width="75dp"
                 android:layout_height="75dp">
 
-                <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:padding="10dp"
-                    android:layout_margin="10dp"
-                    android:src="@drawable/add_message"
-                    android:background="@drawable/message_bg"/>
+                <RelativeLayout>
+
+                    <ImageView
+                        android:id="@+id/id_imageView_tips_addFriend_message"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_margin="8dp"
+                        android:layout_marginTop="7dp"
+                        android:background="@mipmap/msg_tips"
+                        android:contentDescription="@string/action_settings"
+                        android:gravity="center"
+                        android:textColor="@android:color/holo_red_dark"
+                        android:textSize="12sp"
+                        android:visibility="visible"/>
+
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:padding="10dp"
+                        android:layout_margin="10dp"
+                        android:src="@drawable/add_message"
+                        android:background="@drawable/message_bg"/>
+
+                </RelativeLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -229,13 +306,32 @@
                 android:layout_width="75dp"
                 android:layout_height="75dp">
 
-                <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:padding="10dp"
-                    android:layout_margin="10dp"
-                    android:src="@drawable/system_message"
-                    android:background="@drawable/message_bg"/>
+                <RelativeLayout>
+
+                    <ImageView
+                        android:id="@+id/id_imageView_tips_system_message"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_margin="8dp"
+                        android:layout_marginTop="7dp"
+                        android:background="@mipmap/msg_tips"
+                        android:contentDescription="@string/action_settings"
+                        android:gravity="center"
+                        android:textColor="@android:color/holo_red_dark"
+                        android:textSize="12sp"
+                        android:visibility="visible"/>
+
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:padding="10dp"
+                        android:layout_margin="10dp"
+                        android:src="@drawable/system_message"
+                        android:background="@drawable/message_bg"/>
+
+                </RelativeLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"

@@ -44,7 +44,7 @@ public class DrugUsingActivity extends Activity {
         AllUserBean mCurrent = BmobUser.getCurrentUser(AllUserBean.class);
 
         BmobQuery<DrugUsingDataBean> query = new BmobQuery<DrugUsingDataBean>();
-        query.addWhereEqualTo("userName", mCurrent.getMobilePhoneNumber());
+        query.addWhereEqualTo("userName", mCurrent.getUsername());
         query.findObjects(new FindListener<DrugUsingDataBean>() {
             @Override
             public void done(List<DrugUsingDataBean> list, BmobException e) {
@@ -121,7 +121,11 @@ public class DrugUsingActivity extends Activity {
 
             drugName.setText(list.get(position).getGenericName());
             date.setText(list.get(position).getCreatedAt());
-            usage.setText("每次" + list.get(position).getUsingDrugNumber() + "片");
+            if (list.get(position).getUsingDrugNumber().equals("") || list.get(position).getUsingDrugNumber() == null) {
+                usage.setText("每次" + 0 + "片");
+            } else {
+                usage.setText("每次" + list.get(position).getUsingDrugNumber() + "片");
+            }
 
             return convertView;
         }

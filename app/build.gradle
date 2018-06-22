@@ -19,6 +19,8 @@ android {
     }
 }
 
+apply plugin: 'org.greenrobot.greendao' // apply plugin
+
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support.constraint:constraint-layout:1.1.0'
@@ -58,6 +60,15 @@ dependencies {
     //汉字转拼音
     implementation 'com.github.promeg:tinypinyin:1.0.0'
     /*SD卡权限获取*/
-    compile 'com.yanzhenjie:permission:1.0.5'
+    implementation 'com.yanzhenjie:permission:1.0.5'
     implementation files('libs/nineoldandroids-2.4.0.jar')
+    //GreenDao
+    implementation 'org.greenrobot:greendao:3.2.2' // add library
+    implementation 'org.greenrobot:greendao-generator:3.2.2'
+}
+
+greendao {
+    schemaVersion 2
+    daoPackage 'com.sinntalker.sinntest20180503_yy.Sql.util' // 一般为app包名+生成文件的文件夹名
+    targetGenDir 'src/main/java' //生成文件路径
 }
