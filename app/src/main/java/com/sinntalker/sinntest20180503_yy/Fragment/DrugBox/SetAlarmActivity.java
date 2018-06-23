@@ -68,6 +68,7 @@ public class SetAlarmActivity extends Activity{
     static int count_num_request = 0;
     static int flag = 0;
 
+    String boxNum;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,7 +96,7 @@ public class SetAlarmActivity extends Activity{
         mSaveSetSATV = findViewById(R.id.id_textView_saveSet_setAlarm);
 
         // 从Intent获取数据
-        final String boxNum = getIntent().getStringExtra("drug_boxNum"); //当前药箱 boxNum
+        boxNum = getIntent().getStringExtra("drug_boxNum"); //当前药箱 boxNum
         final String genericName = getIntent().getStringExtra("drug_genericName");//药品通用名称 genericName
         final String dosage = getIntent().getStringExtra("drug_dosage");//用法用量 dosage
 
@@ -585,5 +586,13 @@ public class SetAlarmActivity extends Activity{
             }
         }, hour, minute, true).show();
     }
+
+    @Override
+    public void onBackPressed(){
+        super.onBackPressed();
+        startActivity(new Intent(SetAlarmActivity.this, DrugBoxActivity.class).putExtra("DrugBoxNum", boxNum));
+        finish();
+    }
+
 
 }

@@ -118,4 +118,10 @@ public class PublicDrugDetailActivity extends Activity {
             productionDate_textView.setText("传输数据错误，请重新打开APP。");
         }
     }
+
+    @Override
+    public void onBackPressed(){
+        super.onBackPressed();
+        finish();
+    }
 }

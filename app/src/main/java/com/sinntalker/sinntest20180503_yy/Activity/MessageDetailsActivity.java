@@ -15,6 +15,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.sinntalker.sinntest20180503_yy.AllUserBean;
+import com.sinntalker.sinntest20180503_yy.Fragment.DrugBox.DrugDataBean;
 import com.sinntalker.sinntest20180503_yy.Fragment.family.all.BmobIMApplication;
 import com.sinntalker.sinntest20180503_yy.Fragment.health.StepCounter.CommonAdapter;
 import com.sinntalker.sinntest20180503_yy.Fragment.health.StepCounter.CommonViewHolder;
@@ -39,11 +40,13 @@ public class MessageDetailsActivity extends Activity {
     TextView mMessageTypeMDTV;
 
     CommonAdapter<MessageDataBean> adapter;
+    CommonAdapter<DrugDataBean> adapterDrugDataBean;
     CommonViewHolder viewHolder;
 
     ListView mAllMDLV;
 
     private List<MessageDataBean> mDatas;
+    private List<DrugDataBean> mDrugDataBeanDatas;
     AllUserBean user = BmobUser.getCurrentUser(AllUserBean.class);
 
     @Override
@@ -69,7 +72,7 @@ public class MessageDetailsActivity extends Activity {
         });
     }
 
-    private void initDate() {
+    private void initDate_drugUsingHistory() {
         BmobQuery<MessageDataBean> query = new BmobQuery<MessageDataBean>();
         query.addWhereEqualTo("user", user.getUsername());
         query.findObjects(new FindListener<MessageDataBean>() {
@@ -99,7 +102,7 @@ public class MessageDetailsActivity extends Activity {
                                 String createDate = messageDataBean.getCreatedAt();
                                 mDateTV.setText(createDate);
 
-                                mMsgTV.setText("该吃" + messageDataBean.getDrug() + "药了，用法：每次" + messageDataBean.getDrugNum() + "片。");
+                                mMsgTV.setText("该吃" + messageDataBean.getDrug() + "药了，用法：" + messageDataBean.getDosage() + "。");
                                 if (touched[0]) {
                                     mIsReadIV.setVisibility(View.GONE);
                                 } else {
@@ -124,10 +127,10 @@ public class MessageDetailsActivity extends Activity {
                                                 public void done(BmobException e) {
                                                     if(e==null){
                                                         Log.i("bmob","updateMessageDate更新成功");
-                                                        initDate();
+                                                        initDate_drugUsingHistory();
                                                     }else{
                                                         Log.i("bmob","updateMessageDate更新失败："+e.getMessage()+","+e.getErrorCode());
-                                                        initDate();
+                                                        initDate_drugUsingHistory();
                                                     }
                                                 }
                                             });
@@ -153,16 +156,18 @@ public class MessageDetailsActivity extends Activity {
             mMessageTypeMDTV.setText("用药消息");
             //向服务器请求信息
             mDatas = new ArrayList<MessageDataBean>();
-            initDate();
-
+            initDate_drugUsingHistory();
 
         }else if(Id == 1) {
             mMessageTypeMDTV.setText("健康消息");
             //向服务器请求信息
+            setEmptyView(mAllMDLV);
 
         }else if(Id == 2) {
             mMessageTypeMDTV.setText("药品过期提醒");
             //向服务器请求信息
+            mDrugDataBeanDatas = new ArrayList<DrugDataBean>();
+            initDate_drugValited();
 
         }else if(Id == 3) {
             mMessageTypeMDTV.setText("添加消息");
@@ -171,12 +176,65 @@ public class MessageDetailsActivity extends Activity {
         }else if(Id == 4) {
             mMessageTypeMDTV.setText("系统消息");
             //向服务器请求信息
-
+            setEmptyView(mAllMDLV);
         }else {
             mMessageTypeMDTV.setText("用药消息");
             //向服务器请求信息
+            mDatas = new ArrayList<MessageDataBean>();
+            initDate_drugUsingHistory();
 
         }
+    }
+
+    private void initDate_drugValited() {
+        BmobQuery<DrugDataBean> query = new BmobQuery<>();
+        query.addWhereEqualTo("userName", user.getUsername());
+        query.findObjects(new FindListener<DrugDataBean>() {
+            @Override
+            public void done(List<DrugDataBean> list, BmobException e) {
+                if (e == null) {
+                    Log.i("bmob", "查询药品保质期信息成功。");
+                    if (list.size() == 0) {
+                        setEmptyView(mAllMDLV);
+//                        mDrugValidityMessageNewTV.setText("药品箱中没有药品。");
+                    } else {
+                        mDrugDataBeanDatas = list;
+                        adapterDrugDataBean = new CommonAdapter<DrugDataBean>(MessageDetailsActivity.this, mDrugDataBeanDatas, R.layout.listview_item_drug_valued) {
+                            @Override
+                            public DrugDataBean getItem(int position) {
+                                return super.getItem(position);
+                            }
+
+                            @Override
+                            protected void convertView(View item, DrugDataBean drugDataBean) {
+                                TextView drugName = CommonViewHolder.get(item, R.id.id_drugName);
+                                TextView drugBox = CommonViewHolder.get(item, R.id.id_drugBox);
+                                TextView productionDate = CommonViewHolder.get(item, R.id.id_productionDate);
+                                TextView valuedDay = CommonViewHolder.get(item, R.id.id_valuedDay);
+                                TextView deadline = CommonViewHolder.get(item, R.id.id_deadline);
+
+                                drugName.setText(drugDataBean.getGenericName());
+                                drugBox.setText(drugDataBean.getBoxNumber());
+                                productionDate.setText(drugDataBean.getProductionDate());
+                                valuedDay.setText(drugDataBean.getValidityPeriod());
+                                try {
+                                    deadline.setText(drugDataBean.getDeadDay());
+                                } catch (Exception err) {
+                                    err.printStackTrace();
+                                }
+
+                            }
+                        };
+
+                        mAllMDLV.setAdapter(adapterDrugDataBean);
+                        adapterDrugDataBean.notifyDataSetChanged();
+                    }
+                } else {
+                    setEmptyView(mAllMDLV);
+                    Log.i("bmob", "查询药品保质期信息失败：" + e.getMessage() + e.getErrorCode());
+                }
+            }
+        });
     }
 
     protected <T extends View> T setEmptyView(ListView listView) {
@@ -204,6 +262,7 @@ public class MessageDetailsActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
+//        initDate_drugUsingHistory();
 //        mDatas = new ArrayList<MessageDataBean>();
 //        //查询 并且出生在1970的用户
 //        Query query = getMessageDataBeanDao().queryBuilder()

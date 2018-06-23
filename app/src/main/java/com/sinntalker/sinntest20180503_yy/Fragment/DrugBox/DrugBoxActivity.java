@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,25 +13,14 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.sinntalker.sinntest20180503_yy.Activity.MainActivity;
-import com.sinntalker.sinntest20180503_yy.Fragment.family.bean.Friend;
-import com.sinntalker.sinntest20180503_yy.Fragment.family.model.UserModel;
-import com.sinntalker.sinntest20180503_yy.Fragment.health.BloodPressure.BloodPressureData;
-import com.sinntalker.sinntest20180503_yy.Fragment.health.StepCounter.CommonAdapter;
-import com.sinntalker.sinntest20180503_yy.Fragment.health.StepCounter.CommonViewHolder;
 import com.sinntalker.sinntest20180503_yy.R;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
@@ -367,5 +355,12 @@ public class DrugBoxActivity extends Activity {
                 }
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Log.i("bmob", "药箱activity：点击了返回按键。");
+        finish();
     }
 }

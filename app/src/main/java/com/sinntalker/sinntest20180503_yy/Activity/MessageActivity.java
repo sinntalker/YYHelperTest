@@ -9,9 +9,9 @@ import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.sinntalker.sinntest20180503_yy.AllUserBean;
+import com.sinntalker.sinntest20180503_yy.Fragment.DrugBox.DrugDataBean;
 import com.sinntalker.sinntest20180503_yy.Fragment.family.NewFriendActivity;
 import com.sinntalker.sinntest20180503_yy.R;
 import com.sinntalker.sinntest20180503_yy.Sql.MessageDataBean;
@@ -101,25 +101,25 @@ public class MessageActivity extends Activity implements View.OnClickListener{
             finish();
         }
         if (view == mDrugUsageMessageTR) {
-            Toast.makeText(getApplicationContext(), "用药消息", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getApplicationContext(), "用药消息", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(getApplicationContext(), MessageDetailsActivity.class).putExtra("MessageType", 0));
         }
         if (view == mHealthMessageTR) {
-            Toast.makeText(getApplicationContext(), "健康消息", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getApplicationContext(), "健康消息", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(getApplicationContext(), MessageDetailsActivity.class).putExtra("MessageType", 1));
         }
         if (view == mDrugValidityMessageTR) {
-            Toast.makeText(getApplicationContext(), "药品过期消息", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getApplicationContext(), "药品过期消息", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(getApplicationContext(), MessageDetailsActivity.class).putExtra("MessageType", 2));
         }
         if (view == mAddMemberMessageTR) {
             Log.i("bmob","添加消息");
-            Toast.makeText(getApplicationContext(), "添加消息", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getApplicationContext(), "添加消息", Toast.LENGTH_SHORT).show();
 //            startActivity(new Intent(getApplicationContext(), MessageDetailsActivity.class).putExtra("MessageType", 3));
             startActivity(new Intent(getApplicationContext(), NewFriendActivity.class));
         }
         if (view == mSystemMessageTR) {
-            Toast.makeText(getApplicationContext(), "系统消息", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getApplicationContext(), "系统消息", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(getApplicationContext(), MessageDetailsActivity.class).putExtra("MessageType", 4));
         }
     }
@@ -133,6 +133,43 @@ public class MessageActivity extends Activity implements View.OnClickListener{
         mSystemMessageNewTV.setText("暂无新消息");
         //查询数据
         query_drugUsing();
+        query_drugDate();
+    }
+
+    private void query_drugDate() {
+        BmobQuery<DrugDataBean> query = new BmobQuery<>();
+        query.addWhereEqualTo("userName", user.getUsername());
+        query.findObjects(new FindListener<DrugDataBean>() {
+            @Override
+            public void done(List<DrugDataBean> list, BmobException e) {
+                if (e == null) {
+                    Log.i("bmob", "查询药品保质期信息成功。");
+                    if (list.size() == 0) {
+                        mDrugValidityMessageNewTV.setText("药品箱中没有药品。");
+                    } else {
+                        int x = 0;
+                        for (int i = 0; i < list.size(); i ++) {
+                            try {
+                                if (list.get(i).getDeadDay().equals("")
+                                        || list.get(i).getDeadDay().length() == 0
+                                        || list.get(i).getDeadDay() == null
+                                        || list.get(i).getDeadDay().equals("暂不明确") ) {
+
+                                } else {
+                                    x ++;
+                                }
+                            } catch (Exception err) {
+                                err.printStackTrace();
+                            }
+                        }
+                        mDrugValidityMessageNewTV.setText("药品箱中含有" + list.size() + "个药品，其中" + x + "个药品具有明确保质期。");
+                    }
+                } else {
+                    mDrugValidityMessageNewTV.setText("查询药品保质期信息失败。");
+                    Log.i("bmob", "查询药品保质期信息失败：" + e.getMessage() + e.getErrorCode());
+                }
+            }
+        });
     }
 
     private void query_drugUsing() {
@@ -166,5 +203,6 @@ public class MessageActivity extends Activity implements View.OnClickListener{
         super.onResume();
         //查询数据
         query_drugUsing();
+        query_drugDate();
     }
 }

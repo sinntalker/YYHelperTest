@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.sinntalker.sinntest20180503_yy.R;
 
@@ -25,6 +24,7 @@ public class DrugDetailsActivity extends Activity {
     private ImageView imageView;
 
     String strUserName;
+    String boxNum;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +41,7 @@ public class DrugDetailsActivity extends Activity {
 
         // 从Intent获取数据
 //        String username = getIntent().getStringExtra("drug_user"); //当前用户 username
-        final String boxNum = getIntent().getStringExtra("drug_boxNum"); //当前药箱 boxNum
+        boxNum = getIntent().getStringExtra("drug_boxNum"); //当前药箱 boxNum
         final String genericName = getIntent().getStringExtra("drug_genericName");//药品通用名称 genericName
 
         // 获取特定的视图
@@ -159,5 +159,12 @@ public class DrugDetailsActivity extends Activity {
             }
         });
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(DrugDetailsActivity.this, DrugBoxActivity.class).putExtra("DrugBoxNum", boxNum));
+        finish();
     }
 }

@@ -116,10 +116,12 @@ public class DrugUsingActivity extends Activity {
 //                            TextView tv_Max= CommonViewHolder.get(item,R.id.id_item_textView_dataMaxPressure_historyData);
 //                            TextView tv_min= CommonViewHolder.get(item,R.id.id_item_textView_dataMinPressure_historyData);
             TextView drugName= convertView.findViewById(R.id.drugName);  //药品名
+            TextView drugBox= convertView.findViewById(R.id.drugBox);  //药品名
             TextView date= convertView.findViewById(R.id.date); //时间
             TextView usage= convertView.findViewById(R.id.usage); //用量
 
             drugName.setText(list.get(position).getGenericName());
+            drugBox.setText(list.get(position).getBoxNumber());
             date.setText(list.get(position).getCreatedAt());
             if (list.get(position).getUsingDrugNumber().equals("") || list.get(position).getUsingDrugNumber() == null) {
                 usage.setText("每次" + 0 + "片");

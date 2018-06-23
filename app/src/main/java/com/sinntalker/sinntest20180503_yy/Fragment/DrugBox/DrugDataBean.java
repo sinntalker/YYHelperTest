@@ -40,6 +40,7 @@ public class DrugDataBean extends BmobObject {
     String packingS;  //包装规格              3
     String drugNumber; //药品数量             4
     String other;  //其他                      5
+    private String deadDay; //过期时间
     public String getProductionDate() { return productionDate; }
     public void setProductionDate(String productionDate) { this.productionDate = productionDate; }
     public String getValidityPeriod() { return validityPeriod; }
@@ -50,5 +51,11 @@ public class DrugDataBean extends BmobObject {
     public void setDrugNumber(String drugNumber) { this.drugNumber = drugNumber; }
     public String getOther() { return other; }
     public void setOther(String other) { this.other = other; }
+    public String getDeadDay() {
+        return deadDay;
+    }
+    public void setDeadDay(String deadDay) {
+        this.deadDay = deadDay;
+    }
 
 }

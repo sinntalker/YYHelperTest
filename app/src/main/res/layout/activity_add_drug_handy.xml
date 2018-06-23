@@ -44,17 +44,20 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
-        <TableLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
-            android:focusable="true"
-            android:focusableInTouchMode="true">
+            android:orientation="vertical"
+            android:focusable="false"
+            android:focusableInTouchMode="false">
 
-            <TableRow>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="50dp"
@@ -63,37 +66,13 @@
 
                 <EditText
                     android:id="@+id/id_editText_genericName_addDrugHandy"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_margin="5dp"
-                    android:layout_weight="1"
-                    android:imeOptions="actionNext"
-                    android:maxLines="1"
-                    android:inputType="text"
-                    android:background="@drawable/edit_bg"/>
-            </TableRow>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#000000" />
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_marginTop="5dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="30dp"
-                    android:text="药品性状"
-                    android:gravity="left|center"/>
-
-                <EditText
-                    android:id="@+id/id_editText_traits_addDrugHandy"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
+                    android:layout_height="wrap_content"
+                    android:minHeight="40dp"
+                    android:layout_gravity="center"
                     android:layout_margin="5dp"
-                    android:layout_weight="1"
-                    android:imeOptions="actionNext"
+                    android:imeOptions="actionDone"
+                    android:padding="10dp"
                     android:maxLines="1"
                     android:inputType="text"
                     android:background="@drawable/edit_bg"/>
@@ -104,9 +83,237 @@
                 android:layout_height="1dp"
                 android:background="#000000" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:text="使用说明"
+                android:gravity="left|center"/>
+
+            <EditText
+                android:id="@+id/id_editText_other_addDrugHandy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:padding="10dp"
+                android:inputType="text"
+                android:minHeight="40dp"
+                android:background="@drawable/edit_bg"/>
+
+            <!--<LinearLayout-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:orientation="vertical"-->
+                <!--android:layout_marginTop="5dp">-->
+
+            <!--</LinearLayout>-->
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#000000" />
+
             <LinearLayout
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center|left"
+                    android:text="生产日期"
+                    android:gravity="left|center"/>
+
+                <TextView
+                    android:id="@+id/id_editText_productionDate_addDrugHandy"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_gravity="center|left"
+                    android:gravity="center"
+                    android:text="请设置"
+                    android:background="@drawable/edit_bg"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#000000" />
+
+            <LinearLayout
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:text="有效期限"
+                    android:layout_gravity="center|left"
+                    android:gravity="left|center"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/id_editText_validityPeriod_addDrugHandy"
+                        android:layout_width="100dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center|right"
+                        android:gravity="center|right"
+                        android:layout_marginLeft="20dp"
+                        android:padding="10dp"
+                        android:inputType="number"
+                        android:imeOptions="actionDone"
+                        android:background="@drawable/edit_bg"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_gravity="center|left"
+                        android:gravity="center"
+                        android:text="个月"/>
+
+                    <TextView
+                        android:id="@+id/id_textView_valuedDay_addDrugHandy"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_gravity="center|left"
+                        android:gravity="center"
+                        android:text="至XX年XX月XX日"
+                        android:textSize="12sp"
+                        android:visibility="gone"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#000000" />
+
+            <LinearLayout
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:text="药品数量"
+                    android:gravity="left|center"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/id_editText_drugNumber_addDrugHandy"
+                        android:layout_width="100dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center|left"
+                        android:layout_marginLeft="20dp"
+                        android:padding="10dp"
+                        android:imeOptions="actionDone"
+                        android:inputType="number"
+                        android:gravity="center|right"
+                        android:background="@drawable/edit_bg"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_gravity="center|left"
+                        android:gravity="center"
+                        android:text="片/粒/颗"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/id_linearLayout_moreDetails_addDrugHandy"
+                android:layout_height="30dp"
+                android:layout_width="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="详细信息"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:textSize="13sp"
+                    android:layout_margin="5dp"/>
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="2dp"
+                    android:background="#1296db"
+                    android:padding="2dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"/>
+
+                <ImageView
+                    android:id="@+id/id_imageView_moreDetails_addDrugHandy"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:padding="3dp"
+                    android:layout_margin="5dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/arrow_right_more_details_drug_add"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/id_linearLayout_details"
                 android:orientation="vertical"
-                android:layout_marginTop="5dp">
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:visibility="gone">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#000000" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:text="药品性状"
+                    android:gravity="start|center"/>
+
+                <EditText
+                    android:id="@+id/id_editText_traits_addDrugHandy"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="40dp"
+                    android:gravity="start|top"
+                    android:layout_margin="5dp"
+                    android:padding="10dp"
+                    android:inputType="text"
+                    android:background="@drawable/edit_bg"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#000000" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
@@ -116,101 +323,85 @@
                 <EditText
                     android:id="@+id/id_editText_ingredients_addDrugHandy"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
+                    android:layout_height="wrap_content"
+                    android:minHeight="40dp"
+                    android:gravity="start|top"
                     android:layout_margin="5dp"
-                    android:layout_weight="1"
-                    android:imeOptions="actionNext"
-                    android:maxLines="1"
+                    android:padding="10dp"
                     android:inputType="text"
                     android:background="@drawable/edit_bg"/>
-            </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#000000" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#000000" />
 
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_marginTop="5dp">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
                     android:text="适应症"
-                    android:gravity="left|center"/>
+                    android:gravity="start|center"/>
 
                 <EditText
                     android:id="@+id/id_editText_indications_addDrugHandy"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
+                    android:layout_height="wrap_content"
+                    android:minHeight="40dp"
+                    android:gravity="start|top"
                     android:layout_margin="5dp"
-                    android:layout_weight="1"
-                    android:imeOptions="actionNext"
-                    android:maxLines="1"
+                    android:padding="10dp"
                     android:inputType="text"
                     android:background="@drawable/edit_bg"/>
-            </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#000000" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#000000" />
 
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_marginTop="5dp">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
                     android:text="用法用量"
-                    android:gravity="left|center"/>
+                    android:gravity="start|center"/>
 
                 <EditText
                     android:id="@+id/id_editText_dosage_addDrugHandy"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
+                    android:layout_height="wrap_content"
+                    android:minHeight="40dp"
+                    android:gravity="start|top"
                     android:layout_margin="5dp"
-                    android:layout_weight="1"
-                    android:imeOptions="actionNext"
-                    android:maxLines="1"
+                    android:padding="10dp"
                     android:inputType="text"
                     android:background="@drawable/edit_bg"/>
-            </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#000000" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#000000" />
 
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_marginTop="5dp">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
                     android:text="不良反应"
-                    android:gravity="left|center"/>
+                    android:gravity="start|center"/>
 
                 <EditText
                     android:id="@+id/id_editText_adverseReactions_addDrugHandy"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
+                    android:layout_height="wrap_content"
+                    android:minHeight="40dp"
+                    android:gravity="left|top"
                     android:layout_margin="5dp"
-                    android:layout_weight="1"
-                    android:imeOptions="actionNext"
-                    android:maxLines="1"
+                    android:padding="10dp"
                     android:inputType="text"
                     android:background="@drawable/edit_bg"/>
-            </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#000000" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#000000" />
 
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_marginTop="5dp">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
@@ -220,23 +411,19 @@
                 <EditText
                     android:id="@+id/id_editText_taboo_addDrugHandy"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
+                    android:layout_height="wrap_content"
+                    android:minHeight="40dp"
+                    android:gravity="left|top"
                     android:layout_margin="5dp"
-                    android:layout_weight="1"
-                    android:imeOptions="actionNext"
-                    android:maxLines="1"
+                    android:padding="10dp"
                     android:inputType="text"
                     android:background="@drawable/edit_bg"/>
-            </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#000000" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#000000" />
 
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_marginTop="5dp">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
@@ -246,23 +433,19 @@
                 <EditText
                     android:id="@+id/id_editText_precautions_addDrugHandy"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
+                    android:layout_height="wrap_content"
+                    android:minHeight="40dp"
+                    android:gravity="left|top"
                     android:layout_margin="5dp"
-                    android:layout_weight="1"
-                    android:imeOptions="actionNext"
-                    android:maxLines="1"
                     android:inputType="text"
+                    android:padding="10dp"
                     android:background="@drawable/edit_bg"/>
-            </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#000000" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#000000" />
 
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_marginTop="5dp">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
@@ -272,23 +455,20 @@
                 <EditText
                     android:id="@+id/id_editText_interaction_addDrugHandy"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
+                    android:layout_height="wrap_content"
+                    android:minHeight="40dp"
+                    android:gravity="left|top"
                     android:layout_margin="5dp"
-                    android:layout_weight="1"
-                    android:imeOptions="actionNext"
-                    android:maxLines="1"
+                    android:imeOptions="actionDone"
                     android:inputType="text"
+                    android:padding="10dp"
                     android:background="@drawable/edit_bg"/>
-            </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#000000" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#000000" />
 
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_marginTop="5dp">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
@@ -298,23 +478,20 @@
                 <EditText
                     android:id="@+id/id_editText_clinicalTrials_addDrugHandy"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
+                    android:layout_height="wrap_content"
+                    android:minHeight="40dp"
+                    android:gravity="left|top"
                     android:layout_margin="5dp"
-                    android:layout_weight="1"
-                    android:imeOptions="actionNext"
-                    android:maxLines="1"
+                    android:imeOptions="actionDone"
                     android:inputType="text"
+                    android:padding="10dp"
                     android:background="@drawable/edit_bg"/>
-            </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#000000" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#000000" />
 
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_marginTop="5dp">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
@@ -324,23 +501,19 @@
                 <EditText
                     android:id="@+id/id_editText_tResearch_addDrugHandy"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
+                    android:layout_height="wrap_content"
+                    android:minHeight="40dp"
+                    android:gravity="left|top"
                     android:layout_margin="5dp"
-                    android:layout_weight="1"
-                    android:imeOptions="actionNext"
-                    android:maxLines="1"
+                    android:imeOptions="actionDone"
                     android:inputType="text"
+                    android:padding="10dp"
                     android:background="@drawable/edit_bg"/>
-            </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#000000" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#000000" />
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_marginTop="5dp">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
@@ -350,23 +523,20 @@
                 <EditText
                     android:id="@+id/id_editText_approvalNumber_addDrugHandy"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
+                    android:layout_height="wrap_content"
+                    android:minHeight="40dp"
+                    android:gravity="left|top"
                     android:layout_margin="5dp"
-                    android:layout_weight="1"
-                    android:imeOptions="actionNext"
-                    android:maxLines="1"
+                    android:imeOptions="actionDone"
+                    android:padding="10dp"
                     android:inputType="text"
                     android:background="@drawable/edit_bg"/>
-            </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#000000" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#000000" />
 
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_marginTop="5dp">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
@@ -376,23 +546,20 @@
                 <EditText
                     android:id="@+id/id_editText_manufacturer_addDrugHandy"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
+                    android:layout_height="wrap_content"
+                    android:minHeight="40dp"
+                    android:gravity="left|top"
                     android:layout_margin="5dp"
-                    android:layout_weight="1"
-                    android:imeOptions="actionNext"
-                    android:maxLines="1"
+                    android:imeOptions="actionDone"
+                    android:padding="10dp"
                     android:inputType="text"
                     android:background="@drawable/edit_bg"/>
-            </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#000000" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#000000" />
 
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_marginTop="5dp">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
@@ -402,75 +569,20 @@
                 <EditText
                     android:id="@+id/id_editText_classification_addDrugHandy"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
+                    android:layout_height="wrap_content"
+                    android:minHeight="40dp"
+                    android:gravity="left|top"
                     android:layout_margin="5dp"
-                    android:layout_weight="1"
-                    android:imeOptions="actionNext"
-                    android:maxLines="1"
+                    android:padding="10dp"
+                    android:imeOptions="actionDone"
                     android:inputType="text"
                     android:background="@drawable/edit_bg"/>
-            </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#000000" />
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_marginTop="5dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="30dp"
-                    android:text="生产日期"
-                    android:gravity="left|center"/>
-
-                <EditText
-                    android:id="@+id/id_editText_productionDate_addDrugHandy"
+                <View
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_margin="5dp"
-                    android:layout_weight="1"
-                    android:imeOptions="actionNext"
-                    android:maxLines="1"
-                    android:inputType="text"
-                    android:background="@drawable/edit_bg"/>
-            </LinearLayout>
+                    android:layout_height="1dp"
+                    android:background="#000000" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#000000" />
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_marginTop="5dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="30dp"
-                    android:text="有效期"
-                    android:gravity="left|center"/>
-
-                <EditText
-                    android:id="@+id/id_editText_validityPeriod_addDrugHandy"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_margin="5dp"
-                    android:layout_weight="1"
-                    android:imeOptions="actionNext"
-                    android:maxLines="1"
-                    android:inputType="text"
-                    android:background="@drawable/edit_bg"/>
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#000000" />
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_marginTop="5dp">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
@@ -482,66 +594,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_margin="5dp"
-                    android:layout_weight="1"
+                    android:padding="10dp"
                     android:imeOptions="actionNext"
-                    android:maxLines="1"
                     android:inputType="text"
                     android:background="@drawable/edit_bg"/>
+
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#000000" />
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_marginTop="5dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="30dp"
-                    android:text="药品数量"
-                    android:gravity="left|center"/>
-
-                <EditText
-                    android:id="@+id/id_editText_drugNumber_addDrugHandy"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_margin="5dp"
-                    android:layout_weight="1"
-                    android:imeOptions="actionNext"
-                    android:maxLines="1"
-                    android:inputType="text"
-                    android:background="@drawable/edit_bg"/>
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#000000" />
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_marginTop="5dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="30dp"
-                    android:text="其他"
-                    android:gravity="left|center"/>
-
-                <EditText
-                    android:id="@+id/id_editText_other_addDrugHandy"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_margin="5dp"
-                    android:layout_weight="1"
-                    android:imeOptions="actionNext"
-                    android:maxLines="1"
-                    android:inputType="text"
-                    android:background="@drawable/edit_bg"/>
-            </LinearLayout>
-
-        </TableLayout>
+        </LinearLayout>
 
     </ScrollView>
 

@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#FFFFFF">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:padding="10dp"
+        android:orientation="vertical"
+        android:background="@drawable/bluebutton_bg">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:layout_margin="5dp"
+                android:textSize="14sp"
+                android:gravity="center|start"
+                android:text="药品名称："/>
+
+            <TextView
+                android:id="@+id/id_drugName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:layout_margin="5dp"
+                android:textSize="14sp"
+                android:gravity="center|start"
+                android:layout_weight="1"
+                android:background="@drawable/bluebutton_bg"
+                android:text="XXXX"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:layout_margin="5dp"
+                android:textSize="14sp"
+                android:gravity="center|start"
+                android:text="药箱编号："/>
+
+            <TextView
+                android:id="@+id/id_drugBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:layout_margin="5dp"
+                android:textSize="14sp"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:background="@drawable/bluebutton_bg"
+                android:text="X"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:layout_margin="5dp"
+                android:textSize="14sp"
+                android:gravity="center|start"
+                android:text="生产日期："/>
+
+            <TextView
+                android:id="@+id/id_productionDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:layout_margin="5dp"
+                android:textSize="14sp"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:background="@drawable/bluebutton_bg"
+                android:text="XXXX"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:layout_margin="5dp"
+                android:textSize="14sp"
+                android:gravity="center|start"
+                android:text="有效期限："/>
+
+            <TextView
+                android:id="@+id/id_valuedDay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:layout_margin="5dp"
+                android:textSize="14sp"
+                android:gravity="center"
+                android:background="@drawable/bluebutton_bg"
+                android:minWidth="40dp"
+                android:text="X"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:layout_margin="5dp"
+                android:textSize="14sp"
+                android:gravity="center|start"
+                android:text="个月，至"/>
+
+            <TextView
+                android:id="@+id/id_deadline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:layout_margin="5dp"
+                android:textSize="14sp"
+                android:gravity="center|start"
+                android:background="@drawable/bluebutton_bg"
+                android:minWidth="100dp"
+                android:text="X"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

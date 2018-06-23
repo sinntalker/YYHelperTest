@@ -331,4 +331,12 @@ public class AddDrugScanActivity extends Activity {
         return (T) emptyView;
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();//注释掉这行,back键不退出activity
+        startActivity(new Intent(AddDrugScanActivity.this, DrugBoxActivity.class).putExtra("DrugBoxNum", strDrugBoxNum));
+        Log.i("bmob", "AddDrugScan：向drugBox中传递数据成功：传递数据为 " + strDrugBoxNum);
+        finish();
+    }
+
 }

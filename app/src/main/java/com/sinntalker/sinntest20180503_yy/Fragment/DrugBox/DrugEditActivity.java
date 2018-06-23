@@ -2,34 +2,42 @@
 package com.sinntalker.sinntest20180503_yy.Fragment.DrugBox;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sinntalker.sinntest20180503_yy.R;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
-import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.listener.UpdateListener;
 
-public class DrugEditActivity extends Activity {
+public class DrugEditActivity extends Activity implements View.OnClickListener {
 
     ImageView mBackDEIV;
     ImageView mSaveSetDETV;
 
-    EditText mProductionDateET; //生产日期        1
+    TextView mProductionDateET; //生产日期        1
     EditText mValidityPeriodET;  //有效期         2
     EditText mPackingSET;  //包装规格              3
     EditText mDrugNumberET; //药品数量             4
@@ -76,34 +84,19 @@ public class DrugEditActivity extends Activity {
     String objectId_common;
     String objectId_specfic;
 
+    String boxNum;
+
+    LinearLayout mDrugDetailLL;
+    ImageView mDrugDetailIV;
+    LinearLayout mDetailLL;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);//去掉标题栏
         setContentView(R.layout.activity_drug_edit);
 
-        //实例化
-        mBackDEIV = findViewById(R.id.id_imageView_back_drugEdit);
-        mSaveSetDETV = findViewById(R.id.id_textView_saveInfo_drugEdit);
-        mGenericNameET = findViewById(R.id.id_editText_genericName_drugEdit);
-        mTraitsET = findViewById(R.id.id_editText_traits_drugEdit);
-        mIngredientsET = findViewById(R.id.id_editText_ingredients_drugEdit);
-        mIndicationsET = findViewById(R.id.id_editText_indications_drugEdit);
-        mDosageET = findViewById(R.id.id_editText_dosage_drugEdit);
-        mAdverseReactionsET = findViewById(R.id.id_editText_adverseReactions_drugEdit);
-        mTabooET = findViewById(R.id.id_editText_taboo_drugEdit);
-        mPrecautionsET = findViewById(R.id.id_editText_precautions_drugEdit);
-        mInteractionET = findViewById(R.id.id_editText_interaction_drugEdit);
-        mClinicalTrialsET = findViewById(R.id.id_editText_clinicalTrials_drugEdit);
-        mTResearchET = findViewById(R.id.id_editText_tResearch_drugEdit);
-        mApprovalNumberET = findViewById(R.id.id_editText_approvalNumber_drugEdit);
-        mManufacturerET = findViewById(R.id.id_editText_manufacturer_drugEdit);
-        mClassificationET = findViewById(R.id.id_editText_classification_drugEdit);
-        mProductionDateET = findViewById(R.id.id_editText_productionDate_drugEdit);
-        mValidityPeriodET = findViewById(R.id.id_editText_validityPeriod_drugEdit);
-        mPackingSET = findViewById(R.id.id_editText_packingS_drugEdit);
-        mDrugNumberET = findViewById(R.id.id_editText_drugNumber_drugEdit);
-        mOtherET = findViewById(R.id.id_editText_other_drugEdit);
+        initView();
 
         BmobUser mCurrentUser = BmobUser.getCurrentUser();
         strUserName = mCurrentUser.getUsername();
@@ -112,7 +105,7 @@ public class DrugEditActivity extends Activity {
 
         // 从Intent获取数据
 //        String username = getIntent().getStringExtra("drug_user"); //当前用户 username
-        final String boxNum = getIntent().getStringExtra("drug_boxNum"); //当前药箱 boxNum
+        boxNum = getIntent().getStringExtra("drug_boxNum"); //当前药箱 boxNum
         final String[] genericName = {getIntent().getStringExtra("drug_genericName")};//药品通用名称 genericName
 
         final String[] drugName = {genericName[0]};
@@ -240,6 +233,33 @@ public class DrugEditActivity extends Activity {
                     drugNumber = mDrugNumberET.getText().toString().trim();
                     other = mOtherET.getText().toString().trim();
 
+                    String deadline = null;
+                    try {
+                        Integer time = Integer.valueOf(validityPeriod); //有效期XX个月
+//                        String mProduce = mSettingTimeTV.getText().toString().trim(); // productionDate
+                        Integer year = Integer.valueOf(productionDate.substring(0, 4));
+                        Integer month = Integer.valueOf(productionDate.substring(5, 7));
+                        Integer day = Integer.valueOf(productionDate.substring(8));
+
+                        if (time >= 12) {
+                            year += time / 12;
+                            time = time - time / 12 * 12;
+                        }
+                        month += time;
+                        if (month <= 12) {
+//                            mResultTV.setText(year + "-" + month + "-" + day);
+                            deadline = year + "-" + month + "-" + day;
+                        } else {
+                            year += month / 12; //有多少个22 就有多少年
+                            month = month % 12;
+                            deadline = year + "-" + month + "-" + day;
+//                            mResultTV.setText(year + "-" + month + "-" + day);
+                        }
+
+                    } catch (RuntimeException e) {
+                        e.printStackTrace();
+                    }
+
                     DrugDataBean mDrugDataBean = new DrugDataBean();
                     mDrugDataBean.setUserName(strUserName);
                     mDrugDataBean.setBoxNumber(boxNum);
@@ -250,6 +270,7 @@ public class DrugEditActivity extends Activity {
                     if (packingS.length() !=  0) { mDrugDataBean.setPackingS(packingS); }else { mDrugDataBean.setPackingS("暂不明确"); }
                     if (drugNumber.length() !=  0) { mDrugDataBean.setDrugNumber(drugNumber); }else { mDrugDataBean.setDrugNumber("暂不明确"); }
                     if (other.length() !=  0) { mDrugDataBean.setOther(other); }else { mDrugDataBean.setOther("暂不明确"); }
+                    if (deadline.length() !=  0 || deadline != null) { mDrugDataBean.setDeadDay(deadline); }else { mDrugDataBean.setDeadDay("暂不明确"); }
                     mDrugDataBean.update(objectId_specfic, new UpdateListener() {
                         @Override
                         public void done(BmobException e) {
@@ -306,5 +327,89 @@ public class DrugEditActivity extends Activity {
             }
         });
 
+        mDrugDetailLL.setOnClickListener(this);
+
+        if (mDetailLL.getVisibility() == View.VISIBLE) {
+            mDetailLL.setVisibility(View.VISIBLE);
+            mDrugDetailIV.setImageResource(R.drawable.arrow_down_more_details_drug_add);
+        } else {
+            mDetailLL.setVisibility(View.GONE);
+            mDrugDetailIV.setImageResource(R.drawable.arrow_right_more_details_drug_add);
+        }
+
+    }
+
+    private void initView() {
+        //实例化
+        mBackDEIV = findViewById(R.id.id_imageView_back_drugEdit);
+        mSaveSetDETV = findViewById(R.id.id_textView_saveInfo_drugEdit);
+        mGenericNameET = findViewById(R.id.id_editText_genericName_drugEdit);
+        mTraitsET = findViewById(R.id.id_editText_traits_drugEdit);
+        mIngredientsET = findViewById(R.id.id_editText_ingredients_drugEdit);
+        mIndicationsET = findViewById(R.id.id_editText_indications_drugEdit);
+        mDosageET = findViewById(R.id.id_editText_dosage_drugEdit);
+        mAdverseReactionsET = findViewById(R.id.id_editText_adverseReactions_drugEdit);
+        mTabooET = findViewById(R.id.id_editText_taboo_drugEdit);
+        mPrecautionsET = findViewById(R.id.id_editText_precautions_drugEdit);
+        mInteractionET = findViewById(R.id.id_editText_interaction_drugEdit);
+        mClinicalTrialsET = findViewById(R.id.id_editText_clinicalTrials_drugEdit);
+        mTResearchET = findViewById(R.id.id_editText_tResearch_drugEdit);
+        mApprovalNumberET = findViewById(R.id.id_editText_approvalNumber_drugEdit);
+        mManufacturerET = findViewById(R.id.id_editText_manufacturer_drugEdit);
+        mClassificationET = findViewById(R.id.id_editText_classification_drugEdit);
+        mProductionDateET = findViewById(R.id.id_editText_productionDate_drugEdit);
+        mValidityPeriodET = findViewById(R.id.id_editText_validityPeriod_drugEdit);
+        mPackingSET = findViewById(R.id.id_editText_packingS_drugEdit);
+        mDrugNumberET = findViewById(R.id.id_editText_drugNumber_drugEdit);
+        mOtherET = findViewById(R.id.id_editText_other_drugEdit);
+        mDrugDetailLL = findViewById(R.id.id_linearLayout_moreDetails_drugEdit);
+        mDetailLL = findViewById(R.id.id_linearLayout_details_drugEdit);
+        mDrugDetailIV = findViewById(R.id.id_imageView_moreDetails_drugEdit);
+
+        mProductionDateET.setOnClickListener(this);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(DrugEditActivity.this, DrugBoxActivity.class).putExtra("DrugBoxNum", boxNum));
+        Log.i("bmob", "DrugEdit：向drugBox中传递数据成功：传递数据为：" + boxNum);
+        finish();
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v == mProductionDateET) {
+            showTimeDialog_date();
+        }
+        if (v == mDrugDetailLL) {
+            if (mDetailLL.getVisibility() == View.VISIBLE) {
+                mDetailLL.setVisibility(View.GONE);
+                mDrugDetailIV.setImageResource(R.drawable.arrow_right_more_details_drug_add);
+            } else {
+                mDetailLL.setVisibility(View.VISIBLE);
+                mDrugDetailIV.setImageResource(R.drawable.arrow_down_more_details_drug_add);
+            }
+        }
+    }
+
+    private void showTimeDialog_date() {
+        final Calendar calendar = Calendar.getInstance(Locale.CHINA);
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                Date date = null;
+                try {
+                    date = dateFormat.parse(year + "-" + (++month) + "-" + dayOfMonth);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                mProductionDateET.setText(dateFormat.format(date));
+            }
+        }, year, month, day).show();
     }
 }

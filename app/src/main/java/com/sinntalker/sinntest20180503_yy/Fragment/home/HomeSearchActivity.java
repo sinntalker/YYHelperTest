@@ -15,6 +15,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.orhanobut.logger.Logger;
+import com.sinntalker.sinntest20180503_yy.Fragment.DrugBox.DrugBoxActivity;
 import com.sinntalker.sinntest20180503_yy.Fragment.DrugBox.DrugDataBean;
 import com.sinntalker.sinntest20180503_yy.Fragment.health.StepCounter.CommonAdapter;
 import com.sinntalker.sinntest20180503_yy.Fragment.health.StepCounter.CommonViewHolder;
@@ -147,7 +148,7 @@ public class HomeSearchActivity extends Activity {
                                         @Override
                                         public void onClick(View v) {
 //                                    Toast.makeText(getApplicationContext(), "药品名称： " + mHomeSearchData.getDrugName()+ "所在药箱： " + mHomeSearchData.getDrugBoxNum(), Toast.LENGTH_SHORT).show();
-//                                            startActivity(new Intent(getApplicationContext(), DrugBoxActivity.class).putExtra("DrugBoxNum", mHomeSearchData.getDrugBoxNum()));
+                                            startActivity(new Intent(getApplicationContext(), DrugBoxActivity.class).putExtra("DrugBoxNum", mHomeSearchData.getDrugBoxNum()));
                                         }
                                     });
                                 }
@@ -232,7 +233,7 @@ public class HomeSearchActivity extends Activity {
                                 @Override
                                 public void onClick(View v) {
 //                                    Toast.makeText(getApplicationContext(), "药品名称： " + mHomeSearchData.getDrugName()+ "所在药箱： " + mHomeSearchData.getDrugBoxNum(), Toast.LENGTH_SHORT).show();
-//                                    startActivity(new Intent(getApplicationContext(), DrugBoxActivity.class).putExtra("DrugBoxNum", mHomeSearchData.getDrugBoxNum()));
+                                    startActivity(new Intent(getApplicationContext(), DrugBoxActivity.class).putExtra("DrugBoxNum", mHomeSearchData.getDrugBoxNum()));
                                 }
                             });
 //                            LinearLayout linearLayout = CommonViewHolder.get(item, R.id.id_layout_linearLayout_search_results);

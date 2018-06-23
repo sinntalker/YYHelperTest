@@ -93,6 +93,7 @@
                         android:paddingLeft="10dp"
                         android:text="暂无新消息"
                         android:gravity="center|left"
+                        android:maxLines="1"
                         android:textSize="16sp" />
 
                 </LinearLayout>
@@ -158,6 +159,7 @@
                         android:paddingLeft="10dp"
                         android:text="暂无新消息"
                         android:gravity="center|left"
+                        android:maxLines="1"
                         android:textSize="16sp" />
 
                 </LinearLayout>
@@ -223,6 +225,7 @@
                         android:paddingLeft="10dp"
                         android:text="暂无新消息"
                         android:gravity="center|left"
+                        android:maxLines="1"
                         android:textSize="16sp" />
 
                 </LinearLayout>
@@ -288,6 +291,7 @@
                         android:paddingLeft="10dp"
                         android:text="暂无新消息"
                         android:gravity="center|left"
+                        android:maxLines="1"
                         android:textSize="16sp" />
 
                 </LinearLayout>
@@ -353,6 +357,7 @@
                         android:paddingLeft="10dp"
                         android:text="暂无新消息"
                         android:gravity="center|left"
+                        android:maxLines="1"
                         android:textSize="16sp" />
 
                 </LinearLayout>
